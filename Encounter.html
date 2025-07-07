@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Encounter Grid</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="Characters.js" defer></script>
+
+  <style>
+    .grid-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+   .grid-row {
+  display: flex;
+  justify-content: center;
+  gap: 0px; /* precise alignment */
+}
+
+    .character {
+      width: 200px;
+      font-family: "Macondo";
+      font-weight: normal;
+      font-size: 1.0em;
+    }
+
+    .player {
+      text-align: right;
+    }
+
+    .enemy {
+      text-align: left;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      margin-top: 2em;
+    }
+
+    button {
+      font-family: "Macondo";
+      background-color: #f9f0d2;
+      border: 1px solid #333;
+      padding: 0.4em 1em;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #ffe7a3;
+    }
+
+.grid-headline {
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* match .grid-row gap */
+  font-family: "Macondo";
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-bottom: 0.5em;
+}
+
+.headline-slot {
+  width: 200px; /* match .character width */
+  text-align: center;
+}
+
+.headline-spacer {
+  width: 80px; /* match .engagement-state width */
+  font-weight: normal;
+  text-align: center;
+  font-size: 1.0em;
+}
+.headline1 {
+  
+  width: 150px;
+  text-align: left;
+}
+
+.headline-left {
+  width: 150px;
+  text-align: right;
+}
+
+.headline-right {
+  width: 150px;
+  text-align: left;
+}
+
+.engagement-state {
+  width: 20px;
+  text-align: center;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Macondo";
+}
+
+.slot-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Macondo";
+  font-size: 1.1em;
+  gap: 0px;
+  min-width: 120px;
+}
+
+.slot-brace {
+  width: min-content;
+  text-align: center;
+  font-weight: normal;
+}
+
+.slot-content {
+  flex-grow: 1;
+  text-align: center;
+  white-space: nowrap;
+  min-width: 150px; /* Ensures alignment */
+}
+.slot-frame.active {
+  font-weight: bold;
+}
+
+.slot-frame.active .slot-brace {
+  font-weight: bold;
+}
+
+.slot-frame.empty {
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.slot-frame.empty::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #3b2f1d;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+/*
+.slot-frame.empty:hover::after {
+  transform: scaleX(1);
+}
+*/
+
+.character {
+  cursor: default;
+}
+
+.character:has(.empty):hover {
+  cursor: pointer;
+}
+
+.selection-box {
+  margin-top: 1.5em;
+  text-align: center;
+  font-family: "Macondo", cursive;
+  font-size: 1.1em;
+}
+
+.selection-box span {
+  margin: 0 5px;
+  cursor: pointer;
+  padding: 0 6px;
+}
+
+.selection-box .selected {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.hover-hint {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  color: #3b2f1d;
+  font-size: 0.95em;
+}
+
+.slot-frame.empty:hover .hover-hint {
+  visibility: visible;
+  opacity: 1;
+}
+
+.turn-index {
+  width: 30px;
+  margin-right: 4px;
+  margin-top: 1px;
+  text-align: right;
+  font-weight: bold;
+  font-family: "Macondo";
+  font-size: 0.95em;
+  color: #3b2f1d;
+}
+
+.slot-spacer {
+  width: 34px;
+}
+
+
+
+  </style>
+</head>
+<body>
+  <div class="page-banner">
+        <h2 class="title">Challenge Encounter</h2>
+  <h2 class="section-title">Positions:</h2>      
+   <div class="grid-headline">
+    
+    <div class="headline-slot headline-left">--- Characters ---</div>
+  <div class="headline-spacer"> </div>
+  <div class="headline-slot headline-right">--- Encounters ---</div>
+</div>
+
+<br>
+    <div class="grid-container" id="gridContainer"></div>
+
+    <div class="controls">
+      <button onclick="nextCharacter()">Next Character</button>
+    </div>
+  
+  <div id="playerSelection" class="selection-box"></div>
+
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const grid = document.getElementById("gridContainer");
+    const maxRows = 9;
+
+    const data = Array.from({ length: maxRows }, () => [null, null]);
+    data[0][0] = "Goblin Acher";
+    data[4][0] = "Ork Slayer";
+    data[4][1] = "Nele";
+    data[6][1] = "Adrian";
+    data[8][1] = "Felix";
+
+    let currentTurn = "player";
+    let activeIndex = 0;
+    let hasMovedThisTurn = false;
+    let turnNumbers = {};
+    let roundTurnOrder = getTurnOrder();
+    let activeCharacterKey = null;
+
+    function moveActiveTo(targetRow) {
+      if (hasMovedThisTurn) return;
+
+      const active = roundTurnOrder[activeIndex];
+      const { row: oldRow, col } = active;
+
+      if (data[targetRow][col] === null && targetRow !== oldRow) {
+        data[targetRow][col] = data[oldRow][col];
+        data[oldRow][col] = null;
+
+        // update activeCharacterKey to track new row
+        const movedName = data[targetRow][col];
+        activeCharacterKey = `${movedName}_${col}`;
+
+        hasMovedThisTurn = true;
+        render();
+      }
+    }
+
+    function getTurnOrder() {
+      const order = [];
+      const ignore = [null, "Blocked"];
+
+      for (let i = 0; i < maxRows; i++) {
+        const index = currentTurn === "player" ? i : maxRows - 1 - i;
+        const col = currentTurn === "player" ? 1 : 0;
+        const char = data[index][col];
+        if (char && !ignore.includes(char)) {
+          order.push({ row: index, col });
+        }
+      }
+      return order;
+    }
+
+    function getTurnPrefix(row, col) {
+      const char = data[row][col];
+      if (!char) return "";
+      const key = `${char}_${col}`;
+      return turnNumbers[key] ? `${turnNumbers[key]}.` : "";
+    }
+
+    function isActive(row, col) {
+      const char = data[row][col];
+      if (!char) return false;
+      const key = `${char}_${col}`;
+      return key === activeCharacterKey;
+    }
+
+    function render() {
+      grid.innerHTML = "";
+
+      for (let i = 0; i < maxRows; i++) {
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "grid-row";
+
+        const playerChar = data[i][1];
+        const enemyChar = data[i][0];
+
+        const playerTurnDiv = document.createElement("div");
+        const enemyTurnDiv = document.createElement("div");
+        const spacerLeft = document.createElement("div");
+        const spacerRight = document.createElement("div");
+
+        playerTurnDiv.className = "turn-index";
+        enemyTurnDiv.className = "turn-index";
+        spacerLeft.className = "slot-spacer";
+        spacerRight.className = "slot-spacer";
+
+        playerTurnDiv.textContent = getTurnPrefix(i, 1);
+        enemyTurnDiv.textContent = getTurnPrefix(i, 0);
+
+        // LEFT: Player
+        const pDiv = document.createElement("div");
+        if (!playerChar) {
+          pDiv.innerHTML = `
+            <div class="slot-frame player empty" data-row="${i}">
+              <div class="slot-brace">[</div>
+              <div class="slot-content">
+                ${!hasMovedThisTurn ? '<span class="hover-hint"> Position Here </span>' : '&nbsp;'}
+              </div>
+              <div class="slot-brace">]</div>
+            </div>`;
+          if (currentTurn === "player" && !hasMovedThisTurn) {
+            pDiv.style.cursor = "pointer";
+            pDiv.onclick = () => moveActiveTo(i);
+          }
+        } else {
+          const frameClass = isActive(i, 1) ? "slot-frame player active" : "slot-frame player";
+          pDiv.innerHTML = `
+            <div class="${frameClass}" data-row="${i}">
+              <div class="slot-brace">[</div>
+              <div class="slot-content">${playerChar}</div>
+              <div class="slot-brace">]</div>
+            </div>`;
+        }
+
+        // RIGHT: Enemy
+        const eDiv = document.createElement("div");
+        if (!enemyChar) {
+          eDiv.innerHTML = `
+            <div class="slot-frame enemy empty" data-row="${i}">
+              <div class="slot-brace">[</div>
+              <div class="slot-content">&nbsp;</div>
+              <div class="slot-brace">]</div>
+            </div>`;
+        } else {
+          const frameClass = isActive(i, 0) ? "slot-frame enemy active" : "slot-frame enemy";
+          eDiv.innerHTML = `
+            <div class="${frameClass}" data-row="${i}">
+              <div class="slot-brace">[</div>
+              <div class="slot-content">${enemyChar}</div>
+              <div class="slot-brace">]</div>
+            </div>`;
+        }
+
+        // MIDDLE X
+        const mDiv = document.createElement("div");
+        mDiv.className = "engagement-state";
+
+        const playerPresent = !!playerChar;
+        const enemyPresent = !!enemyChar;
+        const neighborHasEngagement =
+          (data[i - 1] && data[i - 1][0] && data[i - 1][1]) ||
+          (data[i + 1] && data[i + 1][0] && data[i + 1][1]);
+
+        mDiv.textContent =
+          (playerPresent && enemyPresent) ||
+          (playerPresent || enemyPresent) && neighborHasEngagement
+            ? "X"
+            : "";
+
+        // Append all
+        rowDiv.appendChild(playerTurnDiv);
+        rowDiv.appendChild(pDiv);
+        rowDiv.appendChild(spacerLeft);
+        rowDiv.appendChild(mDiv);
+        rowDiv.appendChild(enemyTurnDiv);
+        rowDiv.appendChild(eDiv);
+        rowDiv.appendChild(spacerRight);
+        grid.appendChild(rowDiv);
+      }
+    }
+
+    window.nextCharacter = function () {
+      activeIndex++;
+
+      if (activeIndex >= roundTurnOrder.length) {
+        currentTurn = currentTurn === "player" ? "enemy" : "player";
+        activeIndex = 0;
+        roundTurnOrder = getTurnOrder();
+        turnNumbers = {};
+        roundTurnOrder.forEach((entry, idx) => {
+          const name = data[entry.row][entry.col];
+          if (name) turnNumbers[`${name}_${entry.col}`] = idx + 1;
+        });
+      }
+
+      hasMovedThisTurn = false;
+
+      const active = roundTurnOrder[activeIndex];
+      if (active) {
+        const name = data[active.row][active.col];
+        activeCharacterKey = `${name}_${active.col}`;
+      } else {
+        activeCharacterKey = null;
+      }
+
+      render();
+    };
+
+    // Initialize numbers for first round
+    roundTurnOrder.forEach((entry, idx) => {
+      const name = data[entry.row][entry.col];
+      if (name) turnNumbers[`${name}_${entry.col}`] = idx + 1;
+    });
+
+    if (roundTurnOrder[activeIndex]) {
+      const active = roundTurnOrder[activeIndex];
+      activeCharacterKey = `${data[active.row][active.col]}_${active.col}`;
+    }
+
+    render();
+  });
+</script>
+  
+
+
+
+
+</body>
+</html>

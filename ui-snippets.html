@@ -1,0 +1,11 @@
+<!-- ✅ ui-snippets.html -->
+<div id="tooltipOverlay"></div>
+<div id="customTooltip" class="custom-tooltip"></div>
+
+<!-- Modal Popup -->
+<div id="modalOverlay" class="modal-overlay" onclick="closeModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <span class="modal-close" onclick="closeModal()">×</span>
+    <div id="modalText"></div>
+  </div>
+</div>
