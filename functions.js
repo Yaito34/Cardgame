@@ -171,6 +171,8 @@ window.addEventListener("click", function (e) {
   }
 });
 
+
+
 function renderParagraphSlots() {
   const container = document.getElementById('paragraph-slots');
   container.innerHTML = '';
@@ -180,3 +182,13 @@ function renderParagraphSlots() {
     container.appendChild(div);
   });
 }
+
+window.renderParagraphSlots = renderParagraphSlots;
+
+
+function setSlotVisibility(id, visible) {
+  const slot = window.paragraphSlots.find(slot => slot.id === id);
+  if (slot) slot.show = visible;
+}
+
+window.setSlotVisibility = setSlotVisibility

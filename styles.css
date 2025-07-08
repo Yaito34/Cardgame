@@ -24,6 +24,24 @@ html, body {
 
   box-shadow: 5px 15px 25px rgba(0, 0, 0, 0.8);
 }
+/* Brackets */
+
+.feature::before {
+  content: "⟨ ";
+}
+
+.feature::after {
+  content: " ⟩";
+}
+
+.passage::before {
+  content: "[ ";
+}
+
+.passage::after {
+  content: " ]";
+}
+
 
 /* Shared styles for labels and titles */
 .location-label {
@@ -32,14 +50,14 @@ html, body {
 }
 
 .title {
-  font-size: 1.5em;
+  font-size: 1.4em;
   font-weight: bold;
   text-align: left;
   margin-top: 1em;
 }
 
 .section-title {
-  font-size: 1.3em;
+  font-size: 1.2em;
   font-weight: bold;
   text-align: left;
   margin-top: 1em;
@@ -62,6 +80,7 @@ html, body {
   color: black;
   text-decoration: none;
   transition: color 0.2s ease;
+  white-space: nowrap;
 }
 
 .item::after {
@@ -78,11 +97,13 @@ html, body {
 }
 
 .item:hover::after {
+  font-weight: bold;
   transform: scaleX(1);
 }
 
 .item:hover {
-  color: #3b2f1d;
+  color: #000000;
+  
 }
 
 .e-item {
@@ -155,5 +176,17 @@ html, body {
   color: black;
 }
 
+/* triangle arrow
 
+up &#9650; ᐃ
+down &#9660; ᐁ
+left &#9664; ᐊ
+right &#9654; ᐅ
+left open eye ᐶ
+door ᑎ
 
+unicodes for bamum suppleements
+𖠁 𖢄 𖡨
+supplemental arrow C
+🢇🢆🢅🢄🢃🢂🢁🢀
+*/
