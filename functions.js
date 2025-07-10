@@ -1,6 +1,6 @@
 
 
-import { FEATURES, allSpots } from './features.js';
+
 
 // Load UI elements from external HTML (like modals and tooltips)
 window.addEventListener('DOMContentLoaded', () => {
