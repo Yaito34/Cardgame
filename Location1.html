@@ -4,74 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
-  <script src="functions.js" defer></script>
+    <script src="features.js" defer></script>
+    
+  <script type="module" src="functions.js"></script>
   
 
   <title>Bound by Pages</title>
+
+
+
 </head>
-  <body>
-  <!-- Realm Between Worlds scene -->
+  <body>  
   <div class="page-banner">
+    <div class="location-banner">Forest Clearing</div>
+    <br>
 
-    <div class="location-label"> </div>
+    <!-- Rows for the two colum SPot and grid layout -->
+    <div id="spot-rows-container"></div>
 
-  <h2 class="title">Forest Clearing</h2>
-
-  Tall grass fills a clearing in the middle of a forest. Some spots don't have grass.
-
-
-  <br><br><br>
-
-
-<div class="line">
-  <span class="feature">Grave</span></div>
-In the center of the clearing a solem grave stands. The earth beneth the
-   <span class="i-item item" data-tooltip="Examine"
-   onclick="openModal('The grave stone is small but the carvings and material is remarkable forming a real image of a Leaf, with a bright and darker half.')"> 
-    well crafted
-  </span>
-  stone is diged up. Nothing was left or ever there beneth the earth.
-
-<br><br>
-
-<div class="line">
-  <span class="feature">Scattered Gear.</span></div>
-  
-  In the grass lays 
-<span class="i-item item"
-    data-tooltip="Examine"
-    onclick="openModal('You gain Air Gear, this is sadly not solid enough to be useful.')">
-    garb</span>,
-
-<span class="i-item item"
-    data-tooltip="Examine"
-    onclick="openModal('You gain Air Gear, this is sadly not solid enough to be useful.')">
-    tools</span> and some weapons and armore, most looks broken. ( If you want to pick it up touch it.)
-  
-
-
-
-<br><br>
-
-<h2 class="section-title">ᑎ Passages</h2>
-
-<!-- ◀ Swirling Portal -->
-<div class="line">
-  <b>🢁</b>&nbsp; 
-    <span class="e-item item" data-tooltip="Go Through" onclick="goTo('Location4')">
-      <span class="passage">Forest Path</span></span></div> 
-   A partially overgrwon but still usable path goes into the forest.
-
-   <br><br>       
-<div class="line">
-  <b>🢄</b>&nbsp; 
-    <span class="e-item item" data-tooltip="Go Through" onclick="goTo('Location5')">
-      <span class="passage">Wild Path</span></span></div> 
-    Between the trees a small path through the bushes can be seen. 
-      
- 
-
-
+    <!-- Bottom Banner -->
+    <div class="bottom-banner">
+      <div class="two-columns">
+        <div class="column-left">
+          [ Adrian ] uses Full Force with Axe <br>
+          [ Nele ] uses Precision Climbing<br>
+          [ Sarox ] uses Quick Ice Spike
+        </div>        
+        <div class="column-right">
+          [ Ork ] : uses Speed Focus with Spear<br>
+          [ Goblin ] : uses Strong Shot<br>
+          [ Goblin Shaman ] : uses Speedy Curse<br>
+        </div>    
+      </div>
+    </div>
   </div>
+
+<script>
+  
+</script>
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+ window.locationLayout = [
+  FEATURE_GRASS_FIELD,
+  FEATURE_GRAVE_STONE,
+  FEATURE_GRASS_FIELD_GEAR,
+  FEATURE_WILD_PATH,
+  FEATURE_FOREST_PATH
+];
+
+ 
+    loadFeatures(window.locationLayout);
+    renderSpotRows(); 
+    renderParagraphSlots(); // Call the function to render your array
+    
+  });
+</script>
+
 </body>
+
 </html>

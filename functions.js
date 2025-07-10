@@ -1,3 +1,7 @@
+
+
+import { FEATURES, allSpots } from './features.js';
+
 // Load UI elements from external HTML (like modals and tooltips)
 window.addEventListener('DOMContentLoaded', () => {
   fetch('ui-snippets.html')
@@ -174,16 +178,95 @@ window.addEventListener("click", function (e) {
 
 
 function renderParagraphSlots() {
-  const container = document.getElementById('paragraph-slots');
-  container.innerHTML = '';
-  (window.paragraphSlots || []).filter(slot => slot.show).forEach(slot => {
-    const div = document.createElement('div');
-    div.innerHTML = slot.html;
-    container.appendChild(div);
+  (window.paragraphSlots || []).forEach(slot => {
+    if (!slot.show) return;
+
+    const target = document.getElementById(slot.target);
+    if (target) {
+      target.innerHTML = slot.html;
+    } else {
+      console.warn(`Target with id "${slot.target}" not found.`);
+    }
   });
 }
 
+
 window.renderParagraphSlots = renderParagraphSlots;
+
+// Does automaticly fill in the features and movemnt grids into columns and rows.
+function renderSpotRows() {
+  const container = document.getElementById('spot-rows-container');
+  container.innerHTML = '';
+
+  (window.paragraphSlots || []).forEach((slot, index) => {
+    if (!slot.show) return;
+
+    // Create spot-row
+    const row = document.createElement('div');
+    row.className = 'spot-row';
+
+    // Left column: player slots
+    const left = document.createElement('div');
+    left.className = 'column-left';
+    left.innerHTML = `
+      <div class="two-columns">
+        <div class="column-leftG">
+          [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] <br>
+          [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] <br>
+          [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] <br>
+        </div>
+        <div class="column-rightG">
+          [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] <br>
+          [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] <br>
+          [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] <br>
+        </div>
+      </div>
+    `;
+
+    // Right column: empty container with ID
+    const right = document.createElement('div');
+    right.className = 'column-right';
+    right.id = slot.target;
+
+    // Build row
+    row.appendChild(left);
+    row.appendChild(right);
+    container.appendChild(row);
+  });
+}
+
+window.renderSpotRows = renderSpotRows;
+
+// loads choosen Features
+function loadFeatures(layout) {
+  window.paragraphSlots = layout.map((entry, index) => {
+    let spotId, target;
+
+    if (typeof entry === 'string') {
+      spotId = entry;
+      target = `FC${index + 1}`;
+    } else {
+      spotId = entry.spotId;
+      target = `FC${entry.target || index + 1}`;
+    }
+
+    const spot = window.allSpots.find(s => s.id === spotId);
+    if (!spot) {
+      console.warn(`Spot not found: ${spotId}`);
+      return null;
+    }
+
+    return {
+      id: spotId,
+      target,
+      html: spot.html,
+      show: true
+    };
+  }).filter(Boolean);
+}
+
+window.loadFeatures = loadFeatures;
+
 
 
 function setSlotVisibility(id, visible) {
