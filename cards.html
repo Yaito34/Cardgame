@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Card Viewer — Ruined Wold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap" rel="stylesheet" />
+  <style>
+    /* ── PAGE ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root { --print-gap: 3mm; }
+
+    body {
+      font-family: 'Macondo', cursive;
+      background: #2e2218;
+      background-image:
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.06) 0px, transparent 3px, transparent 22px),
+        repeating-linear-gradient(0deg,  rgba(0,0,0,0.04) 0px, transparent 3px, transparent 22px);
+      color: #2a1e14;
+      margin: 0;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 2rem;
+      color: #e8d5a0;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+      margin: 0 0 1rem;
+      letter-spacing: 0.14em;
+    }
+
+    /* ── FILTER BAR ─────────────────────────────────────── */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.7rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: 'Macondo', cursive;
+      font-size: 1rem;
+      padding: 0.4rem 1.5rem;
+      border-radius: 4px;
+      border: 2px solid #8b6340;
+      background: #5a3d28;
+      color: #e8d5a0;
+      cursor: pointer;
+      transition: background 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .filter-btn:hover  { background: #7a5238; }
+    .filter-btn.active { background: #a07040; color: #fff8e8; border-color: #c49050; }
+
+    /* ── CARD GRID ──────────────────────────────────────── */
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.8rem;
+      justify-content: center;
+    }
+
+    /* ── SECTION LABEL ──────────────────────────────────── */
+    .section-label {
+      width: 100%;
+      text-align: center;
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 1.2rem;
+      color: #e8d5a0;
+      letter-spacing: 0.14em;
+      margin: 1.8rem 0 0.5rem;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    }
+
+    /* ── CARD SHELL  (landscape: 88 × 63 mm scaled × 5) ── */
+    /* 88mm × 5 = 440px wide  |  63mm × 5 = 315px tall      */
+    .card {
+      width: 440px;
+      height: 315px;
+      border-radius: 0;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+      position: relative;
+      transition: transform 0.15s, box-shadow 0.15s;
+      background: url('Cardtemplate.png') center / 100% 100% no-repeat;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.7);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.75);
+    }
+
+    /* ── TOP WOOD AREA (holds banner) ───────────────────── */
+    .card-top {
+      height: 90px;
+      display: flex;
+      align-items: flex-start;   /* push banner toward the top of the area */
+      justify-content: center;
+      padding: 13px 8px 0;       /* less top padding moves banner up onto the scroll */
+       flex-shrink: 0;
+      position: relative;
+    }
+
+    /* top section has no extra overlay — image provides the texture */
+    .card-top::after { display: none; }
+
+    /* ── BANNER (semi-transparent tint over the image scroll) ── */
+    .card-banner {
+      /* ~80 % matches the flat scroll area between the two roll ends */
+      width: 98%;
+      height: 62px;
+      border-radius: 4px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    /* challenge = red tint  |  tool = blue tint */
+    .banner-challenge { background: rgba(157, 1, 1, 0.46); }
+    .banner-tool      { background: rgba(2, 52, 160, 0.46); }
+    .banner-reference { background: rgba(45, 95, 38, 0.52); }
+    .banner-blank     { background: transparent; }
+
+    /* ── REFERENCE CARD (table aid, print) ───────────────── */
+    .card-body-reference {
+      justify-content: flex-start !important;
+      padding: 6px 22px 12px !important;
+      overflow-y: auto;
+    }
+    .card-reference-scroll {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+    }
+    .ref-line {
+      font-size: 0.78rem;
+      line-height: 1.32;
+      color: #1a0d04;
+      padding: 4px 2px 4px 6px;
+      border-bottom: 1px solid rgba(110, 65, 15, 0.14);
+      text-align: left;
+    }
+    .ref-line strong {
+      color: #2d5018;
+      font-weight: bold;
+    }
+    .ref-sep {
+      border: none;
+      height: 1px;
+      background: rgba(110, 65, 15, 0.28);
+      margin: 6px 0 8px;
+      flex-shrink: 0;
+    }
+
+    /* no CSS roll ends — image already has them */
+    .card-banner::before,
+    .card-banner::after { display: none; }
+
+    /* name strip transparent — tint colour from banner is enough */
+    .card-scroll-strip {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-name {
+      font-family: 'Macondo Swash Caps', cursive;
+       font-size: 1.6rem;
+       font-weight: bold;
+      color: #fff8e8;
+      text-shadow: 0 2px 8px rgba(0,0,0,1.9), 0 0 14px rgba(0,0,0,0.9);
+      letter-spacing: 0.1em;
+    } 
+
+    /* ── PARCHMENT BODY — transparent so image shows through ── */
+    .card-body {
+      flex: 1;
+      margin: 4px 4px 14px;
+      border-radius: 4px;
+      padding: 0px 30px 0px 30px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background: transparent;
+      /* Align · sub-lines under approaches with .card-effect-section text */
+      --effect-section-margin-x: 14px;
+      --card-text-pad-x: 6px;
+      --card-content-pad-x: 5px;
+      --effect-text-start: calc(var(--effect-section-margin-x) + var(--card-text-pad-x));
+    }
+
+    /* no pseudo-element overlay needed */
+    .card-body::before { display: none; }
+
+    /* ── FLAVOR TEXT ────────────────────────────────────── */
+    .card-flavor {
+      font-style: italic;
+      font-size: 0.73rem;
+      color: #130b03;
+      text-align: center;
+      line-height: 1.35;
+      padding: 2px 10px 14px;
+      margin: 0px 14px;
+      flex-shrink: 0;
+      background: rgba(205, 171, 90, 0.052);
+      border-radius: 0px;
+      /* decorative ruled line below */
+      border-bottom: 2px solid rgba(110, 65, 15, 0.45);
+      position: relative;
+    }
+    /* second thin line for a double-rule effect */
+    .card-flavor::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background: rgba(180, 130, 50, 0);
+      margin-top: 3px;
+    }
+
+    /* ── CARD CONTENT (approaches + free text) — sits below effects, pinned to bottom ── */
+    .card-content {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 0px;
+      padding: 0px var(--card-content-pad-x) 0;
+    }
+
+    .approach-row {
+      font-size: 1.0rem;
+      color: #1a0d04;
+      line-height: 1.35;
+      background: rgba(255, 255, 255, 0.19);
+      border-radius: 3px;
+      padding: 0px 6px;
+    }
+
+    /* ── APPROACH KIND COLOURS (Fight red, Work brown, Traverse green, Awareness blue) ── */
+    .approach-type {
+      font-family: 'Macondo', cursive;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .approach-type.approach-kind-fight,
+    .text-kw-approach.approach-kind-fight {
+      color: #9a2824;
+    }
+    .approach-type.approach-kind-work,
+    .text-kw-approach.approach-kind-work {
+      color: #6b4420;
+    }
+    .approach-type.approach-kind-traverse,
+    .text-kw-approach.approach-kind-traverse {
+      color: #2a6b3c;
+    }
+    .approach-type.approach-kind-awareness,
+    .text-kw-approach.approach-kind-awareness {
+      color: #1f5594;
+    }
+    .approach-type.approach-kind-default,
+    .text-kw-approach.approach-kind-default {
+      color: #4d4740;
+    }
+
+    /* Outcomes on approach rows (challenges; tools use same black for power) */
+    .approach-outcome         { color: #1a0d04; }
+    .approach-outcome-power   { color: #c331a8; font-weight: bold; }
+
+    /* <Token> outcomes on the same row live outside .card-text — match outcome styling */
+    .approach-outcome .text-kw-outcome {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0rem;
+      font-weight: bold;
+      color: #1a0d04;
+    }
+
+    /* Tools: activation + · + type — same hue as approach kind */
+    .approach-type.approach-type-tool {
+      font-family: 'Macondo', cursive;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    /* Dot between activation and name — same blue label, no grey .kw-mid-dot */
+    .kw-mid-dot--tool-approach {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: bold;
+      color: inherit;
+      opacity: 0.72;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Middle dot between effect keyword ↔ text (footer / · lines) */
+    .kw-mid-dot {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0rem;
+      color: rgba(26, 20, 14, 0.55);
+      font-weight: normal;
+      margin: 0 0.2em;
+    }
+
+    .approach-condition {
+      font-size: 0.9rem;
+      color: rgba(45, 38, 32, 0.82);
+      font-style: italic;
+      display: block;
+    }
+
+    /* Base text line */
+    .card-text {
+      font-size: 1.0rem;
+      color: #1a0d04;
+      line-height: 1.38;
+      padding: 0 6px;
+    }
+
+    /* Effect lines (markdown after ---): directly under banner, above approaches */
+    .card-effect-section {
+      flex-shrink: 0;
+      border-bottom: 2px solid rgba(110, 65, 15, 0.45);
+      margin: 0 var(--effect-section-margin-x) 4px;
+      padding-bottom: 4px;
+    }
+
+    /* Approach label in free-text lines — Swash Caps; hue from .approach-kind-* */
+    .card-text .text-kw-approach {
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    /* Outcome <Progress 1> — near-black */
+    .card-text .text-kw-outcome {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0rem;
+      font-weight: bold;
+      color: #1a0d04;
+    }
+
+    /* Effect keywords (after ---): charcoal — avoids clash with approach palette */
+    .card-text .text-kw-effect {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0rem;
+      font-weight: bold;
+      color: #252220;
+    }
+
+    /* Explanation — greyish italic */
+    .card-text .text-comic {
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: rgba(40, 30, 20, 0.788);
+    }
+
+    /* · sub-lines (default when not under an approach) */
+    .card-text-sub { padding-left: 16px; }
+
+    .approach-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 4px;
+    }
+
+    .approach-wrap > .approach-row { margin-bottom: 0; }
+
+    /* Same left edge as effect block: effect-text-start − card-content padding */
+    .approach-sub {
+      margin-left: calc(var(--effect-text-start) - var(--card-content-pad-x));
+    }
+
+    .approach-sub .card-text,
+    .approach-sub .card-text-sub {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    /* ── SIGIL WATERMARK — hidden, image already has one ── */
+    .card-sigil { display: none; }
+
+    /* ── HIDDEN ─────────────────────────────────────────── */
+    .card.hidden { display: none; }
+
+    .card-blank .card-name {
+      visibility: hidden;
+      font-size: 0.1px;
+      letter-spacing: 0;
+    }
+    .card-blank .card-body-blank {
+      margin-top: 0;
+    }
+
+    /* ── PRINT BUTTON ───────────────────────────────────── */
+    .print-btn {
+      font-family: 'Macondo', cursive;
+      font-size: 1rem;
+      padding: 0.4rem 1.5rem;
+      border-radius: 4px;
+      border: 2px solid #4a7840;
+      background: #2e5228;
+      color: #d0ead0;
+      cursor: pointer;
+      transition: background 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .print-btn:hover { background: #3a6634; }
+
+    /* ── GAP CONTROL ────────────────────────────────────── */
+    .gap-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #3a2818;
+      border: 2px solid #8b6340;
+      border-radius: 4px;
+      padding: 0.3rem 0.8rem;
+      color: #e8d5a0;
+      font-family: 'Macondo', cursive;
+      font-size: 0.95rem;
+    }
+    .gap-control input[type=range] {
+      -webkit-appearance: none;
+      width: 90px;
+      height: 4px;
+      border-radius: 2px;
+      background: #8b6340;
+      outline: none;
+      cursor: pointer;
+    }
+    .gap-control input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #c49050;
+      border: 2px solid #2a1e14;
+      cursor: pointer;
+    }
+    .gap-control input[type=range]::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #c49050;
+      border: 2px solid #2a1e14;
+      cursor: pointer;
+    }
+    .gap-value {
+      min-width: 2.8rem;
+      text-align: right;
+      color: #fdf4dc;
+      font-size: 0.88rem;
+    }
+
+    /* ── PRINT ──────────────────────────────────────────── */
+    @media print {
+      /* A4 landscape: 297×210 mm → 281×194 mm usable at 8 mm margins.
+         Cards are 88×63 mm → 3 across × 3 down = 9 per page.          */
+      @page {
+        size: A4 landscape;
+        margin: 8mm;
+      }
+
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      body {
+        background: #fff !important;
+        padding: 0 !important;
+        min-height: unset;
+        /* Constrain body to exact grid width and centre it on every page.
+           Centring the body (rather than the grid) is what survives page breaks. */
+        width: calc(3 * 88mm + 2 * var(--print-gap));
+        margin: 0 auto !important;
+      }
+
+      h1, .filter-bar { display: none !important; }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 88mm);
+        gap: var(--print-gap);
+        width: 100%;          /* fills the already-centred body */
+        align-content: start;
+      }
+
+      .section-label {
+        grid-column: 1 / -1;  /* span all three columns */
+        font-size: 6pt;
+        color: #4a2e10 !important;
+        text-shadow: none !important;
+        margin: 1mm 0 0.5mm;
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+      .section-label[data-type="blank"] { display: none !important; }
+
+      /* Scale card from 440×315 px → 88×63 mm.
+         440 px @ 96 dpi = 116.4 mm → zoom = 88 / 116.4 ≈ 0.756 */
+      .card {
+        zoom: 0.756;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        transition: none !important;
+      }
+      .card:hover {
+        transform: none !important;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+      }
+
+      .card.hidden { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<h1>Ruined Wold · Card Viewer</h1>
+
+<div class="filter-bar">
+  <button type="button" class="filter-btn active" data-filter="all" onclick="filter('all', this)">All Cards</button>
+  <button type="button" class="filter-btn" data-filter="challenge" onclick="filter('challenge', this)">Challenges</button>
+  <button type="button" class="filter-btn" data-filter="tool" onclick="filter('tool', this)">Tools</button>
+  <button type="button" class="filter-btn" data-filter="reference" onclick="filter('reference', this)">Reference</button>
+  <button type="button" class="filter-btn" data-filter="blank" onclick="filter('blank', this)">9 Blanks</button>
+  <label class="gap-control" title="Space between cards when printing">
+    Gap:
+    <input type="range" id="gap-slider" min="0" max="8" step="0.5" value="3"
+           oninput="setGap(this.value)" />
+    <span class="gap-value" id="gap-value">3 mm</span>
+  </label>
+  <button class="print-btn" onclick="printCards()">Print Cards</button>
+</div>
+
+<div class="card-grid" id="card-grid"></div>
+
+<!-- ── SVG SIGIL ──────────────────────────────────────── -->
+<svg id="sigil-src" style="display:none" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="30" r="27" stroke="#4a2e10" stroke-width="1.2" fill="none"/>
+  <circle cx="30" cy="30" r="18" stroke="#4a2e10" stroke-width="0.8" fill="none"/>
+  <polygon points="30,4 54,48 6,48" stroke="#4a2e10" stroke-width="1.1" fill="none"/>
+  <line x1="30" y1="4"  x2="30" y2="56" stroke="#4a2e10" stroke-width="0.5"/>
+  <line x1="3"  y1="30" x2="57" y2="30" stroke="#4a2e10" stroke-width="0.5"/>
+  <circle cx="30" cy="30" r="3" stroke="#4a2e10" stroke-width="0.8" fill="none"/>
+</svg>
+
+<script>
+// ── CARD DATA — cards.md + optional card-definitions.md (shorthand → rule text) ─
+
+// ── SIGIL SVG ────────────────────────────────────────────────────────────────
+const sigilSVG = `<svg class="card-sigil" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="30" cy="30" r="27" stroke="#4a2e10" stroke-width="1.2" fill="none"/>
+  <circle cx="30" cy="30" r="18" stroke="#4a2e10" stroke-width="0.8" fill="none"/>
+  <polygon points="30,4 54,48 6,48" stroke="#4a2e10" stroke-width="1.1" fill="none"/>
+  <line x1="30" y1="4"  x2="30" y2="56" stroke="#4a2e10" stroke-width="0.5"/>
+  <line x1="3"  y1="30" x2="57" y2="30" stroke="#4a2e10" stroke-width="0.5"/>
+  <circle cx="30" cy="30" r="3" stroke="#4a2e10" stroke-width="0.8" fill="none"/>
+</svg>`;
+
+// ── RENDER ───────────────────────────────────────────────────────────────────
+
+function banner(name, type) {
+  return `<div class="card-top">
+    <div class="card-banner banner-${type}">
+      <div class="card-scroll-strip">
+        <span class="card-name">${name}</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+/** CSS class suffix: approach-kind-fight | work | traverse | awareness | default */
+function approachKindClass(typeName) {
+  const w = String(typeName || '')
+    .trim()
+    .split(/\s+/)[0]
+    .toLowerCase();
+  const map = {
+    fight: 'fight',
+    work: 'work',
+    traverse: 'traverse',
+    awareness: 'awareness',
+    feel: 'awareness',
+    analyse: 'awareness',
+    analyze: 'awareness',
+    climb: 'traverse'
+  };
+  return 'approach-kind-' + (map[w] || 'default');
+}
+
+function approachKindClassFromLabel(label) {
+  const m = String(label).trim().match(/^(\w+)/);
+  return approachKindClass(m ? m[1] : '');
+}
+
+function formatTextLine(text, isSub, isBottom) {
+  const ci = text.indexOf(':');
+  if (ci > 0) {
+    const keyword = text.slice(0, ci);
+    const body    = text.slice(ci + 1);
+    if (!isSub && !isBottom) {
+      const trimBody = body.trim();
+      const outcomeHTML = ' ' + trimBody.replace(/<([^>]+)>/g, (_, t) =>
+        `<strong class="text-kw-outcome">${escapeHtml(t.trim())}</strong>`);
+      const kc = approachKindClassFromLabel(keyword);
+      return `<strong class="text-kw-approach ${kc}">${keyword}</strong>:${outcomeHTML}`;
+    }
+    return `<strong class="text-kw-effect">${keyword.trim()}</strong>: <span class="text-comic">${body.trim()}</span>`;
+  }
+  const base = isSub || isBottom ? 'text-kw-effect' : 'text-kw-approach';
+  const kc = !isSub && !isBottom ? ` ${approachKindClassFromLabel(text)}` : '';
+  return `<strong class="${base}${kc}">${text}</strong>`;
+}
+
+/** Outcomes after `:` on approach rows — `<Token>` segments like challenges, else plain text. */
+function renderApproachOutcomeHTML(outcomes) {
+  const s = String(outcomes || '').trim();
+  if (!s) return '';
+  if (/<[^>]+>/.test(s)) {
+    const parts = s.split(/\s*·\s*/).map(function (part) {
+      part = part.trim();
+      const m = part.match(/^<([^>]+)>$/);
+      return m
+        ? `<strong class="text-kw-outcome">${escapeHtml(m[1])}</strong>`
+        : escapeHtml(part);
+    });
+    return ': ' + parts.join(' · ');
+  }
+  return ': ' + escapeHtml(s);
+}
+
+/** Legacy tool line: `- Fight -> Power 5` */
+function legacyToolOutcomePlain(outcomes) {
+  const s = String(outcomes || '').trim();
+  const m = s.match(/^Power\s+(\d+)$/i);
+  return m ? m[1] : s.replace(/^Power\s+/i, '').trim() || s;
+}
+
+function renderItem(item, isBottom, isTool) {
+  if (isTool === undefined) isTool = false;
+  if (item.kind === 'approach') {
+    const cond    = item.condition ? `<span class="approach-condition">(${item.condition})</span>` : '';
+    const typeStr = item.difficulty !== null ? `${item.type} ${item.difficulty}` : item.type;
+    const kindClass = approachKindClass(item.type);
+    const typeCls = (isTool ? 'approach-type approach-type-tool ' : 'approach-type ') + kindClass;
+    let inner;
+    if (isTool && (item.difficulty === null || item.difficulty === undefined)) {
+      inner = ': ' + escapeHtml(legacyToolOutcomePlain(item.outcomes));
+    } else {
+      inner = renderApproachOutcomeHTML(item.outcomes);
+    }
+    const outcomeClass =
+      !isTool && /^Power\s+\d+$/i.test(String(item.outcomes || '').trim())
+        ? 'approach-outcome-power'
+        : 'approach-outcome';
+    let approachLabelHTML;
+    if (isTool && item.activation) {
+      approachLabelHTML = `<span class="${typeCls}">${escapeHtml(item.activation)}<span class="kw-mid-dot--tool-approach"> · </span>${escapeHtml(typeStr)}</span>`;
+    } else {
+      approachLabelHTML = `<span class="${typeCls}">${typeStr}</span>`;
+    }
+    const row = `<div class="approach-row ${kindClass}">
+      ${approachLabelHTML}
+      <span class="${outcomeClass}">${inner}</span>${cond}
+    </div>`;
+    const subs = (item.subLines || [])
+      .map(function (sl) {
+        return `<div class="approach-sub"><div class="card-text card-text-sub">${formatTextLine(sl, true, isBottom)}</div></div>`;
+      })
+      .join('');
+    return `<div class="approach-wrap">${row}${subs}</div>`;
+  }
+  const isSub = item.text.trimStart().startsWith('\u00b7');
+  const cls   = isSub ? 'card-text card-text-sub' : 'card-text';
+  return `<div class="${cls}">${formatTextLine(item.text, isSub, isBottom)}</div>`;
+}
+
+function splitContent(card) {
+  // Split at the first "---" line: before --- = approaches (shown lower on the card);
+  // after --- = effect block (shown directly under the name banner).
+  const ruleIdx = card.content.findIndex(i => i.kind === 'rule');
+  if (ruleIdx < 0) return { top: card.content, bottom: [] };
+  return { top: card.content.slice(0, ruleIdx), bottom: card.content.slice(ruleIdx + 1) };
+}
+
+function renderChallengeCard(card) {
+  const { top, bottom } = splitContent(card);
+  const effectsHTML = bottom.length
+    ? `<div class="card-effect-section">${bottom.map(i => renderItem(i, true)).join('')}</div>` : '';
+  return `<div class="card" data-type="challenge">
+    ${banner(card.name, 'challenge')}
+    <div class="card-body">
+      ${effectsHTML}
+      <div class="card-content">${top.map(i => renderItem(i, false)).join('')}</div>
+      ${sigilSVG}
+    </div>
+  </div>`;
+}
+
+function renderToolCard(card) {
+  const { top, bottom } = splitContent(card);
+  const effectsHTML = bottom.length
+    ? `<div class="card-effect-section">${bottom.map(i => renderItem(i, true)).join('')}</div>` : '';
+  return `<div class="card" data-type="tool">
+    ${banner(card.name, 'tool')}
+    <div class="card-body">
+      ${effectsHTML}
+      <div class="card-content">${top.map(i => renderItem(i, false, true)).join('')}</div>
+      ${sigilSVG}
+    </div>
+  </div>`;
+}
+
+/** Printable template only — no title line, body text, or sigil. */
+function boldifyReferenceLine(s) {
+  return escapeHtml(String(s || '')).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+}
+
+function renderReferenceCard(card) {
+  var parts = [];
+  (card.content || []).forEach(function(item) {
+    if (item.kind === 'text') {
+      parts.push('<div class="ref-line">' + boldifyReferenceLine(item.text) + '</div>');
+    } else if (item.kind === 'rule') {
+      parts.push('<hr class="ref-sep" />');
+    }
+  });
+  return `<div class="card card-reference" data-type="reference">
+    ${banner(card.name, 'reference')}
+    <div class="card-body card-body-reference">
+      <div class="card-reference-scroll">${parts.join('')}</div>
+    </div>
+  </div>`;
+}
+
+function renderBlankCard() {
+  return `<div class="card card-blank" data-type="blank">
+    <div class="card-top">
+      <div class="card-banner banner-blank">
+        <div class="card-scroll-strip">
+          <span class="card-name"> </span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body card-body-blank"></div>
+  </div>`;
+}
+
+function buildGrid(data) {
+  const grid = document.getElementById('card-grid');
+  let html = '';
+
+  data.decks.forEach(deck => {
+    html += `<div class="section-label" data-type="${deck.type}">— ${deck.name} —</div>`;
+    deck.cards.forEach(card => {
+      if (card.type === 'challenge') html += renderChallengeCard(card);
+      else if (card.type === 'tool') html += renderToolCard(card);
+      else if (card.type === 'reference') html += renderReferenceCard(card);
+      else html += renderToolCard(card);
+    });
+  });
+
+  html += '<div class="section-label" data-type="blank">— Blank cards —</div>';
+  for (let i = 0; i < 9; i++) html += renderBlankCard();
+
+  grid.innerHTML = html;
+  var syncBtn = document.querySelector('.filter-bar .filter-btn.active');
+  if (syncBtn && syncBtn.dataset.filter) filter(syncBtn.dataset.filter, syncBtn);
+}
+
+function filter(type, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+
+  document.querySelectorAll('.card').forEach(card => {
+    const cardType = card.dataset.type;
+    let hide;
+    if (type === 'blank') hide = cardType !== 'blank';
+    else if (type === 'all') hide = cardType === 'blank';
+    else hide = cardType !== type;
+    card.classList.toggle('hidden', hide);
+  });
+
+  document.querySelectorAll('.section-label').forEach(label => {
+    const lt = label.dataset.type;
+    let show;
+    if (type === 'blank') show = lt === 'blank';
+    else if (type === 'all') show = lt === 'challenge' || lt === 'tool' || lt === 'reference';
+    else show = lt === type;
+    label.style.display = show ? '' : 'none';
+  });
+}
+
+// ── DEFINITIONS (card-definitions.md:  KEY | text after colon on card) ─────────
+// KEY may use whole-word X, Y, Z as number placeholders; card line supplies digits.
+
+function escapeRegex(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function buildTemplateRule(key, template) {
+  var reTok = /\b([XYZ])\b/g;
+  var last = 0;
+  var pieces = [];
+  var letters = [];
+  var m;
+  while ((m = reTok.exec(key)) !== null) {
+    pieces.push(escapeRegex(key.slice(last, m.index)));
+    pieces.push('(\\d+)');
+    letters.push(m[1]);
+    last = m.index + m[0].length;
+  }
+  pieces.push(escapeRegex(key.slice(last)));
+  try {
+    return { regex: new RegExp('^' + pieces.join('') + '$'), letters: letters, template: template };
+  } catch (e) {
+    return null;
+  }
+}
+
+function substituteTemplate(template, letters, captures) {
+  var val = { X: '', Y: '', Z: '' };
+  for (var i = 0; i < letters.length; i++) {
+    if (letters[i] === 'X') val.X = captures[i] || '';
+    else if (letters[i] === 'Y') val.Y = captures[i] || '';
+    else if (letters[i] === 'Z') val.Z = captures[i] || '';
+  }
+  return template
+    .replace(/\bX\b/g, val.X)
+    .replace(/\bY\b/g, val.Y)
+    .replace(/\bZ\b/g, val.Z);
+}
+
+/** Strip outer **markdown bold** from definition keys (editorial only; cards.md uses plain keywords). */
+function stripDefKeyword(k) {
+  var s = String(k || '').trim();
+  var m = s.match(/^\*\*([\s\S]*?)\*\*$/);
+  return m ? m[1].trim() : s;
+}
+
+function parseEffectLine(key, val, exact, templateRules) {
+  key = stripDefKeyword(key);
+  if (!key) return;
+  if (/\b[XYZ]\b/.test(key)) {
+    var rule = buildTemplateRule(key, val);
+    if (rule) templateRules.push(rule);
+  } else {
+    exact[key] = val;
+  }
+}
+
+/** Sections: ## Activation Keywords (prefixes) · ## Universal Effects (reference, ignored) · ## Effects (| rows). Legacy: no ## Effects → parse all | lines as effect keys. */
+function parseDefinitions(text) {
+  var activations = [];
+  var effectExact = {};
+  var effectTemplateRules = [];
+  if (!text) {
+    return { activations: activations, effectExact: effectExact, effectTemplateRules: effectTemplateRules };
+  }
+
+  var hasEffectsSection = /^##\s+Effects\b/im.test(text);
+  var mode = 'none';
+
+  text.split('\n').forEach(function(line) {
+    var t = line.trim();
+    if (/^##\s+Activation\s+Keywords\b/i.test(t)) {
+      mode = 'act';
+      return;
+    }
+    if (/^##\s+Universal\s+Effects\b/i.test(t)) {
+      mode = 'uni';
+      return;
+    }
+    if (/^##\s+Effects\b/i.test(t)) {
+      mode = 'eff';
+      return;
+    }
+    if (/^##\s+/m.test(t)) {
+      if (mode === 'eff' && /^##\s+(Tools|Mixed|Challenges)\b/i.test(t)) {
+        return;
+      }
+      mode = 'none';
+      return;
+    }
+
+    if (mode === 'uni') {
+      return;
+    }
+
+    if (mode === 'act') {
+      if (!t || t === '---' || t.startsWith('#')) return;
+      t = t.replace(/^[-*]\s+/, '').trim();
+      if (!t) return;
+      var bar = t.indexOf('|');
+      if (bar >= 0) t = t.slice(0, bar).trim();
+      t = stripDefKeyword(t);
+      if (t) activations.push(t);
+      return;
+    }
+
+    if (mode === 'eff') {
+      if (!t || t === '---' || t.startsWith('#')) return;
+      var sep = t.indexOf('|');
+      if (sep < 0) return;
+      var key = stripDefKeyword(t.slice(0, sep).trim());
+      var val = t.slice(sep + 1).trim();
+      parseEffectLine(key, val, effectExact, effectTemplateRules);
+    }
+  });
+
+  if (!hasEffectsSection) {
+    text.split('\n').forEach(function(line) {
+      var t = line.trim();
+      if (!t || t.startsWith('#') || t === '---') return;
+      var sep = t.indexOf('|');
+      if (sep < 0) return;
+      var key = stripDefKeyword(t.slice(0, sep).trim());
+      var val = t.slice(sep + 1).trim();
+      if (!key) return;
+      parseEffectLine(key, val, effectExact, effectTemplateRules);
+    });
+  }
+
+  activations.sort(function(a, b) { return b.length - a.length; });
+  var seen = {};
+  activations = activations.filter(function(a) {
+    if (seen[a]) return false;
+    seen[a] = true;
+    return true;
+  });
+
+  return {
+    activations: activations,
+    effectExact: effectExact,
+    effectTemplateRules: effectTemplateRules
+  };
+}
+
+function matchEffectPhrase(rest, defs) {
+  if (!defs) return null;
+  if (defs.effectExact && defs.effectExact[rest]) return defs.effectExact[rest];
+  if (defs.effectTemplateRules) {
+    for (var i = 0; i < defs.effectTemplateRules.length; i++) {
+      var rule = defs.effectTemplateRules[i];
+      var match = rest.match(rule.regex);
+      if (match) {
+        var caps = match.slice(1);
+        return substituteTemplate(rule.template, rule.letters, caps);
+      }
+    }
+  }
+  return null;
+}
+
+/** Hide editorial *(Tool)* / *(Challenge)* / *(Mixed)* tags from printed cards (they stay in definitions for the rulebook). */
+function stripEffectKindMarker(s) {
+  return String(s || '').replace(/^\*\([^)]+\)\*\s*/g, '').trim();
+}
+
+function expandPhrase(phrase, defs) {
+  if (!defs || phrase === undefined || phrase === null) return phrase;
+  var p = String(phrase).trim();
+  if (!p || p.indexOf(':') >= 0) return phrase;
+
+  var body = matchEffectPhrase(p, defs);
+  if (body) return p + ' : ' + stripEffectKindMarker(body);
+
+  var acts = defs.activations || [];
+  for (var ai = 0; ai < acts.length; ai++) {
+    var prefix = acts[ai] + ' · ';
+    if (p.startsWith(prefix)) {
+      var rest = p.slice(prefix.length).trim();
+      body = matchEffectPhrase(rest, defs);
+      if (body) return p + ' : ' + stripEffectKindMarker(body);
+    }
+  }
+
+  return phrase;
+}
+
+function expandCardTextLine(line, defs) {
+  if (!line || !defs) return line;
+  var t = line.trim();
+  if (t.indexOf(':') >= 0) return line;
+  if (/^[·\u00b7]/.test(t)) {
+    var inner = t.replace(/^[·\u00b7]\s*/, '').trim();
+    return '· ' + expandPhrase(inner, defs);
+  }
+  return expandPhrase(t, defs);
+}
+
+function expandCardContent(content, defs) {
+  if (!defs) return;
+  content.forEach(function(item) {
+    if (item.kind === 'text') item.text = expandCardTextLine(item.text, defs);
+    if (item.kind === 'approach' && item.subLines) {
+      item.subLines = item.subLines.map(function(sl) { return expandPhrase(sl, defs); });
+    }
+  });
+}
+
+// ── MARKDOWN PARSER ──────────────────────────────────────────────────────────
+function parseMarkdownCards(text, defs) {
+  var decks = [];
+  // Split into deck sections on lines starting with "# " (h1)
+  var deckBlocks = text.split(/\n(?=# )/);
+  deckBlocks.forEach(function(block) {
+    var lines = block.split('\n');
+    var headerLine = lines[0].replace(/^# /, '').trim();
+
+    // "Deck Name [challenge]" or "Deck Name [tool]"
+    var typeMatch = headerLine.match(/\[(\w+)\]\s*$/);
+    if (!typeMatch) return;
+    var deckType = typeMatch[1];
+    var deckName = headerLine.replace(/\[\w+\]\s*$/, '').trim();
+    var deckId   = deckName.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+    // Split remaining text into card sections on lines starting with "## "
+    var rest = lines.slice(1).join('\n');
+    var cardBlocks = rest.split(/\n(?=## )/);
+    var cards = [];
+
+    cardBlocks.forEach(function(cb) {
+      var clines = cb.split('\n').filter(function(l) { return l.trim() !== ''; });
+      if (!clines.length) return;
+
+      var cardHeader = clines[0].replace(/^## /, '').trim();
+      // "Name [ID]" or just "Name"
+      var idMatch  = cardHeader.match(/\[([^\]]+)\]\s*$/);
+      var cardName = idMatch ? cardHeader.replace(/\[[^\]]+\]\s*$/, '').trim() : cardHeader;
+      var cardId   = idMatch ? idMatch[1] : (deckId.toUpperCase() + '_' + cardName.toUpperCase().replace(/[^A-Z0-9]+/g, '_'));
+
+      var body = clines.slice(1);
+
+      // Both challenge and tool: build a mixed content array in document order.
+      // - lines starting with "- " are parsed as approach/use rows.
+      // - "---" becomes a horizontal rule.
+      // - everything else appears verbatim as a text line.
+      var content = [];
+      body.forEach(function(line) {
+        var t = line.trim();
+        if (!t) return;
+        if (t === '---') {
+          content.push({ kind: 'rule' });
+        } else if (/^[·\u00b7]/.test(t)) {
+          var bulletText = t.replace(/^[·\u00b7]\s*/, '').trim();
+          var prev = content.length && content[content.length - 1];
+          if (prev && prev.kind === 'approach') {
+            prev.subLines = prev.subLines || [];
+            prev.subLines.push(bulletText);
+          } else {
+            content.push({ kind: 'text', text: t });
+          }
+        } else if (deckType === 'tool' && t.startsWith('_ ')) {
+          // "_ Fight 7" → Power 7 (number is the Power). Optional: "_ Fight 5 : <Power 5>" or "_ Range 2-3 · Fight 4 : <Power 4>" (also " - " legacy)
+          var rawT = t.slice(2).trim();
+          var condT = rawT.match(/\(([^)]+)\)\s*$/);
+          var conditionT = condT ? condT[1] : undefined;
+          var cleanT = conditionT ? rawT.replace(/\([^)]+\)\s*$/, '').trim() : rawT;
+          var um = null;
+          var activation = null;
+          var actSep = cleanT.indexOf(' \u00b7 ');
+          var actSepLen = 3;
+          if (actSep < 0) {
+            actSep = cleanT.indexOf(' - ');
+          }
+          if (actSep > 0) {
+            activation = cleanT.slice(0, actSep).trim();
+            var restAct = cleanT.slice(actSep + actSepLen).trim();
+            um = restAct.match(/^(\w+)\s+(\d+)\s*:\s*(.+)$/);
+            if (!um) um = restAct.match(/^(\w+)\s+(\d+)\s*$/);
+          }
+          if (!um) {
+            um = cleanT.match(/^(\w+)\s+(\d+)\s*:\s*(.+)$/);
+          }
+          if (!um) {
+            um = cleanT.match(/^(\w+)\s+(\d+)\s*$/);
+          }
+          if (um) {
+            var outTool = um[3] !== undefined ? String(um[3]).trim() : '';
+            var apt2 = { kind: 'approach', type: um[1], difficulty: parseInt(um[2], 10), outcomes: outTool };
+            if (conditionT) apt2.condition = conditionT;
+            if (activation) apt2.activation = activation;
+            content.push(apt2);
+          } else {
+            content.push({ kind: 'text', text: t });
+          }
+        } else if (t.startsWith('- ')) {
+          if (deckType === 'challenge') {
+            var raw = t.slice(2);
+            var condMatch = raw.match(/\(([^)]+)\)\s*$/);
+            var condition = condMatch ? condMatch[1] : undefined;
+            var clean = condition ? raw.replace(/\([^)]+\)\s*$/, '').trim() : raw;
+            var arr = clean.match(/^(\w+)\s+(\d+)\s*(?:->|:)\s*(.+)$/);
+            if (!arr) {
+              arr = clean.match(/^(\w+)\s+(\d+)\s*$/);
+              if (arr) arr = [arr[0], arr[1], arr[2], ''];
+            }
+            if (arr) {
+              var ap = { kind: 'approach', type: arr[1], difficulty: parseInt(arr[2], 10), outcomes: String(arr[3] || '').trim() };
+              if (condition) ap.condition = condition;
+              content.push(ap);
+            } else {
+              content.push({ kind: 'text', text: t.slice(2) });
+            }
+          } else {
+            var u = t.slice(2).match(/^(.+?)\s*->\s*Power\s+(\d+)\s*$/i);
+            if (u) {
+              content.push({ kind: 'approach', type: u[1].trim(), difficulty: null, outcomes: 'Power ' + parseInt(u[2], 10) });
+            } else {
+              content.push({ kind: 'text', text: t.slice(2) });
+            }
+          }
+        } else {
+          content.push({ kind: 'text', text: t });
+        }
+      });
+      expandCardContent(content, defs);
+      cards.push({ id: cardId, name: cardName, type: deckType, content: content });
+    });
+
+    if (cards.length) decks.push({ id: deckId, name: deckName, type: deckType, cards: cards });
+  });
+  return { decks: decks };
+}
+
+// ── LOAD ─────────────────────────────────────────────────────────────────────
+Promise.all([
+  fetch('cards.md').then(function(r) {
+    if (!r.ok) throw new Error(r.status);
+    return r.text();
+  }),
+  fetch('card-definitions.md').then(function(r) { return r.ok ? r.text() : ''; }).catch(function() { return ''; })
+])
+  .then(function(parts) {
+    var defs = parseDefinitions(parts[1]);
+    buildGrid(parseMarkdownCards(parts[0], defs));
+  })
+  .catch(function() {
+    document.getElementById('card-grid').innerHTML =
+      '<p style="color:#e8d5a0;text-align:center;margin-top:3rem;font-size:1.1rem;">' +
+      '⚠ Could not load cards.md<br><br>' +
+      'Open this page via a local server — double-click <strong>serve.bat</strong> ' +
+      'then visit <strong>http://localhost:8080</strong></p>';
+  });
+
+function setGap(val) {
+  const mm = parseFloat(val);
+  document.documentElement.style.setProperty('--print-gap', mm + 'mm');
+  document.getElementById('gap-value').textContent = mm + ' mm';
+}
+
+// ── PRINT ────────────────────────────────────────────────────────────────────
+// Instead of window.print() (which breaks cross-page centering in CSS),
+// we open a new window where each A4 page is an explicit fixed-size div.
+// Centering inside a known-size box is always reliable.
+
+function stripPrintMedia(css) {
+  // Remove @media print { ... } so it doesn't interfere with the print window
+  const start = css.indexOf('@media print');
+  if (start === -1) return css;
+  let depth = 0, i = css.indexOf('{', start);
+  while (i < css.length) {
+    if (css[i] === '{') depth++;
+    else if (css[i] === '}') { if (--depth === 0) return css.slice(0, start) + css.slice(i + 1); }
+    i++;
+  }
+  return css;
+}
+
+function printCards() {
+  var gap      = parseFloat(document.getElementById('gap-slider').value);
+  var allCards = document.querySelectorAll('.card:not(.hidden)');
+  var PER_PAGE = 9;
+
+  // Split visible cards into pages of 9
+  var pages = [];
+  var page  = [];
+  for (var ci = 0; ci < allCards.length; ci++) {
+    page.push(allCards[ci]);
+    if (page.length === PER_PAGE) { pages.push(page); page = []; }
+  }
+  if (page.length) pages.push(page);
+
+  // Card styles (strip the @media print block so it doesn't interfere)
+  var styles = stripPrintMedia(
+    Array.from(document.querySelectorAll('style')).map(function(s) { return s.textContent; }).join('\n')
+  );
+
+  // Resolve base path so relative URLs (Cardtemplate.png) work in the new window
+  var base = location.href.replace(/[^\/\\]*$/, '');
+
+  // Build pages HTML using string concatenation — avoids nested template-literal issues
+  var pagesHTML = '';
+  for (var pi = 0; pi < pages.length; pi++) {
+    pagesHTML += '<div class="print-page">';
+    for (var ki = 0; ki < pages[pi].length; ki++) {
+      pagesHTML += pages[pi][ki].outerHTML;
+    }
+    pagesHTML += '</div>\n';
+  }
+
+  // 440px * 0.756 = 332.6px ≈ 88mm per card; 3 per row in 297mm page
+  var printStyle =
+    '@page{size:A4 landscape;margin:0}' +
+    '*,*::before,*::after{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}' +
+    'body{margin:0;padding:0;background:#fff}' +
+    '.card{zoom:0.756;transition:none!important}' +
+    '.card:hover{transform:none!important}' +
+    '.print-page{width:297mm;height:210mm;display:flex;flex-wrap:wrap;' +
+      'justify-content:center;align-content:center;gap:' + gap + 'mm;' +
+      'page-break-after:always;break-after:page;box-sizing:border-box;overflow:hidden}' +
+    '.print-page:last-child{page-break-after:auto;break-after:auto}';
+
+  var html =
+    '<!DOCTYPE html><html><head>' +
+    '<meta charset="UTF-8">' +
+    '<base href="' + base + '">' +
+    '<link href="https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap" rel="stylesheet">' +
+    '<style>' + styles + printStyle + '<\/style>' +
+    '<\/head><body>' +
+    pagesHTML +
+    '<\/body><\/html>';
+
+  var win = window.open('', '_blank');
+  win.document.write(html);
+  win.document.close();
+  win.addEventListener('load', function() {
+    setTimeout(function() { win.focus(); win.print(); }, 500);
+  });
+}
+</script>
+</body>
+</html>
