@@ -11,7 +11,10 @@ const TEMPLATE_IMG = path.join(ROOT, "Cardtemplate.png");
 /** Per-card pixel size on the spritesheet. Higher = sharper in TTS (larger PNG files). */
 const CARD_W = 880;
 const CARD_H = 630;
-const SHEET_COLS = 10;
+/** Spritesheet grid: 3×2 = 6 card faces per PNG (fewer cards per texture → larger cells in TTS). */
+const SHEET_COLS = 3;
+const SHEET_ROWS = 2;
+const CARDS_PER_SHEET = SHEET_COLS * SHEET_ROWS;
 /** Layout was authored at this reference size; overlay scales with CARD_W/H. */
 const LAYOUT_REF_W = 440;
 const LAYOUT_REF_H = 315;
@@ -130,26 +133,47 @@ async function renderCardImage(card) {
   return base.composite([{ input: svg }]).png().toBuffer();
 }
 
-async function makeSpriteSheet(deck) {
-  const n = deck.cards.length;
-  const rows = Math.max(1, Math.ceil(n / SHEET_COLS));
+async function blankCellBuffer() {
+  return sharp({
+    create: {
+      width: CARD_W,
+      height: CARD_H,
+      channels: 4,
+      background: { r: 0, g: 0, b: 0, alpha: 0 }
+    }
+  })
+    .png()
+    .toBuffer();
+}
+
+/** One PNG with exactly `CARDS_PER_SHEET` cells (unused cells are transparent). */
+async function makeSpriteSheetChunk(cardsChunk) {
   const canvas = sharp({
     create: {
       width: CARD_W * SHEET_COLS,
-      height: CARD_H * rows,
+      height: CARD_H * SHEET_ROWS,
       channels: 4,
       background: { r: 0, g: 0, b: 0, alpha: 0 }
     }
   });
   const composites = [];
-  for (let i = 0; i < n; i++) {
-    const card = deck.cards[i];
-    const input = await renderCardImage(card);
+  const blank = await blankCellBuffer();
+  for (let i = 0; i < CARDS_PER_SHEET; i++) {
+    const card = cardsChunk[i];
+    const input = card ? await renderCardImage(card) : blank;
     const col = i % SHEET_COLS;
     const row = Math.floor(i / SHEET_COLS);
     composites.push({ input, left: col * CARD_W, top: row * CARD_H });
   }
   return canvas.composite(composites).png();
+}
+
+function splitIntoChunks(cards) {
+  const chunks = [];
+  for (let i = 0; i < cards.length; i += CARDS_PER_SHEET) {
+    chunks.push(cards.slice(i, i + CARDS_PER_SHEET));
+  }
+  return chunks;
 }
 
 async function ensureBackImage() {
@@ -167,27 +191,53 @@ async function ensureBackImage() {
   return "images/common-back.png";
 }
 
-function makeDeckObject(deck, deckNumber, faceURL, backURL, rows) {
-  const contained = deck.cards.map((card, i) => {
-    const cardID = deckNumber * 100 + (i + 1);
-    return {
-      Name: "Card",
-      Nickname: card.name,
-      Description: cardDescription(card),
-      CardID: cardID,
-      CustomDeck: {
-        [deckNumber]: {
-          FaceURL: faceURL,
-          BackURL: backURL,
-          NumWidth: SHEET_COLS,
-          NumHeight: rows,
-          BackIsHidden: true,
-          UniqueBack: false,
-          Type: 0
+function customDeckTexture(faceURL, backURL) {
+  return {
+    FaceURL: faceURL,
+    BackURL: backURL,
+    NumWidth: SHEET_COLS,
+    NumHeight: SHEET_ROWS,
+    BackIsHidden: true,
+    UniqueBack: false,
+    Type: 0
+  };
+}
+
+/**
+ * One logical deck → multiple PNGs (6 faces each, 3×2 grid).
+ * TTS: CustomDeck "1".."N" per sheet; CardID = sheetIndex*100 + cell (1..6).
+ */
+function makeDeckObject(deck, faceURLs, backURL) {
+  const chunks = splitIntoChunks(deck.cards);
+  if (chunks.length !== faceURLs.length) {
+    throw new Error(`Deck ${deck.id}: expected ${chunks.length} sheets, got ${faceURLs.length} URLs`);
+  }
+
+  const customDeckRoot = {};
+  for (let si = 0; si < chunks.length; si++) {
+    customDeckRoot[String(si + 1)] = customDeckTexture(faceURLs[si], backURL);
+  }
+
+  const contained = [];
+  for (let si = 0; si < chunks.length; si++) {
+    const chunk = chunks[si];
+    const deckKey = String(si + 1);
+    const faceURL = faceURLs[si];
+    const entry = customDeckTexture(faceURL, backURL);
+    for (let li = 0; li < chunk.length; li++) {
+      const card = chunk[li];
+      const cardID = (si + 1) * 100 + (li + 1);
+      contained.push({
+        Name: "Card",
+        Nickname: card.name,
+        Description: cardDescription(card),
+        CardID: cardID,
+        CustomDeck: {
+          [deckKey]: { ...entry }
         }
-      }
-    };
-  });
+      });
+    }
+  }
 
   return {
     Name: "DeckCustom",
@@ -205,17 +255,7 @@ function makeDeckObject(deck, deckNumber, faceURL, backURL, rows) {
       scaleZ: 1
     },
     DeckIDs: contained.map(c => c.CardID),
-    CustomDeck: {
-      [deckNumber]: {
-        FaceURL: faceURL,
-        BackURL: backURL,
-        NumWidth: SHEET_COLS,
-        NumHeight: rows,
-        BackIsHidden: true,
-        UniqueBack: false,
-        Type: 0
-      }
-    },
+    CustomDeck: customDeckRoot,
     ContainedObjects: contained
   };
 }
@@ -239,7 +279,8 @@ async function main() {
     cardRenderPixels: { width: CARD_W, height: CARD_H },
     notes: [
       "Generated object JSON + local spritesheets.",
-      "Set TTS_ASSET_BASE_URL to hosted image base URL before final import."
+      "Set TTS_ASSET_BASE_URL to hosted image base URL before final import.",
+      `Each face PNG is a ${SHEET_COLS}×${SHEET_ROWS} grid (${CARDS_PER_SHEET} cells); large decks use multiple PNGs.`
     ],
     decks: []
   };
@@ -247,15 +288,24 @@ async function main() {
   let deckNumber = 1;
   for (const deck of data.decks) {
     if (!Array.isArray(deck.cards) || deck.cards.length === 0) continue;
-    const rows = Math.max(1, Math.ceil(deck.cards.length / SHEET_COLS));
-    const imageFile = `${slug(deck.id || deck.name || `deck-${deckNumber}`)}-fronts.png`;
-    const imageRel = `images/${imageFile}`;
-    const imagePath = path.join(OUT_IMAGES, imageFile);
-    const sheet = await makeSpriteSheet(deck);
-    await sheet.toFile(imagePath);
-    const faceURL = assetUrl(BASE_URL, imageRel);
-    const obj = makeDeckObject(deck, deckNumber, faceURL, backURL, rows);
-    const fileName = `${slug(deck.id || deck.name || `deck-${deckNumber}`)}.json`;
+    const slugBase = slug(deck.id || deck.name || `deck-${deckNumber}`);
+    const chunks = splitIntoChunks(deck.cards);
+    const faceURLs = [];
+    const imageRels = [];
+
+    for (let ci = 0; ci < chunks.length; ci++) {
+      const partName =
+        chunks.length === 1 ? `${slugBase}-fronts.png` : `${slugBase}-fronts-${ci + 1}.png`;
+      const imageRel = `images/${partName}`;
+      const imagePath = path.join(OUT_IMAGES, partName);
+      const sheet = await makeSpriteSheetChunk(chunks[ci]);
+      await sheet.toFile(imagePath);
+      faceURLs.push(assetUrl(BASE_URL, imageRel));
+      imageRels.push(imageRel);
+    }
+
+    const obj = makeDeckObject(deck, faceURLs, backURL);
+    const fileName = `${slugBase}.json`;
     const outPath = path.join(OUT_OBJECTS, fileName);
     await writeFile(outPath, JSON.stringify(obj, null, 2), "utf8");
 
@@ -265,11 +315,11 @@ async function main() {
       type: deck.type,
       cardCount: deck.cards.length,
       objectFile: `objects/${fileName}`,
-      imageFile: imageRel,
-      faceURL,
+      imageFiles: imageRels,
+      faceURLs,
       backURL,
-      rows,
-      cols: SHEET_COLS
+      sheetGrid: { cols: SHEET_COLS, rows: SHEET_ROWS, cardsPerSheet: CARDS_PER_SHEET },
+      sheetCount: chunks.length
     });
     deckNumber += 1;
   }
@@ -279,7 +329,7 @@ async function main() {
   console.log(`Asset base URL: ${BASE_URL}`);
   console.log("Generated deck object files + images:");
   for (const d of manifest.decks) {
-    console.log(`- ${d.objectFile} (${d.cardCount} cards), ${d.imageFile}`);
+    console.log(`- ${d.objectFile} (${d.cardCount} cards), sheets: ${d.imageFiles.join(", ")}`);
   }
 }
 
