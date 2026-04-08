@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "generatedAt": "2026-04-08T18:02:20.784Z",
+  "source": "cards.json",
+  "notes": [
+    "Generated object JSON + local spritesheets.",
+    "Set TTS_ASSET_BASE_URL to hosted image base URL before final import."
+  ],
+  "decks": [
+    {
+      "id": "zone-deck-1",
+      "name": "Zone Deck 1 · Forest Clearing",
+      "type": "challenge",
+      "cardCount": 23,
+      "objectFile": "objects/zone-deck-1.json",
+      "imageFile": "images/zone-deck-1-fronts.png",
+      "faceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
+      "backURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+      "rows": 3,
+      "cols": 10
+    },
+    {
+      "id": "intro-tools",
+      "name": "Starting Tools",
+      "type": "tool",
+      "cardCount": 4,
+      "objectFile": "objects/intro-tools.json",
+      "imageFile": "images/intro-tools-fronts.png",
+      "faceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
+      "backURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+      "rows": 1,
+      "cols": 10
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "Name": "DeckCustom",
+  "Nickname": "Starting Tools",
+  "Description": "Generated from cards.json deck id: intro-tools",
+  "Transform": {
+    "posX": 0,
+    "posY": 1,
+    "posZ": 0,
+    "rotX": 0,
+    "rotY": 180,
+    "rotZ": 180,
+    "scaleX": 1,
+    "scaleY": 1,
+    "scaleZ": 1
+  },
+  "DeckIDs": [
+    201,
+    202,
+    203,
+    204
+  ],
+  "CustomDeck": {
+    "2": {
+      "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
+      "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+      "NumWidth": 10,
+      "NumHeight": 1,
+      "BackIsHidden": true,
+      "UniqueBack": false,
+      "Type": 0
+    }
+  },
+  "ContainedObjects": [
+    {
+      "Name": "Card",
+      "Nickname": "Belt Knife & War Blade",
+      "Description": "Fight 2 · Uses 2\nFight 7 · Area · Penetration",
+      "CardID": 201,
+      "CustomDeck": {
+        "2": {
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false,
+          "Type": 0
+        }
+      }
+    },
+    {
+      "Name": "Card",
+      "Nickname": "Hand Axe",
+      "Description": "Work 4 · Uses 2",
+      "CardID": 202,
+      "CustomDeck": {
+        "2": {
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false,
+          "Type": 0
+        }
+      }
+    },
+    {
+      "Name": "Card",
+      "Nickname": "Coil of Rope",
+      "Description": "Traverse 4 · Area · Uses 2\nWork 3 · Area · Uses 2",
+      "CardID": 203,
+      "CustomDeck": {
+        "2": {
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false,
+          "Type": 0
+        }
+      }
+    },
+    {
+      "Name": "Card",
+      "Nickname": "Warded Charm",
+      "Description": "Awareness 4 · Area · Uses 2",
+      "CardID": 204,
+      "CustomDeck": {
+        "2": {
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "NumWidth": 10,
+          "NumHeight": 1,
+          "BackIsHidden": true,
+          "UniqueBack": false,
+          "Type": 0
+        }
+      }
+    }
+  ]
+}
