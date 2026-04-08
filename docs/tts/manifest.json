@@ -1,7 +1,11 @@
 {
   "version": 1,
-  "generatedAt": "2026-04-08T18:08:33.353Z",
+  "generatedAt": "2026-04-08T18:26:06.692Z",
   "source": "cards.json",
+  "cardRenderPixels": {
+    "width": 880,
+    "height": 630
+  },
   "notes": [
     "Generated object JSON + local spritesheets.",
     "Set TTS_ASSET_BASE_URL to hosted image base URL before final import."

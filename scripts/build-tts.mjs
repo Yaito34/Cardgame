@@ -8,9 +8,13 @@ const OUT_DIR = path.join(ROOT, "dist", "tts");
 const OUT_OBJECTS = path.join(OUT_DIR, "objects");
 const OUT_IMAGES = path.join(OUT_DIR, "images");
 const TEMPLATE_IMG = path.join(ROOT, "Cardtemplate.png");
-const CARD_W = 440;
-const CARD_H = 315;
+/** Per-card pixel size on the spritesheet. Higher = sharper in TTS (larger PNG files). */
+const CARD_W = 880;
+const CARD_H = 630;
 const SHEET_COLS = 10;
+/** Layout was authored at this reference size; overlay scales with CARD_W/H. */
+const LAYOUT_REF_W = 440;
+const LAYOUT_REF_H = 315;
 
 function normalizeBaseUrl(u) {
   return String(u || "").trim().replace(/\/+$/, "");
@@ -102,15 +106,20 @@ function cardTextLines(card) {
 }
 
 function overlaySvg(card) {
+  const x = n => Math.round((n * CARD_W) / LAYOUT_REF_W);
+  const y = n => Math.round((n * CARD_H) / LAYOUT_REF_H);
   const title = xmlEsc(card.name);
   const bodyLines = cardTextLines(card)
-    .map((l, i) => `<text x="32" y="${120 + i * 15}" font-size="14" fill="#1a0d04">${xmlEsc(l)}</text>`)
+    .map((l, i) => {
+      const lineY = y(120) + i * y(15);
+      return `<text x="${x(32)}" y="${lineY}" font-size="${x(14)}" fill="#1a0d04">${xmlEsc(l)}</text>`;
+    })
     .join("");
   const bannerFill = card.type === "tool" ? "rgba(2,52,160,0.5)" : "rgba(157,1,1,0.5)";
   return `
 <svg width="${CARD_W}" height="${CARD_H}" xmlns="http://www.w3.org/2000/svg">
-  <rect x="8" y="13" width="424" height="62" rx="4" fill="${bannerFill}" />
-  <text x="220" y="51" text-anchor="middle" font-size="28" font-weight="700" fill="#fff8e8">${title}</text>
+  <rect x="${x(8)}" y="${y(13)}" width="${x(424)}" height="${y(62)}" rx="${x(4)}" fill="${bannerFill}" />
+  <text x="${CARD_W / 2}" y="${y(51)}" text-anchor="middle" font-size="${x(28)}" font-weight="700" fill="#fff8e8">${title}</text>
   ${bodyLines}
 </svg>`;
 }
@@ -145,11 +154,14 @@ async function makeSpriteSheet(deck) {
 
 async function ensureBackImage() {
   const out = path.join(OUT_IMAGES, "common-back.png");
+  const t = Math.max(2, Math.round((3 * CARD_W) / LAYOUT_REF_W));
+  const inset = Math.round((10 * CARD_W) / LAYOUT_REF_W);
+  const labelFs = Math.round((34 * CARD_W) / LAYOUT_REF_W);
   const svg = Buffer.from(`
 <svg width="${CARD_W}" height="${CARD_H}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${CARD_W}" height="${CARD_H}" fill="#2b2018" />
-  <rect x="10" y="10" width="${CARD_W - 20}" height="${CARD_H - 20}" fill="none" stroke="#b58a46" stroke-width="3" />
-  <text x="${CARD_W / 2}" y="${CARD_H / 2}" text-anchor="middle" font-size="34" fill="#e8d39f">RUINED WOLD</text>
+  <rect x="${inset}" y="${inset}" width="${CARD_W - 2 * inset}" height="${CARD_H - 2 * inset}" fill="none" stroke="#b58a46" stroke-width="${t}" />
+  <text x="${CARD_W / 2}" y="${CARD_H / 2}" text-anchor="middle" font-size="${labelFs}" fill="#e8d39f">RUINED WOLD</text>
 </svg>`);
   await sharp(svg).png().toFile(out);
   return "images/common-back.png";
@@ -224,6 +236,7 @@ async function main() {
     version: 1,
     generatedAt: new Date().toISOString(),
     source: "cards.json",
+    cardRenderPixels: { width: CARD_W, height: CARD_H },
     notes: [
       "Generated object JSON + local spritesheets.",
       "Set TTS_ASSET_BASE_URL to hosted image base URL before final import."
