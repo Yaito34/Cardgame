@@ -21,8 +21,8 @@
   ],
   "CustomDeck": {
     "2": {
-      "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-      "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/intro-tools-fronts.png",
+      "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
       "NumWidth": 10,
       "NumHeight": 1,
       "BackIsHidden": true,
@@ -38,8 +38,8 @@
       "CardID": 201,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/intro-tools-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 1,
           "BackIsHidden": true,
@@ -55,8 +55,8 @@
       "CardID": 202,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/intro-tools-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 1,
           "BackIsHidden": true,
@@ -72,8 +72,8 @@
       "CardID": 203,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/intro-tools-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 1,
           "BackIsHidden": true,
@@ -89,8 +89,8 @@
       "CardID": 204,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/intro-tools-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 1,
           "BackIsHidden": true,

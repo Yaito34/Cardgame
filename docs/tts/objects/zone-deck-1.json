@@ -40,8 +40,8 @@
   ],
   "CustomDeck": {
     "1": {
-      "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-      "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+      "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
       "NumWidth": 10,
       "NumHeight": 3,
       "BackIsHidden": true,
@@ -57,8 +57,8 @@
       "CardID": 101,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -74,8 +74,8 @@
       "CardID": 102,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -91,8 +91,8 @@
       "CardID": 103,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -108,8 +108,8 @@
       "CardID": 104,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -125,8 +125,8 @@
       "CardID": 105,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -142,8 +142,8 @@
       "CardID": 106,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -159,8 +159,8 @@
       "CardID": 107,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -176,8 +176,8 @@
       "CardID": 108,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -193,8 +193,8 @@
       "CardID": 109,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -210,8 +210,8 @@
       "CardID": 110,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -227,8 +227,8 @@
       "CardID": 111,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -244,8 +244,8 @@
       "CardID": 112,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -261,8 +261,8 @@
       "CardID": 113,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -278,8 +278,8 @@
       "CardID": 114,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -295,8 +295,8 @@
       "CardID": 115,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -312,8 +312,8 @@
       "CardID": 116,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -329,8 +329,8 @@
       "CardID": 117,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -346,8 +346,8 @@
       "CardID": 118,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -363,8 +363,8 @@
       "CardID": 119,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -380,8 +380,8 @@
       "CardID": 120,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -397,8 +397,8 @@
       "CardID": 121,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -414,8 +414,8 @@
       "CardID": 122,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
@@ -431,8 +431,8 @@
       "CardID": 123,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/zone-deck-1-fronts.png",
+          "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 10,
           "NumHeight": 3,
           "BackIsHidden": true,
