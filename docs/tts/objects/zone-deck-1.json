@@ -40,7 +40,7 @@
   ],
   "CustomDeck": {
     "1": {
-      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/1.png",
+      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-01.png",
       "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
       "NumWidth": 3,
       "NumHeight": 2,
@@ -49,7 +49,7 @@
       "Type": 0
     },
     "2": {
-      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/2.png",
+      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png",
       "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
       "NumWidth": 3,
       "NumHeight": 2,
@@ -58,7 +58,7 @@
       "Type": 0
     },
     "3": {
-      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/3.png",
+      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-03.png",
       "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
       "NumWidth": 3,
       "NumHeight": 2,
@@ -67,7 +67,7 @@
       "Type": 0
     },
     "4": {
-      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/4.png",
+      "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-04.png",
       "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
       "NumWidth": 3,
       "NumHeight": 2,
@@ -84,7 +84,7 @@
       "CardID": 101,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/1.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-01.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -101,7 +101,7 @@
       "CardID": 102,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/1.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-01.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -118,7 +118,7 @@
       "CardID": 103,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/1.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-01.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -135,7 +135,7 @@
       "CardID": 104,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/1.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-01.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -152,7 +152,7 @@
       "CardID": 105,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/1.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-01.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -169,7 +169,7 @@
       "CardID": 106,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/1.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-01.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -186,7 +186,7 @@
       "CardID": 201,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/2.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -203,7 +203,7 @@
       "CardID": 202,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/2.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -220,7 +220,7 @@
       "CardID": 203,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/2.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -237,7 +237,7 @@
       "CardID": 204,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/2.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -254,7 +254,7 @@
       "CardID": 205,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/2.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -271,7 +271,7 @@
       "CardID": 206,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/2.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -288,7 +288,7 @@
       "CardID": 301,
       "CustomDeck": {
         "3": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/3.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-03.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -305,7 +305,7 @@
       "CardID": 302,
       "CustomDeck": {
         "3": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/3.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-03.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -322,7 +322,7 @@
       "CardID": 303,
       "CustomDeck": {
         "3": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/3.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-03.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -339,7 +339,7 @@
       "CardID": 304,
       "CustomDeck": {
         "3": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/3.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-03.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -356,7 +356,7 @@
       "CardID": 305,
       "CustomDeck": {
         "3": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/3.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-03.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -373,7 +373,7 @@
       "CardID": 306,
       "CustomDeck": {
         "3": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/3.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-03.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -390,7 +390,7 @@
       "CardID": 401,
       "CustomDeck": {
         "4": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/4.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-04.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -407,7 +407,7 @@
       "CardID": 402,
       "CustomDeck": {
         "4": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/4.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-04.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -424,7 +424,7 @@
       "CardID": 403,
       "CustomDeck": {
         "4": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/4.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-04.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -441,7 +441,7 @@
       "CardID": 404,
       "CustomDeck": {
         "4": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/4.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-04.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,
@@ -458,7 +458,7 @@
       "CardID": 405,
       "CustomDeck": {
         "4": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/4.png",
+          "FaceURL": "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-04.png",
           "BackURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
           "NumWidth": 3,
           "NumHeight": 2,

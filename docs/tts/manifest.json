@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-04-16T10:31:35.013Z",
+  "generatedAt": "2026-04-16T10:45:55.490Z",
   "source": "cards.md → cards.html export + publish-tts-from-viewer-export.mjs",
   "cardRenderPixels": {
     "width": 880,
     "height": 630
   },
   "notes": [
-    "Face sheets are images/1.png, images/2.png, … in manifest deck order (see publish-tts-from-viewer-export.mjs).",
+    "Zone faces: images/tts-sheet-01.png … (same basenames as TTS PNGS/). Intro: images/intro-tts-sheet-01.png (see publish-tts-from-viewer-export.mjs).",
     "Set TTS_ASSET_BASE_URL or --base-url= for hosted FaceURL prefix.",
     "Each face PNG is a 3×2 grid (6 cells); large decks use multiple PNGs."
   ],
@@ -19,16 +19,16 @@
       "cardCount": 23,
       "objectFile": "objects/zone-deck-1.json",
       "imageFiles": [
-        "images/1.png",
-        "images/2.png",
-        "images/3.png",
-        "images/4.png"
+        "images/tts-sheet-01.png",
+        "images/tts-sheet-02.png",
+        "images/tts-sheet-03.png",
+        "images/tts-sheet-04.png"
       ],
       "faceURLs": [
-        "https://yaito34.github.io/Cardgame/tts/images/1.png",
-        "https://yaito34.github.io/Cardgame/tts/images/2.png",
-        "https://yaito34.github.io/Cardgame/tts/images/3.png",
-        "https://yaito34.github.io/Cardgame/tts/images/4.png"
+        "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-01.png",
+        "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png",
+        "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-03.png",
+        "https://yaito34.github.io/Cardgame/tts/images/tts-sheet-04.png"
       ],
       "backURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
       "sheetGrid": {
@@ -45,10 +45,10 @@
       "cardCount": 4,
       "objectFile": "objects/intro-tools.json",
       "imageFiles": [
-        "images/5.png"
+        "images/intro-tts-sheet-01.png"
       ],
       "faceURLs": [
-        "https://yaito34.github.io/Cardgame/tts/images/5.png"
+        "https://yaito34.github.io/Cardgame/tts/images/intro-tts-sheet-01.png"
       ],
       "backURL": "https://yaito34.github.io/Cardgame/tts/images/common-back.png",
       "sheetGrid": {
