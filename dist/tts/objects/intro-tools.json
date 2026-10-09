@@ -64,7 +64,7 @@
     {
       "Name": "Card",
       "Nickname": "Hand Axe",
-      "Description": "Work 4, On Use: Scout 1",
+      "Description": "Craft 4 · On Use: Scout 1",
       "CardID": 102,
       "CustomDeck": {
         "1": {
@@ -81,7 +81,7 @@
     {
       "Name": "Card",
       "Nickname": "Trail Rope",
-      "Description": "Traverse 4 · Scout 1 on line\nWork 3",
+      "Description": "Traverse 4 · Scout 1 on line\nCraft 3",
       "CardID": 103,
       "CustomDeck": {
         "1": {
@@ -132,7 +132,7 @@
     {
       "Name": "Card",
       "Nickname": "Short Bow",
-      "Description": "Fight 5 · Range 2-2, Scout 1",
+      "Description": "Fight 5 · Fight Range, Scout 1",
       "CardID": 106,
       "CustomDeck": {
         "1": {
@@ -149,7 +149,7 @@
     {
       "Name": "Card",
       "Nickname": "Driving Maul",
-      "Description": "Work 6",
+      "Description": "Craft 6",
       "CardID": 201,
       "CustomDeck": {
         "2": {

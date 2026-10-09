@@ -80,7 +80,7 @@
     {
       "Name": "Card",
       "Nickname": "Wolf",
-      "Description": "Effect: While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed.\nFight 6: Progress 3\nTraverse 2: Progress 1\nAwareness 4 (only when alone): Progress 2",
+      "Description": "Effect: While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed.\nFight 6: Progress 3\nUnlisted Action = 8+ (harder fallback: any tool can attempt it)\nTraverse 2: Progress 1\nAwareness 4 (only when alone): Progress 2",
       "CardID": 101,
       "CustomDeck": {
         "1": {
@@ -97,7 +97,7 @@
     {
       "Name": "Card",
       "Nickname": "Wolf",
-      "Description": "Effect: While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed.\nFight 6: Progress 3\nTraverse 2: Progress 1\nAwareness 4 (only when alone): Progress 2",
+      "Description": "Effect: While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed.\nFight 6: Progress 3\nUnlisted Action = 8+ (harder fallback: any tool can attempt it)\nTraverse 2: Progress 1\nAwareness 4 (only when alone): Progress 2",
       "CardID": 102,
       "CustomDeck": {
         "1": {
@@ -114,7 +114,7 @@
     {
       "Name": "Card",
       "Nickname": "Wolf",
-      "Description": "Effect: While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed.\nFight 6: Progress 3\nTraverse 2: Progress 1\nAwareness 4 (only when alone): Progress 2",
+      "Description": "Effect: While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed.\nFight 6: Progress 3\nUnlisted Action = 8+ (harder fallback: any tool can attempt it)\nTraverse 2: Progress 1\nAwareness 4 (only when alone): Progress 2",
       "CardID": 103,
       "CustomDeck": {
         "1": {
@@ -131,7 +131,7 @@
     {
       "Name": "Card",
       "Nickname": "Wild Boar",
-      "Description": "Effect: Charging 1 · Difficulty +2 :\n+2 Difficulty to this challenge's approaches.\nFight 8: Progress 3\nTraverse 3: Vision +2",
+      "Description": "Effect: Charging 1 · Difficulty +2 :\n+2 Difficulty to this challenge's approaches.\nFight 8: Progress 3\nUnlisted Action = 10+ (harder fallback: any tool can attempt it)\nTraverse 3: Vision +2",
       "CardID": 104,
       "CustomDeck": {
         "1": {
@@ -148,7 +148,7 @@
     {
       "Name": "Card",
       "Nickname": "Wild Boar",
-      "Description": "Effect: Charging 1 · Difficulty +2 :\n+2 Difficulty to this challenge's approaches.\nFight 8: Progress 3\nTraverse 3: Vision +2",
+      "Description": "Effect: Charging 1 · Difficulty +2 :\n+2 Difficulty to this challenge's approaches.\nFight 8: Progress 3\nUnlisted Action = 10+ (harder fallback: any tool can attempt it)\nTraverse 3: Vision +2",
       "CardID": 105,
       "CustomDeck": {
         "1": {
@@ -165,7 +165,7 @@
     {
       "Name": "Card",
       "Nickname": "Venomous Snake",
-      "Description": "Effect: Charging 1 · Ongoing 1 · Guidance 2 :\nTraverse Power +2.\nFight 3: Progress 2 | [1+] Exhaust 3\nAwareness 2: Vision +1\nTraverse 5: Recovery 1 | Ongoing 1 · Guidance 2 : Traverse Power +2.",
+      "Description": "Effect: Charging 1 · Ongoing 1 · Guidance 2 :\nTraverse Power +2.\nFight 3: Progress 2 | [1+] Exhaust 3\nUnlisted Action = 7+ (harder fallback: any tool can attempt it)\nAwareness 2: Vision +1\nTraverse 5: Recovery 1 | Ongoing 1 · Guidance 2 : Traverse Power +2.",
       "CardID": 106,
       "CustomDeck": {
         "1": {
@@ -182,7 +182,7 @@
     {
       "Name": "Card",
       "Nickname": "Crow Flock",
-      "Description": "Effect: While Revealed\nDread 1 : Awareness Difficulty +1.\nAwareness 2: Progress 1\n  Dread 2\nAwareness 4: Find F3\nTraverse 3: Vision +1",
+      "Description": "Effect: While Revealed\nDread 1 : Awareness Difficulty +1.\nAwareness 2: Progress 1\n  Dread 2\nUnlisted Action = 6+ (harder fallback: any tool can attempt it)\nAwareness 4: Find F3\nTraverse 3: Vision +1",
       "CardID": 201,
       "CustomDeck": {
         "2": {
@@ -199,7 +199,7 @@
     {
       "Name": "Card",
       "Nickname": "Thorny Thicket",
-      "Description": "Effect: While Revealed\nBlocking 1 : 1 challenge behind this one in Reveal Order cannot be Overcome.\nWork 3: Progress 2\nTraverse 5: Vision +1",
+      "Description": "Effect: While Revealed\nBlocking 1 : 1 challenge behind this one in Reveal Order cannot be Overcome.\nCraft 3: Progress 2\nUnlisted Action = 7+ (harder fallback: any tool can attempt it)\nTraverse 5: Vision +1",
       "CardID": 202,
       "CustomDeck": {
         "2": {
@@ -216,7 +216,7 @@
     {
       "Name": "Card",
       "Nickname": "Dense Undergrowth",
-      "Description": "Effect: While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty.\nWork 5: Find F4\nTraverse 4: Progress 1",
+      "Description": "Effect: While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty.\nCraft 5: Find F4\nUnlisted Action = 7+ (harder fallback: any tool can attempt it)\nTraverse 4: Progress 1",
       "CardID": 203,
       "CustomDeck": {
         "2": {
@@ -233,7 +233,7 @@
     {
       "Name": "Card",
       "Nickname": "Fallen Tree",
-      "Description": "Work 4: Rations 1\nTraverse 2: Progress 1\nAwareness 3: Recovery 1",
+      "Description": "Craft 4: Rations 1\nUnlisted Action = 6+ (harder fallback: any tool can attempt it)\nTraverse 2: Progress 1\nAwareness 3: Recovery 1",
       "CardID": 204,
       "CustomDeck": {
         "2": {
@@ -250,7 +250,7 @@
     {
       "Name": "Card",
       "Nickname": "Rocky Slope",
-      "Description": "Traverse 2: Progress 1\nTraverse 6: Find F1\nAwareness 3: Recovery 1",
+      "Description": "Traverse 2: Progress 1\nUnlisted Action = 8+ (harder fallback: any tool can attempt it)\nTraverse 6: Find F1\nAwareness 3: Recovery 1",
       "CardID": 205,
       "CustomDeck": {
         "2": {
@@ -267,7 +267,7 @@
     {
       "Name": "Card",
       "Nickname": "Rushing Stream",
-      "Description": "Traverse 3: Progress 2\nTraverse 4: Recovery 2\nWork 4: Vision +1",
+      "Description": "Traverse 3: Progress 2\nUnlisted Action = 6+ (harder fallback: any tool can attempt it)\nTraverse 4: Recovery 2\nCraft 4: Vision +1",
       "CardID": 206,
       "CustomDeck": {
         "2": {
@@ -284,7 +284,7 @@
     {
       "Name": "Card",
       "Nickname": "Muddy Ground",
-      "Description": "Effect: While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty.\nWork 3: Progress 2\nTraverse 4: Recovery 1",
+      "Description": "Effect: While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty.\nCraft 3: Progress 2\nUnlisted Action = 6+ (harder fallback: any tool can attempt it)\nTraverse 4: Recovery 1",
       "CardID": 301,
       "CustomDeck": {
         "3": {
@@ -301,7 +301,7 @@
     {
       "Name": "Card",
       "Nickname": "Fog Patch",
-      "Description": "Effect: While Revealed\nCovering 2 : The next challenge in Reveal Order has +2 Difficulty.\nAwareness 4: Recovery 2\nTraverse 6: Progress 1",
+      "Description": "Effect: While Revealed\nCovering 2 : The next challenge in Reveal Order has +2 Difficulty.\nAwareness 4: Recovery 2\nUnlisted Action = 8+ (harder fallback: any tool can attempt it)\nTraverse 6: Progress 1",
       "CardID": 302,
       "CustomDeck": {
         "3": {
@@ -318,7 +318,7 @@
     {
       "Name": "Card",
       "Nickname": "Steep Ravine",
-      "Description": "Traverse 8: Progress 3\nWork 5: Progress 2\nAwareness 3: Recovery 1",
+      "Description": "Traverse 8: Progress 3\nUnlisted Action = 10+ (harder fallback: any tool can attempt it)\nCraft 5: Progress 2\nAwareness 3: Recovery 1",
       "CardID": 303,
       "CustomDeck": {
         "3": {
@@ -335,7 +335,7 @@
     {
       "Name": "Card",
       "Nickname": "Ancient Tree",
-      "Description": "Effect: Ongoing 1 · Guidance 2 : Traverse Power +2.\nTraverse 3: Progress 2 | Ongoing 1 · Guidance 2 : Traverse Power +2.\nAwareness 4: Recovery 4",
+      "Description": "Effect: Ongoing 1 · Guidance 2 : Traverse Power +2.\nTraverse 3: Progress 2 | Ongoing 1 · Guidance 2 : Traverse Power +2.\nUnlisted Action = 6+ (harder fallback: any tool can attempt it)\nAwareness 4: Recovery 4",
       "CardID": 304,
       "CustomDeck": {
         "3": {
@@ -352,7 +352,7 @@
     {
       "Name": "Card",
       "Nickname": "Berry Bushes",
-      "Description": "Awareness 3: Rations 2\nWork 2: Rations 1\nTraverse 4: Rations 1",
+      "Description": "Awareness 3: Rations 2\nUnlisted Action = 6+ (harder fallback: any tool can attempt it)\nCraft 2: Rations 1\nTraverse 4: Rations 1",
       "CardID": 305,
       "CustomDeck": {
         "3": {
@@ -369,7 +369,7 @@
     {
       "Name": "Card",
       "Nickname": "Strange Tracks",
-      "Description": "Effect: While Revealed\nDread 1 : Awareness Difficulty +1.\nAwareness 3: Vision +1\nAwareness 5: Progress 2",
+      "Description": "Effect: While Revealed\nDread 1 : Awareness Difficulty +1.\nAwareness 3: Vision +1\nUnlisted Action = 7+ (harder fallback: any tool can attempt it)\nAwareness 5: Progress 2",
       "CardID": 306,
       "CustomDeck": {
         "3": {
@@ -386,7 +386,7 @@
     {
       "Name": "Card",
       "Nickname": "Stone Marker",
-      "Description": "Awareness 4: Find F2\nAwareness 5: Rations 1",
+      "Description": "Awareness 4: Find F2\nUnlisted Action = 7+ (harder fallback: any tool can attempt it)\nAwareness 5: Rations 1",
       "CardID": 401,
       "CustomDeck": {
         "4": {
@@ -403,7 +403,7 @@
     {
       "Name": "Card",
       "Nickname": "Hidden Hollow",
-      "Description": "Effect: Ongoing 1 · Prepare 2 : +2 Power for the next Approach.\nAwareness 2: Recovery 3\nTraverse 3: Progress 2 | Ongoing 1 · Prepare 2 : +2 Power for the next Approach.",
+      "Description": "Effect: Ongoing 1 · Prepare 2 : +2 Power for the next Approach.\nAwareness 2: Recovery 3\nUnlisted Action = 5+ (harder fallback: any tool can attempt it)\nTraverse 3: Progress 2 | Ongoing 1 · Prepare 2 : +2 Power for the next Approach.",
       "CardID": 402,
       "CustomDeck": {
         "4": {
@@ -420,7 +420,7 @@
     {
       "Name": "Card",
       "Nickname": "Tall Tree",
-      "Description": "Effect: Ongoing 1 · Guidance 1 : Traverse Power +1.\nTraverse 4: Vision +2 | Ongoing 1 · Guidance 1 : Traverse Power +1.\nAwareness 4: Progress 2",
+      "Description": "Effect: Ongoing 1 · Guidance 1 : Traverse Power +1.\nTraverse 4: Vision +2 | Ongoing 1 · Guidance 1 : Traverse Power +1.\nUnlisted Action = 6+ (harder fallback: any tool can attempt it)\nAwareness 4: Progress 2",
       "CardID": 403,
       "CustomDeck": {
         "4": {
@@ -437,7 +437,7 @@
     {
       "Name": "Card",
       "Nickname": "Overgrown Path",
-      "Description": "Effect: While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty.\nWork 4: Progress 2\nTraverse 3: Rations 1",
+      "Description": "Effect: While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty.\nCraft 4: Progress 2\nUnlisted Action = 6+ (harder fallback: any tool can attempt it)\nTraverse 3: Rations 1",
       "CardID": 404,
       "CustomDeck": {
         "4": {
@@ -454,7 +454,7 @@
     {
       "Name": "Card",
       "Nickname": "Clearing's Edge",
-      "Description": "Awareness 3: Vision +1\nAwareness 5: Progress 2",
+      "Description": "Awareness 3: Vision +1\nUnlisted Action = 7+ (harder fallback: any tool can attempt it)\nAwareness 5: Progress 2",
       "CardID": 405,
       "CustomDeck": {
         "4": {
