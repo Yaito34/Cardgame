@@ -20,30 +20,57 @@
     104,
     105,
     106,
-    107,
-    108,
-    109,
-    110,
-    111,
-    112,
-    113,
-    114,
-    115,
-    116,
-    117,
-    118,
-    119,
-    120,
-    121,
-    122,
-    123
+    201,
+    202,
+    203,
+    204,
+    205,
+    206,
+    301,
+    302,
+    303,
+    304,
+    305,
+    306,
+    401,
+    402,
+    403,
+    404,
+    405
   ],
   "CustomDeck": {
     "1": {
-      "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-      "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-      "NumWidth": 10,
-      "NumHeight": 3,
+      "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-1.png",
+      "BackURL": "https://example.invalid/tts/images/common-back.png",
+      "NumWidth": 3,
+      "NumHeight": 2,
+      "BackIsHidden": true,
+      "UniqueBack": false,
+      "Type": 0
+    },
+    "2": {
+      "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-2.png",
+      "BackURL": "https://example.invalid/tts/images/common-back.png",
+      "NumWidth": 3,
+      "NumHeight": 2,
+      "BackIsHidden": true,
+      "UniqueBack": false,
+      "Type": 0
+    },
+    "3": {
+      "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-3.png",
+      "BackURL": "https://example.invalid/tts/images/common-back.png",
+      "NumWidth": 3,
+      "NumHeight": 2,
+      "BackIsHidden": true,
+      "UniqueBack": false,
+      "Type": 0
+    },
+    "4": {
+      "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-4.png",
+      "BackURL": "https://example.invalid/tts/images/common-back.png",
+      "NumWidth": 3,
+      "NumHeight": 2,
       "BackIsHidden": true,
       "UniqueBack": false,
       "Type": 0
@@ -53,14 +80,14 @@
     {
       "Name": "Card",
       "Nickname": "Wolf",
-      "Description": "Effect: Grouping [Wolf] — Each other revealed Wolf adds +2 Difficulty to Fight (max +4 total).\nFight 6: Progress 3\n  [3+] Exhaust 1\nTraverse 2: Progress 1\n  [1+] Exhaust 1\nAwareness 4 (only when sole Wolf remains in set): Scout 2",
+      "Description": "Effect: While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed.\nFight 6: Progress 3\nTraverse 2: Progress 1\nAwareness 4 (only when alone): Progress 2",
       "CardID": 101,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -70,14 +97,14 @@
     {
       "Name": "Card",
       "Nickname": "Wolf",
-      "Description": "Effect: Grouping [Wolf] — Each other revealed Wolf adds +2 Difficulty to Fight (max +4 total).\nFight 6: Progress 3\n  [3+] Exhaust 1\nTraverse 2: Progress 1\n  [1+] Exhaust 1\nAwareness 4 (only when sole Wolf remains in set): Scout 2",
+      "Description": "Effect: While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed.\nFight 6: Progress 3\nTraverse 2: Progress 1\nAwareness 4 (only when alone): Progress 2",
       "CardID": 102,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -87,14 +114,14 @@
     {
       "Name": "Card",
       "Nickname": "Wolf",
-      "Description": "Effect: Grouping [Wolf] — Each other revealed Wolf adds +2 Difficulty to Fight (max +4 total).\nFight 6: Progress 3\n  [3+] Exhaust 1\nTraverse 2: Progress 1\n  [1+] Exhaust 1\nAwareness 4 (only when sole Wolf remains in set): Scout 2",
+      "Description": "Effect: While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed.\nFight 6: Progress 3\nTraverse 2: Progress 1\nAwareness 4 (only when alone): Progress 2",
       "CardID": 103,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -104,14 +131,14 @@
     {
       "Name": "Card",
       "Nickname": "Wild Boar",
-      "Description": "Effect: Wild Charge — On Reveal: +1 Difficulty for each other revealed Challenge.\nFight 8: Progress 3\n  [4+] Exhaust 2\nTraverse 4: Progress 1 · Scout 1\nWork 5: Progress 2",
+      "Description": "Effect: Charging 1 · Difficulty +2 :\n+2 Difficulty to this challenge's approaches.\nFight 8: Progress 3\nTraverse 3: Vision +2",
       "CardID": 104,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -121,14 +148,14 @@
     {
       "Name": "Card",
       "Nickname": "Wild Boar",
-      "Description": "Effect: Wild Charge — On Reveal: +1 Difficulty for each other revealed Challenge.\nFight 8: Progress 3\n  [4+] Exhaust 2\nTraverse 4: Progress 1 · Scout 1\nWork 5: Progress 2",
+      "Description": "Effect: Charging 1 · Difficulty +2 :\n+2 Difficulty to this challenge's approaches.\nFight 8: Progress 3\nTraverse 3: Vision +2",
       "CardID": 105,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -138,14 +165,14 @@
     {
       "Name": "Card",
       "Nickname": "Venomous Snake",
-      "Description": "Effect: Charging — After the first player Action this turn: +2 Difficulty to all approaches.\nFight 3: Progress 2\n  [1+] Exhaust 3\nAwareness 2: Scout 1\nTraverse 5: Recover 1\n  [2+] Exhaust 1",
+      "Description": "Effect: Charging 1 · Ongoing 1 · Guidance 2 :\nTraverse Power +2.\nFight 3: Progress 2 | [1+] Exhaust 3\nAwareness 2: Vision +1\nTraverse 5: Recovery 1 | Ongoing 1 · Guidance 2 : Traverse Power +2.",
       "CardID": 106,
       "CustomDeck": {
         "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -155,14 +182,14 @@
     {
       "Name": "Card",
       "Nickname": "Crow Flock",
-      "Description": "Effect: Scattering [Awareness] — On Overcome with Awareness: all other revealed Challenges gain +1 Difficulty.\nAwareness 2: Progress 1\nAwareness 4: Finding F3\nTraverse 3: Scout 1\nWork 4: Progress 1\n  [2+] Exhaust 1",
-      "CardID": 107,
+      "Description": "Effect: While Revealed\nDread 1 : Awareness Difficulty +1.\nAwareness 2: Progress 1\n  Dread 2\nAwareness 4: Find F3\nTraverse 3: Vision +1",
+      "CardID": 201,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "2": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-2.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -172,14 +199,14 @@
     {
       "Name": "Card",
       "Nickname": "Thorny Thicket",
-      "Description": "Effect: Blocking — While Revealed: no Challenge at a higher position in Reveal Order may be targeted by any Tool effect.\nWork 3: Progress 2\nTraverse 5: Scout 1\nAwareness 4: Progress 1",
-      "CardID": 108,
+      "Description": "Effect: While Revealed\nBlocking 1 : 1 challenge behind this one in Reveal Order cannot be Overcome.\nWork 3: Progress 2\nTraverse 5: Vision +1",
+      "CardID": 202,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "2": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-2.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -189,14 +216,14 @@
     {
       "Name": "Card",
       "Nickname": "Dense Undergrowth",
-      "Description": "Effect: Obstacle 1 — While Revealed: all other revealed Challenges have +1 Difficulty.\nWork 5: Finding F4\nTraverse 4: Progress 1\nFight 6: Progress 2\n  [2+] Exhaust 2",
-      "CardID": 109,
+      "Description": "Effect: While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty.\nWork 5: Find F4\nTraverse 4: Progress 1",
+      "CardID": 203,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "2": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-2.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -206,14 +233,14 @@
     {
       "Name": "Card",
       "Nickname": "Fallen Tree",
-      "Description": "Work 4: Rations 1\nTraverse 2: Progress 1\n  [1+] Exhaust 1\nAwareness 3: Recover 1 · Vision +1 (once)\nFight 5: Progress 2\n  [2+] Exhaust 2",
-      "CardID": 110,
+      "Description": "Work 4: Rations 1\nTraverse 2: Progress 1\nAwareness 3: Recovery 1",
+      "CardID": 204,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "2": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-2.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -223,14 +250,14 @@
     {
       "Name": "Card",
       "Nickname": "Rocky Slope",
-      "Description": "Traverse 2: Progress 1\nTraverse 6: Finding F1\nAwareness 3: Recover 1\nWork 5: Progress 1 · Scout 1",
-      "CardID": 111,
+      "Description": "Traverse 2: Progress 1\nTraverse 6: Find F1\nAwareness 3: Recovery 1",
+      "CardID": 205,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "2": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-2.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -240,14 +267,14 @@
     {
       "Name": "Card",
       "Nickname": "Rushing Stream",
-      "Description": "Traverse 3: Progress 2\nTraverse 4: Recover 2\nWork 4: Scout 1\nFight 5: Progress 1\n  [2+] Exhaust 2",
-      "CardID": 112,
+      "Description": "Traverse 3: Progress 2\nTraverse 4: Recovery 2\nWork 4: Vision +1",
+      "CardID": 206,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "2": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-2.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -257,14 +284,14 @@
     {
       "Name": "Card",
       "Nickname": "Muddy Ground",
-      "Description": "Effect: Obstacle 1 — While Revealed: all other revealed Challenges have +1 Difficulty.\nWork 3: Progress 2\nTraverse 4: Recover 1\nAwareness 5: Scout 1",
-      "CardID": 113,
+      "Description": "Effect: While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty.\nWork 3: Progress 2\nTraverse 4: Recovery 1",
+      "CardID": 301,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "3": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-3.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -274,14 +301,14 @@
     {
       "Name": "Card",
       "Nickname": "Fog Patch",
-      "Description": "Effect: Covering 2 — While Revealed: the next Challenge in Reveal Order has +2 Difficulty.\nAwareness 4: Recover 2\nTraverse 6: Progress 1\nWork 5: Progress 1",
-      "CardID": 114,
+      "Description": "Effect: While Revealed\nCovering 2 : The next challenge in Reveal Order has +2 Difficulty.\nAwareness 4: Recovery 2\nTraverse 6: Progress 1",
+      "CardID": 302,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "3": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-3.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -291,14 +318,14 @@
     {
       "Name": "Card",
       "Nickname": "Steep Ravine",
-      "Description": "Traverse 8: Progress 3\nWork 5: Progress 2\nAwareness 3: Recover 1\nFight 7: Progress 2\n  [3+] Exhaust 2",
-      "CardID": 115,
+      "Description": "Traverse 8: Progress 3\nWork 5: Progress 2\nAwareness 3: Recovery 1",
+      "CardID": 303,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "3": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-3.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -308,14 +335,14 @@
     {
       "Name": "Card",
       "Nickname": "Ancient Tree",
-      "Description": "Effect: Shelter 4 — Last Challenge, On Overcome with Awareness: Recover 4 Exhaustion.\nTraverse 3: Progress 2\nAwareness 4: Recover 2\nWork 6: Progress 2\n  [1+] Exhaust 1",
-      "CardID": 116,
+      "Description": "Effect: Ongoing 1 · Guidance 2 : Traverse Power +2.\nTraverse 3: Progress 2 | Ongoing 1 · Guidance 2 : Traverse Power +2.\nAwareness 4: Recovery 4",
+      "CardID": 304,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "3": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-3.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -325,14 +352,14 @@
     {
       "Name": "Card",
       "Nickname": "Berry Bushes",
-      "Description": "Awareness 3: Rations 2\n  [2+] Exhaust 2\nWork 2: Rations 1\nTraverse 4: Rations 1",
-      "CardID": 117,
+      "Description": "Awareness 3: Rations 2\nWork 2: Rations 1\nTraverse 4: Rations 1",
+      "CardID": 305,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "3": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-3.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -342,14 +369,14 @@
     {
       "Name": "Card",
       "Nickname": "Strange Tracks",
-      "Description": "Effect: Dread 1 — While Revealed: all Awareness approaches on all revealed Challenges have +1 Difficulty.\nAwareness 3: Scout 1\nAwareness 5: Progress 2\nTraverse 4: Progress 1",
-      "CardID": 118,
+      "Description": "Effect: While Revealed\nDread 1 : Awareness Difficulty +1.\nAwareness 3: Vision +1\nAwareness 5: Progress 2",
+      "CardID": 306,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "3": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-3.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -359,14 +386,14 @@
     {
       "Name": "Card",
       "Nickname": "Stone Marker",
-      "Description": "Awareness 4: Finding F2\nAwareness 5: Rations 1\nTraverse 5: Progress 1",
-      "CardID": 119,
+      "Description": "Awareness 4: Find F2\nAwareness 5: Rations 1",
+      "CardID": 401,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "4": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-4.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -376,14 +403,14 @@
     {
       "Name": "Card",
       "Nickname": "Hidden Hollow",
-      "Description": "Effect: Safe Rest 3 — Last Challenge: Recover 3 Exhaustion.\nAwareness 2: Recover 1\nTraverse 3: Progress 2\nWork 4: Progress 1",
-      "CardID": 120,
+      "Description": "Effect: Ongoing 1 · Prepare 2 : +2 Power for the next Approach.\nAwareness 2: Recovery 3\nTraverse 3: Progress 2 | Ongoing 1 · Prepare 2 : +2 Power for the next Approach.",
+      "CardID": 402,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "4": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-4.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -393,14 +420,14 @@
     {
       "Name": "Card",
       "Nickname": "Tall Tree",
-      "Description": "Traverse 4: Scout 2\nAwareness 4: Progress 2 · Vision +1 (once)\nWork 5: Progress 1 · Scout 1",
-      "CardID": 121,
+      "Description": "Effect: Ongoing 1 · Guidance 1 : Traverse Power +1.\nTraverse 4: Vision +2 | Ongoing 1 · Guidance 1 : Traverse Power +1.\nAwareness 4: Progress 2",
+      "CardID": 403,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "4": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-4.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -410,14 +437,14 @@
     {
       "Name": "Card",
       "Nickname": "Overgrown Path",
-      "Description": "Effect: Obstacle 1 — While Revealed: all other revealed Challenges have +1 Difficulty.\nWork 4: Progress 2\nTraverse 3: Rations 1\nFight 5: Progress 1\n  [1+] Exhaust 1",
-      "CardID": 122,
+      "Description": "Effect: While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty.\nWork 4: Progress 2\nTraverse 3: Rations 1",
+      "CardID": 404,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "4": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-4.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -427,14 +454,14 @@
     {
       "Name": "Card",
       "Nickname": "Clearing's Edge",
-      "Description": "Awareness 3: Scout 1 · Vision +1 (once)\nAwareness 5: Progress 2\nTraverse 4: Progress 1",
-      "CardID": 123,
+      "Description": "Awareness 3: Vision +1\nAwareness 5: Progress 2",
+      "CardID": 405,
       "CustomDeck": {
-        "1": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 3,
+        "4": {
+          "FaceURL": "https://example.invalid/tts/images/zone-deck-1-fronts-4.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0

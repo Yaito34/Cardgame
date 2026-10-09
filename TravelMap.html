@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Travel Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Macondo&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="TravelBook.css" />
+</head>
+<body class="tb-map-page">
+  <!--
+    Cluster map for TravelBook.md. In the simulator, a click lands on that area at the table.
+    Standalone: marks still open TravelBook.html?page=A#.
+    DATA: loads TravelBook.md (npm run serve:travel). Fallback: TravelBook-data.js
+  -->
+  <header class="tb-chrome no-print">
+    <h1 class="tb-chrome-title">Travel Map</h1>
+    <p class="tb-chrome-nav tb-chrome-nav--standalone">
+      <a href="TravelBook.html">Book</a>
+      ·
+      <a href="TravelMap.html" aria-current="page">Map</a>
+    </p>
+    <p class="tb-chrome-nav tb-chrome-nav--embed">
+      <button type="button" id="tb-return-table">Table</button>
+      ·
+      <a href="TravelBook.html?embed=1">Book</a>
+    </p>
+    <p class="tb-chrome-hint tb-embed-hint">Click an area to go there on the table. Table closes the map without moving.</p>
+  </header>
+  <div class="tb-wrap" id="tb-wrap" data-tb-source="TravelBook.md"></div>
+  <script type="module" src="travel-book-parse.js"></script>
+  <script src="TravelBook-data.js"></script>
+  <script src="TravelBook-ui.js?v=maplines" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var q = new URLSearchParams(window.location.search);
+      var embed = q.get('embed') === '1' || q.get('embed') === 'true';
+      if (embed) document.body.classList.add('tb-embed');
+      if (window.TravelBook) {
+        window.TravelBook.mount(document.getElementById('tb-wrap'), {
+          source: 'TravelBook.md',
+          mode: 'map',
+          embed: embed
+        });
+      }
+      var ret = document.getElementById('tb-return-table');
+      if (ret) {
+        ret.addEventListener('click', function () {
+          if (window.parent && window.parent !== window) {
+            window.parent.postMessage({ type: 'tb-sim', action: 'close' }, '*');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

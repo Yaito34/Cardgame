@@ -34,7 +34,7 @@
     {
       "Name": "Card",
       "Nickname": "Camp Knife",
-      "Description": "Fight 2 · Uses 3",
+      "Description": "Fight 2",
       "CardID": 101,
       "CustomDeck": {
         "1": {
@@ -51,7 +51,7 @@
     {
       "Name": "Card",
       "Nickname": "Hand Axe",
-      "Description": "On Use · Scout 1\nWork 4 · Uses 2",
+      "Description": "On Use · Scout 1\nWork 4",
       "CardID": 102,
       "CustomDeck": {
         "1": {
@@ -68,7 +68,7 @@
     {
       "Name": "Card",
       "Nickname": "Trail Rope",
-      "Description": "Area · Uses 2\nTraverse 4 : Scout 1\nWork 3",
+      "Description": "Traverse 4 : Scout 1\nWork 3",
       "CardID": 103,
       "CustomDeck": {
         "1": {
@@ -85,7 +85,7 @@
     {
       "Name": "Card",
       "Nickname": "Warded Charm",
-      "Description": "Area · Uses 2\nAwareness 4\nAwareness 2 : Sight +1",
+      "Description": "Awareness 4\nAwareness 2 : Sight +1",
       "CardID": 104,
       "CustomDeck": {
         "1": {

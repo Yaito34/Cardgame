@@ -1,0 +1,104 @@
+/*
+  Play-HUD art track. Saved so it can be turned back on.
+
+  What it is: each path card keeps a 176px picture. Forest and castle
+  pictures repeat horizontally. applyHudForestArtShift (see
+  archive/art-track-hud.js) sets --card-art-shift so neighbouring cards
+  show the next slice of the same picture. The challenge name sits on
+  that picture.
+
+  Still required, and still in the live files (do not delete):
+    card-styles.css
+      .card.card-challenge-stack .card-art
+      .card.card-challenge-stack .card-art-pic
+      .card.card-challenge-stack[data-face-art="forest"] .card-art-pic
+      .card.card-challenge-stack[data-face-art="castle"] .card-art-pic
+      background-position: var(--card-art-shift, 0px) 0
+    card-renderer.js
+      challengeArtNameHTML, the .card-art markup in renderChallengeCard
+      and renderForestCardBack, applyCardPictureBackgrounds
+
+  To restore in simulator.html:
+    1. Remove the "Art track off" style block.
+    2. Remove #book-art-wash and paintBookArtWash.
+    3. Stop calling tuckHudChallengeName from hudSlotInner.
+    4. The rules below are the ones the live file already had. If a
+       later edit changed them, paste these back over the path-art
+       rules in simulator.html.
+*/
+
+/* :root */
+/* --path-art-count: 6; */
+
+/* Picture strip height. Effect column stays tall; the picture is 176px. */
+/*
+.hud-path-row {
+  --path-card-h: 660;
+}
+*/
+
+/* 20% black on the pictures, plus 1 screen mm of the same tint past every edge. */
+.hud-path-row::before {
+  content: '';
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  background: transparent;
+  left: 0;
+  top: 0;
+  width: calc(var(--path-slot-w) * var(--path-art-count) - 2px * (var(--path-art-count) - 1));
+  height: calc(176px * var(--path-slot-w) / 315px);
+  box-shadow: 0 0 0 var(--screen-mm) rgba(0, 0, 0, 0.2);
+}
+
+#hud-path-track .card.card-challenge-stack .card-art {
+  flex: 0 0 176px;
+  height: 176px;
+}
+
+#hud-path-hero-slot .card.card-challenge-stack .card-art {
+  flex: 0 0 176px;
+  height: 176px;
+}
+
+#hud-path-track .card.card-challenge-stack .card-art-name .card-name {
+  font-size: 1.75rem;
+}
+
+#hud-path-track .card.card-challenge-stack .card-art-name .card-name,
+#hud-path-hero-slot .card.card-challenge-stack .card-art-name .card-name {
+  -webkit-text-stroke: 4px #000;
+  paint-order: stroke fill;
+  text-shadow:
+    0 2px 0 #000,
+    0 -2px 0 #000,
+    2px 0 0 #000,
+    -2px 0 0 #000;
+}
+
+#hud-path-track .card.card-challenge-stack .card-art,
+#hud-path-track .table-card-inner.face-down {
+  background: transparent;
+  box-shadow: none;
+}
+
+#hud-path-track .card.card-challenge-stack .card-art-pic::after,
+#hud-path-hero-slot .card.card-challenge-stack .card-art-pic::after {
+  display: none;
+}
+
+.hud-path-slot--hero .card.card-challenge-stack .card-art-pic,
+.hud-path-track .hud-path-slot .card.card-challenge-stack .card-art-pic {
+  opacity: 1;
+}
+
+/* Unrevealed and destination slices stay in the panorama, darkened. */
+#hud-path-track .hud-path-slot.is-out-of-view:not(.is-path-choice):not(.is-empty-close):not(.is-empty-vision) .card.card-challenge-stack .card-art::after,
+#hud-path-track .hud-path-slot.is-path-dest .card.card-challenge-stack .card-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  z-index: 5;
+}

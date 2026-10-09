@@ -1,0 +1,165 @@
+TTS Update Steps (GitHub Pages)
+================================
+Short Steps:
+
+1. Change card data
+2. Run **serve-cards.bat** to open **cards.html**
+3. **Export TTS PNGs** (saves to **TTS PNGS/**)
+4. Copy exports into Git Folder and push to GitHub:   sync-tts-to-github.bat 
+   (same as `npm run sync:tts-images` / `node scripts/publish-tts-from-viewer-export.mjs --mirror-all`, then `git add docs/tts`, `git commit -m "Update TTS card art"`, `git push`).
+  If you do **not** want an automatic `git push`, use **sync-tts-images.bat** and run the git commands yourself.
+6. Wait for the Github PAge to update Correct Path: https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png
+7. Clear image cache: C:\Users\Sebastian\Documents\My Games\Tabletop Simulator\Mods\Images
+
+Base URL (GitHub Pages)
+----------------------
+https://yaito34.github.io/Cardgame/tts/
+
+If you publish under a different host, replace that prefix everywhere below.
+
+Local card PNGs (Card Viewer → TTS PNGS folder)
+-----------------------------------------------
+Recommended — built-in dev server (writes straight into **TTS PNGS**, no folder picker):
+
+  Double-click **serve-cards.bat** in the project folder, or run:  npm run serve:cards
+
+Then open the URL printed in the console (**http://127.0.0.1:8765/cards.html** by default; if that port is busy the server uses the next free port).
+
+In the card viewer, use the filter bar to show the cards you want (e.g. **All Cards** or **Challenges** only). Click **Export TTS PNGs**:
+visible `.card` faces are captured with **html2canvas** (loads from CDN), tiled **3×2** (six faces per PNG, no gaps between cells), base64-posted to the server, and saved as **TTS PNGS/tts-sheet-NN.png**. Status text shows progress (**Exporting… sheet i/n**, then **Uploading…**). Re-export overwrites the same names. Number of files is **ceil(visible cards ÷ 6)**.
+
+Requires the Node server (same origin) so **POST /api/tts-sheets** works — **file://** will not. Optional: set environment variable **CARD_VIEWER_PORT** to change the port.
+
+Alternative (no browser): **node scripts/build-tts.mjs** writes higher-res sheets and object JSON under **dist/tts/** (see publish workflow below), not **TTS PNGS/**.
+
+Publish viewer export → docs/tts (GitHub Pages)
+-----------------------------------------------
+**One command — keep `docs/tts/images` in sync with `TTS PNGS`** (same PNG names; extra PNGs in **docs/tts/images** that are not in **TTS PNGS** are removed, except **common-back.png** and **intro-tts-sheet-01.png**):
+
+  npm run sync:tts-images
+
+  node scripts/publish-tts-from-viewer-export.mjs --mirror-all
+
+  Double-click **sync-tts-images.bat** (uses **node** only; no **npm.ps1**).
+
+After **Export TTS PNGs** into **TTS PNGS/**, per-deck publish copies into **docs/tts/images/** using the **same filenames** as in **TTS PNGS** for the zone deck (**tts-sheet-01.png**, …). Starting tools use **intro-tts-sheet-01.png** in **docs/tts** (from **TTS PNGS/tts-sheet-01.png** after an intro-only export, or put **intro-tts-sheet-01.png** in **TTS PNGS**). Every **FaceURL** in **docs/tts/objects/*.json** and **manifest.json** is updated to match.
+
+For the intro deck face, either run **--deck=intro-tools** after an intro export, or keep **intro-tts-sheet-01.png** inside **TTS PNGS/** so **sync:tts-images** copies it (and **tts-sheet-01.png** can stay the zone sheet).
+
+One-time rename if you still have old filenames (**1.png** … **5.png**, **zone-deck-1-fronts-*.png**, **intro-tools-fronts.png**):
+
+  node scripts/publish-tts-from-viewer-export.mjs --migrate-legacy
+
+Then export + publish as usual:
+
+  npm run publish:tts-from-export -- --deck=zone-deck-1
+  npm run publish:tts-from-export -- --deck=intro-tools
+
+  If PowerShell blocks npm ("Ausführung von Skripts … deaktiviert"), use **cmd.exe** instead, or run **node** directly:
+  node scripts/publish-tts-from-viewer-export.mjs --deck=zone-deck-1
+  From cmd in the project folder: **publish-tts-from-export.bat zone-deck-1** (same for **intro-tools**).
+
+**Per deck:** In the card viewer, filter so **only** that deck’s cards are visible, in **deck order** (e.g. **Challenges** for zone deck 1, **Starting Tools** for the four-card intro deck). Export, then run the matching command **immediately** so **tts-sheet-01.png**… still belong to that deck (later exports overwrite those filenames).
+
+The script needs **ceil(DeckIDs ÷ 6)** contiguous sheets (**tts-sheet-01.png** …). If **TTS PNGS/** still contains extra sheets from an older export, the script uses the **first N** and prints a warning; delete unused **tts-sheet-*.png** files to avoid mistakes.
+
+Optional: **--base-url=https://user.github.io/Repo/tts** (no trailing slash). If omitted, the base URL is taken from **docs/tts/manifest.json** for that deck.
+
+**Upload to GitHub** (after the script has written **docs/tts/** — Git does not read **TTS PNGS/** directly):
+
+  git add docs/tts
+  git commit -m "Update TTS card art"
+  git push
+
+Same steps also appear under **Repeat workflow** → **Path A** step 4 below.
+
+All TTS-related URLs (copy/paste)
+---------------------------------
+Manifest (index of decks + embedded Face/Back links after each publish):
+https://yaito34.github.io/Cardgame/tts/manifest.json
+
+Saved object JSON (spawn/import deck as one object; easiest—images are inside JSON):
+https://yaito34.github.io/Cardgame/tts/objects/zone-deck-1.json
+https://yaito34.github.io/Cardgame/tts/objects/intro-tools.json
+
+Shared card back (Custom Deck “Back” field if you build decks by hand):
+https://yaito34.github.io/Cardgame/tts/images/common-back.png
+
+Face spritesheets (Custom Deck “Face” — one URL per sheet; grid 3×2, six cells per PNG):
+https://yaito34.github.io/Cardgame/tts/images/tts-sheet-01.png
+https://yaito34.github.io/Cardgame/tts/images/tts-sheet-02.png
+https://yaito34.github.io/Cardgame/tts/images/tts-sheet-03.png
+https://yaito34.github.io/Cardgame/tts/images/tts-sheet-04.png
+https://yaito34.github.io/Cardgame/tts/images/intro-tts-sheet-01.png
+
+**tts-sheet-01…04** = Zone Deck 1; **intro-tts-sheet-01** = Starting Tools (four tools, two cells empty).
+
+Manual Custom Deck settings (only if you are NOT using the object JSON)
+-----------------------------------------------------------------------
+- Type: Rectangle (Rounded) [or your preference]
+- Face: one of the face URLs above (zone deck needs multiple Face URLs / sheets OR use JSON).
+- Back: common-back URL above.
+- Width: 3
+- Height: 2
+- Number: 6 per face image (zone sheet 4 has only 5 real cards; last slot is blank).
+  For intro-tools only: Number = 4 if TTS allows partial grids; otherwise 6 with blanks.
+
+One-time checks
+---------------
+1) GitHub Pages is enabled for this repo:
+   - Branch: main
+   - Folder: /docs
+2) Open each URL above in a browser; every link should load (JSON or PNG), not 404.
+
+Repeat workflow (every card change)
+-----------------------------------
+**Path A — Card viewer export (cards.md → cards.html):**
+1) Edit **cards.md** (and related files); refresh **cards.html** via **serve-cards.bat**.
+2) Export **TTS PNGs** for each deck (filter + order as in “Publish viewer export” above).
+3) Run one of:
+   - **Full folder sync (recommended after export):** **npm run sync:tts-images** (or **sync-tts-images.bat** / **node … --mirror-all**) — same names as **TTS PNGS**, prunes extras in **docs/tts/images**.
+   - **Per deck only:** **npm run publish:tts-from-export -- --deck=zone-deck-1** and/or **--deck=intro-tools** (add **--base-url=…** if your Pages URL changed).
+   (Intro file naming: see “Publish viewer export” above.)
+4) Commit and push: **git add docs/tts** → **git commit** → **git push**
+5) Wait for GitHub Pages; hard-refresh URLs if art looks stale in TTS.
+
+**Path B — Headless Sharp build (cards.json + Cardtemplate):**
+Uses slug-based filenames under **dist/tts** (e.g. **zone-deck-1-fronts-1.png**), not **tts-sheet-01.png**. If you rely on the viewer-export mirror names in **docs/tts**, do not mix Path B into the same folder without updating **build-tts.mjs** to match.
+
+1) Edit card data/files locally.
+2) Rebuild + publish static output:
+   cmd /c npm run publish:tts -- --base-url=https://yaito34.github.io/Cardgame/tts/
+3) Commit and push updated assets:
+   git add docs/tts scripts/build-tts.mjs
+   git commit -m "Update TTS assets"
+   git push
+4) Wait 1-2 minutes for GitHub Pages deployment.
+5) Hard refresh browser (Ctrl+F5) and re-open the URLs in the list above.
+
+Import notes for Tabletop Simulator
+-----------------------------------
+- Prefer importing the object JSON URLs so Face/Back/CardID/multi-sheet data stay correct.
+- Local copies (same paths): docs/tts/objects/*.json and docs/tts/images/*.png after publish.
+- Per face image, generated JSON uses:
+  NumWidth = 3
+  NumHeight = 2
+  (6 card faces per PNG; unused cells on the last sheet are transparent.)
+
+Do you paste Face/Back URLs on every card update?
+-------------------------------------------------
+No, as long as sheet filenames stay the same (e.g. **tts-sheet-01.png**, **intro-tts-sheet-01.png**). You keep one
+imported deck/object that points at those URLs; after publish+push, the hosted PNGs
+are replaced in place. Tabletop Simulator may cache images: if art looks stale, restart
+TTS or clear its image cache (modding/cache options depending on version), or load the
+image URL once in a browser with a hard refresh to confirm the new file is live.
+
+Sharper text / image resolution
+--------------------------------
+Edit scripts/build-tts.mjs: constants CARD_W and CARD_H (default 880x630, 2x the old size).
+Larger values mean sharper cards and heavier PNG files. Rebuild and redeploy after changing.
+
+Troubleshooting
+---------------
+- Root URL 404 (https://yaito34.github.io/Cardgame/) is OK if /tts links work.
+- If textures are pink/missing in TTS, verify the exact FaceURL/BackURL open in browser.
+- If a URL 404s, run publish again, then commit+push docs/tts and wait for deploy.

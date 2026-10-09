@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Example — page styles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Germania+One&family=Macondo&family=Macondo+Swash+Caps&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100vh;
+      padding: 2rem 1.25rem 3rem;
+      font-family: 'Macondo', cursive;
+      color: #e8d5a0;
+      background-color: #4a3824;
+      background-image:
+        radial-gradient(ellipse 420px 280px at 18% 16%, rgba(28, 14, 6, 0.22), transparent 72%),
+        radial-gradient(ellipse 380px 260px at 82% 78%, rgba(18, 8, 4, 0.2), transparent 74%),
+        repeating-linear-gradient(0deg, rgba(18, 8, 4, 0.12) 0 1px, transparent 1px 13px),
+        repeating-linear-gradient(90deg, rgba(18, 8, 4, 0.07) 0 1px, transparent 1px 17px),
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.28  0 0 0 0 0.2  0 0 0 0 0.1  0 0 0 0.2 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"),
+        linear-gradient(160deg, #5c452c 0%, #4a3824 55%, #3d2e1c 100%);
+      background-size: auto, auto, auto, auto, 180px 180px, auto;
+      background-attachment: fixed;
+    }
+    h1.page-title {
+      margin: 0 0 1.6rem;
+      text-align: center;
+      font-family: 'Macondo', cursive;
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #e8d5a0;
+    }
+    .board {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 2.2rem 1.6rem;
+    }
+    .sample {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+      width: 360px;
+    }
+    .caption {
+      margin: 0;
+      text-align: center;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+      color: #f0e6d0;
+    }
+    .caption span {
+      display: block;
+      margin-top: 0.15rem;
+      letter-spacing: 0.04em;
+      text-transform: none;
+      font-size: 0.82rem;
+      color: #c4a574;
+    }
+
+    .card {
+      position: relative;
+      width: 360px;
+      height: 503px;
+      border-radius: 3px;
+      overflow: hidden;
+      background: #0e0c0a;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55);
+    }
+    .art {
+      position: absolute;
+      inset: 0 0 48% 0;
+      background:
+        linear-gradient(to bottom, rgba(8, 10, 12, 0.28), transparent 22%),
+        url('CardPictures/Old Forest.jpg') center 38% / cover no-repeat;
+    }
+    .art::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(to right, rgba(6, 8, 10, 0.45), transparent 16%, transparent 84%, rgba(6, 8, 10, 0.45)),
+        linear-gradient(to bottom, transparent 48%, var(--fade, rgba(90, 68, 42, 0.2)) 74%, var(--fade-end, #5e4830) 100%);
+    }
+    .name {
+      position: absolute;
+      top: 12px;
+      left: 0;
+      right: 0;
+      margin: 0;
+      text-align: center;
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 2.05rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      color: #fff6e4;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95), 0 0 16px rgba(0, 0, 0, 0.75);
+      z-index: 2;
+    }
+    .page {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 58%;
+      z-index: 1;
+      color: #1c120c;
+      clip-path: polygon(
+        0% 28px,
+        4% 14px, 8% 34px, 13% 10px, 19% 24px, 24% 7px,
+        31% 30px, 37% 13px, 44% 26px, 49% 8px, 56% 22px,
+        62% 12px, 68% 32px, 74% 9px, 81% 24px, 87% 12px,
+        93% 28px, 100% 16px,
+        100% 100%, 0% 100%
+      );
+      background: var(--page, linear-gradient(180deg, #6e5538 0%, #5c4630 46%, #4a3826 100%));
+      box-shadow: inset 0 12px 18px rgba(20, 12, 6, 0.35);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 16px 10px;
+    }
+    .lines {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+    }
+    .flavor {
+      font-size: 1.2rem;
+      line-height: 1.05;
+      color: inherit;
+    }
+    .bar {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      min-height: 2.1rem;
+      margin-top: 3px;
+      padding: 0.12rem 0.6rem 0.12rem 0.45rem;
+      background: var(--bar, linear-gradient(180deg, #8d6d48, #7a5c3c));
+      border: 1.5px solid rgba(36, 22, 12, 0.55);
+      border-radius: 0.4rem;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.28rem;
+      font-weight: 700;
+      font-size: 1.12rem;
+      color: inherit;
+    }
+    .icon {
+      position: relative;
+      width: 1.5rem;
+      height: 1.5rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .icon::before {
+      content: '';
+      position: absolute;
+      inset: -0.34rem;
+      border-radius: 50%;
+    }
+    .icon img {
+      position: relative;
+      z-index: 1;
+      width: 1.35rem;
+      height: 1.35rem;
+    }
+    .icon.fight::before {
+      background: radial-gradient(circle, rgba(200, 32, 28, 0.86) 0%, rgba(200, 32, 28, 0.4) 48%, transparent 76%);
+    }
+    .icon.traverse::before {
+      background: radial-gradient(circle, rgba(48, 140, 28, 0.86) 0%, rgba(48, 140, 28, 0.4) 48%, transparent 76%);
+    }
+    .out { margin-left: 0.3rem; font-size: 1.05rem; }
+    .foot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      padding-top: 4px;
+    }
+    .danger {
+      font-family: 'Germania One', fantasy;
+      font-size: 1.65rem;
+      line-height: 1;
+      color: #c41212;
+    }
+    .kind {
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--kind, #cbb896);
+    }
+
+    /* 1 — current dim firelight */
+    .v-current {
+      --fade: rgba(90, 68, 42, 0.25);
+      --fade-end: #5e4830;
+      --page: linear-gradient(180deg, #6e5538 0%, #5c4630 46%, #4a3826 100%);
+      --bar: linear-gradient(180deg, #8d6d48, #7a5c3c);
+      --kind: #cbb896;
+    }
+
+    /* 2 — reading paper: dark ink, warmer page, held back from glare */
+    .v-paper {
+      --fade: rgba(176, 144, 96, 0.35);
+      --fade-end: #b09064;
+      --page: linear-gradient(180deg, #c8ae84 0%, #b49668 55%, #a68458 100%);
+      --bar: linear-gradient(180deg, #e4d2b0, #d4c09a);
+      --kind: #5a4030;
+      color: #1a1008;
+    }
+    .v-paper .page { box-shadow: inset 0 10px 16px rgba(70, 40, 12, 0.18); }
+
+    /* 3 — lantern: dark page, a warm pool only behind the writing */
+    .v-lantern {
+      --fade: rgba(32, 22, 12, 0.55);
+      --fade-end: #2a2016;
+      --page:
+        radial-gradient(ellipse 68% 50% at 50% 42%, #e4d3ae 0%, #c4a46e 34%, #3a2c1c 62%, #241910 100%);
+      --bar: linear-gradient(180deg, #f0e2c6, #e4d2ae);
+      --kind: #2e2014;
+      color: #1a1008;
+    }
+
+    /* 4 — ink on one sheet: no pale boxes */
+    .v-ink {
+      --fade: rgba(150, 116, 70, 0.3);
+      --fade-end: #9a7c52;
+      --page: linear-gradient(180deg, #b4966c 0%, #9a7c52 50%, #866844 100%);
+      --kind: #3e2c1c;
+      color: #1a1008;
+    }
+    .v-ink .bar {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      border-bottom: 1.5px solid rgba(28, 16, 8, 0.4);
+      box-shadow: none;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    /* 4b — drawn ink: pen strokes, shadow where the painting meets the page */
+    .v-drawn {
+      --page: linear-gradient(180deg, #1a1410 0%, #5a4030 4%, #9a7c52 9%, #8a6c48 100%);
+      --kind: #3a2a1c;
+      color: #24160f;
+    }
+    .v-drawn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      background:
+        linear-gradient(to right, rgba(8, 6, 4, 0.8), transparent 11px),
+        linear-gradient(to left, rgba(8, 6, 4, 0.8), transparent 11px),
+        linear-gradient(to bottom, rgba(8, 6, 4, 0.55), transparent 11px),
+        linear-gradient(to top, rgba(8, 6, 4, 0.72), transparent 11px);
+    }
+    .v-drawn .art::after {
+      background:
+        linear-gradient(to bottom,
+          transparent 90%,
+          rgba(8, 6, 4, 0.45) 95%,
+          #1a1410 100%);
+    }
+    .v-drawn .page {
+      padding-top: 16px;
+      clip-path: polygon(
+        0% 14px,
+        9% 11px, 18% 16px, 29% 10px, 41% 15px, 53% 11px,
+        66% 16px, 78% 10px, 89% 15px, 100% 12px,
+        100% 100%, 0% 100%
+      );
+      box-shadow: inset 0 7px 6px rgba(6, 4, 3, 0.35);
+    }
+    .v-drawn .flavor,
+    .v-drawn .chip,
+    .v-drawn .out,
+    .v-drawn .kind,
+    .v-drawn .danger {
+      font-family: 'Caveat', cursive;
+      font-weight: 600;
+      text-shadow: 0.4px 0.5px 0 rgba(40, 18, 8, 0.28);
+    }
+    .v-drawn .flavor {
+      font-size: 1.72rem;
+      line-height: 0.9;
+    }
+    .v-drawn .lines > div:first-child .flavor { transform: rotate(-1.1deg); }
+    .v-drawn .lines > div:last-child .flavor { transform: rotate(0.7deg); }
+    .v-drawn .chip,
+    .v-drawn .out { font-size: 1.45rem; }
+    .v-drawn .bar {
+      position: relative;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      padding-left: 2px;
+      padding-right: 0;
+      min-height: 2.35rem;
+    }
+    .v-drawn .pen {
+      position: absolute;
+      left: -2px;
+      right: 4px;
+      bottom: 1px;
+      width: calc(100% + 2px);
+      height: 10px;
+      overflow: visible;
+      pointer-events: none;
+    }
+    .v-drawn .pen path {
+      fill: none;
+      stroke: #2a160e;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vector-effect: non-scaling-stroke;
+    }
+    .v-drawn .pen .bleed {
+      stroke-width: 2.6;
+      opacity: 0.22;
+    }
+    .v-drawn .pen .line { stroke-width: 1.25; }
+    .v-drawn .danger {
+      font-size: 2.15rem;
+      color: #9a1a14;
+      transform: rotate(-2deg);
+      text-shadow: 0.6px 0.7px 0 rgba(60, 10, 8, 0.25);
+    }
+    .v-drawn .kind {
+      font-size: 1.15rem;
+      letter-spacing: 0.06em;
+      transform: rotate(0.8deg);
+    }
+
+    /* 4c — drawn ink plus a faint centered round halo */
+    .v-glow .page::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(
+        circle at 50% 58%,
+        rgba(255, 236, 206, 0.5) 0%,
+        rgba(255, 220, 170, 0.22) 34%,
+        rgba(255, 210, 160, 0) 68%
+      );
+    }
+    .v-glow .lines,
+    .v-glow .foot {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* 5 — night ink: light writing on a dark page */
+    .v-night {
+      --fade: rgba(16, 12, 8, 0.4);
+      --fade-end: #1a1612;
+      --page: linear-gradient(180deg, #2a241c 0%, #1c1814 55%, #14110e 100%);
+      --bar: linear-gradient(180deg, #3a3228, #2e2820);
+      --kind: #c4b090;
+      color: #f4efe6;
+    }
+    .v-night .bar { border-color: rgba(210, 190, 150, 0.28); }
+    .v-night .danger { color: #e23a32; }
+  </style>
+</head>
+<body>
+  <h1 class="page-title">Wolf · seven pages</h1>
+  <div class="board">
+    <section class="sample">
+      <p class="caption">Dim firelight <span>current</span></p>
+      <article class="card v-current">
+        <div class="art"></div>
+        <h2 class="name">Wolf</h2>
+        <div class="page">
+          <div class="lines">
+            <div>
+              <div class="flavor">Hunt</div>
+              <div class="bar"><span class="chip"><span class="icon fight"><img src="assets/icons/fight.png" alt=""></span>5</span><span class="out">🍞 +1</span></div>
+            </div>
+            <div>
+              <div class="flavor">Slip Past</div>
+              <div class="bar"><span class="chip"><span class="icon traverse"><img src="assets/icons/traverse.png" alt=""></span>3</span></div>
+            </div>
+          </div>
+          <div class="foot"><div class="danger">D!</div><div class="kind">Animal</div></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="sample">
+      <p class="caption">Reading paper <span>dark ink, warmer page</span></p>
+      <article class="card v-paper">
+        <div class="art"></div>
+        <h2 class="name">Wolf</h2>
+        <div class="page">
+          <div class="lines">
+            <div>
+              <div class="flavor">Hunt</div>
+              <div class="bar"><span class="chip"><span class="icon fight"><img src="assets/icons/fight.png" alt=""></span>5</span><span class="out">🍞 +1</span></div>
+            </div>
+            <div>
+              <div class="flavor">Slip Past</div>
+              <div class="bar"><span class="chip"><span class="icon traverse"><img src="assets/icons/traverse.png" alt=""></span>3</span></div>
+            </div>
+          </div>
+          <div class="foot"><div class="danger">D!</div><div class="kind">Animal</div></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="sample">
+      <p class="caption">Lantern <span>light only on the writing</span></p>
+      <article class="card v-lantern">
+        <div class="art"></div>
+        <h2 class="name">Wolf</h2>
+        <div class="page">
+          <div class="lines">
+            <div>
+              <div class="flavor">Hunt</div>
+              <div class="bar"><span class="chip"><span class="icon fight"><img src="assets/icons/fight.png" alt=""></span>5</span><span class="out">🍞 +1</span></div>
+            </div>
+            <div>
+              <div class="flavor">Slip Past</div>
+              <div class="bar"><span class="chip"><span class="icon traverse"><img src="assets/icons/traverse.png" alt=""></span>3</span></div>
+            </div>
+          </div>
+          <div class="foot"><div class="danger">D!</div><div class="kind">Animal</div></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="sample">
+      <p class="caption">Ink on the page <span>no pale boxes</span></p>
+      <article class="card v-ink">
+        <div class="art"></div>
+        <h2 class="name">Wolf</h2>
+        <div class="page">
+          <div class="lines">
+            <div>
+              <div class="flavor">Hunt</div>
+              <div class="bar"><span class="chip"><span class="icon fight"><img src="assets/icons/fight.png" alt=""></span>5</span><span class="out">🍞 +1</span></div>
+            </div>
+            <div>
+              <div class="flavor">Slip Past</div>
+              <div class="bar"><span class="chip"><span class="icon traverse"><img src="assets/icons/traverse.png" alt=""></span>3</span></div>
+            </div>
+          </div>
+          <div class="foot"><div class="danger">D!</div><div class="kind">Animal</div></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="sample">
+      <p class="caption">Drawn ink <span>pen lines, darker join</span></p>
+      <article class="card v-drawn">
+        <div class="art"></div>
+        <h2 class="name">Wolf</h2>
+        <div class="page">
+          <div class="lines">
+            <div>
+              <div class="flavor">Hunt</div>
+              <div class="bar">
+                <span class="chip"><span class="icon fight"><img src="assets/icons/fight.png" alt=""></span>5</span>
+                <span class="out">🍞 +1</span>
+                <svg class="pen" viewBox="0 0 320 12" preserveAspectRatio="none" aria-hidden="true">
+                  <path class="bleed" d="M2 7.2 C22 4.4 48 9.4 78 6.2 C112 2.6 138 8.8 176 5.4 C214 2.2 246 8.2 278 5.6 C296 4.2 308 7.4 318 6.1"/>
+                  <path class="line" d="M2 7.2 C22 4.4 48 9.4 78 6.2 C112 2.6 138 8.8 176 5.4 C214 2.2 246 8.2 278 5.6 C296 4.2 308 7.4 318 6.1"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <div class="flavor">Slip Past</div>
+              <div class="bar">
+                <span class="chip"><span class="icon traverse"><img src="assets/icons/traverse.png" alt=""></span>3</span>
+                <svg class="pen" viewBox="0 0 320 12" preserveAspectRatio="none" aria-hidden="true">
+                  <path class="bleed" d="M4 5.4 C30 8.6 52 3.2 88 6.8 C128 10.2 154 4.1 196 6.4 C232 8.6 258 3.8 292 6.2 C306 7.2 314 5.2 318 5.8"/>
+                  <path class="line" d="M4 5.4 C30 8.6 52 3.2 88 6.8 C128 10.2 154 4.1 196 6.4 C232 8.6 258 3.8 292 6.2 C306 7.2 314 5.2 318 5.8"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="foot"><div class="danger">D!</div><div class="kind">Animal</div></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="sample">
+      <p class="caption">Drawn ink, round halo <span>faint, centered</span></p>
+      <article class="card v-drawn v-glow">
+        <div class="art"></div>
+        <h2 class="name">Wolf</h2>
+        <div class="page">
+          <div class="lines">
+            <div>
+              <div class="flavor">Hunt</div>
+              <div class="bar">
+                <span class="chip"><span class="icon fight"><img src="assets/icons/fight.png" alt=""></span>5</span>
+                <span class="out">🍞 +1</span>
+                <svg class="pen" viewBox="0 0 320 12" preserveAspectRatio="none" aria-hidden="true">
+                  <path class="bleed" d="M2 7.2 C22 4.4 48 9.4 78 6.2 C112 2.6 138 8.8 176 5.4 C214 2.2 246 8.2 278 5.6 C296 4.2 308 7.4 318 6.1"/>
+                  <path class="line" d="M2 7.2 C22 4.4 48 9.4 78 6.2 C112 2.6 138 8.8 176 5.4 C214 2.2 246 8.2 278 5.6 C296 4.2 308 7.4 318 6.1"/>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <div class="flavor">Slip Past</div>
+              <div class="bar">
+                <span class="chip"><span class="icon traverse"><img src="assets/icons/traverse.png" alt=""></span>3</span>
+                <svg class="pen" viewBox="0 0 320 12" preserveAspectRatio="none" aria-hidden="true">
+                  <path class="bleed" d="M4 5.4 C30 8.6 52 3.2 88 6.8 C128 10.2 154 4.1 196 6.4 C232 8.6 258 3.8 292 6.2 C306 7.2 314 5.2 318 5.8"/>
+                  <path class="line" d="M4 5.4 C30 8.6 52 3.2 88 6.8 C128 10.2 154 4.1 196 6.4 C232 8.6 258 3.8 292 6.2 C306 7.2 314 5.2 318 5.8"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="foot"><div class="danger">D!</div><div class="kind">Animal</div></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="sample">
+      <p class="caption">Night ink <span>light text, dark page</span></p>
+      <article class="card v-night">
+        <div class="art"></div>
+        <h2 class="name">Wolf</h2>
+        <div class="page">
+          <div class="lines">
+            <div>
+              <div class="flavor">Hunt</div>
+              <div class="bar"><span class="chip"><span class="icon fight"><img src="assets/icons/fight.png" alt=""></span>5</span><span class="out">🍞 +1</span></div>
+            </div>
+            <div>
+              <div class="flavor">Slip Past</div>
+              <div class="bar"><span class="chip"><span class="icon traverse"><img src="assets/icons/traverse.png" alt=""></span>3</span></div>
+            </div>
+          </div>
+          <div class="foot"><div class="danger">D!</div><div class="kind">Animal</div></div>
+        </div>
+      </article>
+    </section>
+  </div>
+</body>
+</html>

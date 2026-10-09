@@ -1,0 +1,338 @@
+{
+  "decks": [
+    {
+      "id": "zone-deck-1",
+      "name": "Zone Deck 1 · Forest Clearing",
+      "type": "challenge",
+      "vision": 2,
+      "cards": [
+        {
+          "id": "ZD1_WOLF_1",
+          "name": "Wolf",
+          "type": "challenge",
+          "flavor": "A grey wolf steps from the treeline. Its yellow eyes track your every movement without blinking.",
+          "approaches": [
+            { "type": "Fight", "difficulty": 6, "outcomes": "Progress 3" },
+            { "type": "Traverse", "difficulty": 2, "outcomes": "Progress 1" },
+            { "type": "Awareness", "difficulty": 4, "outcomes": "Progress 2", "condition": "only when alone" }
+          ],
+          "fieldEffect": "While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed."
+        },
+        {
+          "id": "ZD1_WOLF_2",
+          "name": "Wolf",
+          "type": "challenge",
+          "flavor": "A grey wolf circles you slowly, testing your resolve before it commits.",
+          "approaches": [
+            { "type": "Fight", "difficulty": 6, "outcomes": "Progress 3" },
+            { "type": "Traverse", "difficulty": 2, "outcomes": "Progress 1" },
+            { "type": "Awareness", "difficulty": 4, "outcomes": "Progress 2", "condition": "only when alone" }
+          ],
+          "fieldEffect": "While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed."
+        },
+        {
+          "id": "ZD1_WOLF_3",
+          "name": "Wolf",
+          "type": "challenge",
+          "flavor": "A young wolf watches from behind a fallen log, waiting to see how the others react first.",
+          "approaches": [
+            { "type": "Fight", "difficulty": 6, "outcomes": "Progress 3" },
+            { "type": "Traverse", "difficulty": 2, "outcomes": "Progress 1" },
+            { "type": "Awareness", "difficulty": 4, "outcomes": "Progress 2", "condition": "only when alone" }
+          ],
+          "fieldEffect": "While Revealed\nGrouping 2 : +2 Difficulty when another challenge with the same name is revealed."
+        },
+        {
+          "id": "ZD1_WILD_BOAR_1",
+          "name": "Wild Boar",
+          "type": "challenge",
+          "flavor": "A boar bursts from the brush, tusks low, already mid-charge.",
+          "approaches": [
+            { "type": "Fight", "difficulty": 8, "outcomes": "Progress 3" },
+            { "type": "Traverse", "difficulty": 3, "outcomes": "Vision +2" }
+          ],
+          "fieldEffect": "Charging 1 · Difficulty +2 :\n+2 Difficulty to this challenge's approaches."
+        },
+        {
+          "id": "ZD1_WILD_BOAR_2",
+          "name": "Wild Boar",
+          "type": "challenge",
+          "flavor": "A second, heavier boar crashes through the undergrowth toward you, drawn by the noise.",
+          "approaches": [
+            { "type": "Fight", "difficulty": 8, "outcomes": "Progress 3" },
+            { "type": "Traverse", "difficulty": 3, "outcomes": "Vision +2" }
+          ],
+          "fieldEffect": "Charging 1 · Difficulty +2 :\n+2 Difficulty to this challenge's approaches."
+        },
+        {
+          "id": "ZD1_VENOMOUS_SNAKE",
+          "name": "Venomous Snake",
+          "type": "challenge",
+          "flavor": "A dark-banded snake lies coiled at the root of a tree — perfectly still until it isn't.",
+          "approaches": [
+            { "type": "Fight", "difficulty": 3, "outcomes": "Progress 2 | [1+] Exhaust 3" },
+            { "type": "Awareness", "difficulty": 2, "outcomes": "Vision +1" },
+            { "type": "Traverse", "difficulty": 5, "outcomes": "Recovery 1 | Ongoing 1 · Guidance 2 : Traverse Power +2." }
+          ],
+          "fieldEffect": "Charging 1 · Ongoing 1 · Guidance 2 :\nTraverse Power +2."
+        },
+        {
+          "id": "ZD1_CROW_FLOCK",
+          "name": "Crow Flock",
+          "type": "challenge",
+          "flavor": "Dozens of crows scatter from the canopy above, cawing and circling. Something ahead disturbed them.",
+          "approaches": [
+            { "type": "Awareness", "difficulty": 2, "outcomes": "Progress 1", "subEffect": "Dread 2" },
+            { "type": "Awareness", "difficulty": 4, "outcomes": "Find F3" },
+            { "type": "Traverse", "difficulty": 3, "outcomes": "Vision +1" }
+          ],
+          "fieldEffect": "While Revealed\nDread 1 : Awareness Difficulty +1."
+        },
+        {
+          "id": "ZD1_THORNY_THICKET",
+          "name": "Thorny Thicket",
+          "type": "challenge",
+          "flavor": "A wall of thorn-bearing vines has grown entirely across the path. Every gap closes as you step forward.",
+          "approaches": [
+            { "type": "Craft", "difficulty": 3, "outcomes": "Progress 2" },
+            { "type": "Traverse", "difficulty": 5, "outcomes": "Vision +1" }
+          ],
+          "fieldEffect": "While Revealed\nBlocking 1 : 1 challenge behind this one in Reveal Order cannot be Overcome."
+        },
+        {
+          "id": "ZD1_DENSE_UNDERGROWTH",
+          "name": "Dense Undergrowth",
+          "type": "challenge",
+          "flavor": "Thick ferns, knotted roots and dead branches form a near-solid mass. The ground beneath shifts unpredictably.",
+          "approaches": [
+            { "type": "Craft", "difficulty": 5, "outcomes": "Find F4" },
+            { "type": "Traverse", "difficulty": 4, "outcomes": "Progress 1" }
+          ],
+          "fieldEffect": "While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty."
+        },
+        {
+          "id": "ZD1_FALLEN_TREE",
+          "name": "Fallen Tree",
+          "type": "challenge",
+          "flavor": "A massive oak lies across the path, its root plate torn from the earth in a wall of soil and splintered wood.",
+          "approaches": [
+            { "type": "Craft", "difficulty": 4, "outcomes": "Rations 1" },
+            { "type": "Traverse", "difficulty": 2, "outcomes": "Progress 1" },
+            { "type": "Awareness", "difficulty": 3, "outcomes": "Recovery 1" }
+          ],
+          "fieldEffect": null
+        },
+        {
+          "id": "ZD1_ROCKY_SLOPE",
+          "name": "Rocky Slope",
+          "type": "challenge",
+          "flavor": "The forest floor rises sharply here, covered in loose stones and exposed roots. An easy shoulder path offers a view; the cliff face demands a real climb.",
+          "approaches": [
+            { "type": "Traverse", "difficulty": 2, "outcomes": "Progress 1" },
+            { "type": "Traverse", "difficulty": 6, "outcomes": "Find F1" },
+            { "type": "Awareness", "difficulty": 3, "outcomes": "Recovery 1" }
+          ],
+          "fieldEffect": null
+        },
+        {
+          "id": "ZD1_RUSHING_STREAM",
+          "name": "Rushing Stream",
+          "type": "challenge",
+          "flavor": "A narrow stream cuts cleanly across the path. Its current is surprisingly swift for water so shallow.",
+          "approaches": [
+            { "type": "Traverse", "difficulty": 3, "outcomes": "Progress 2" },
+            { "type": "Traverse", "difficulty": 4, "outcomes": "Recovery 2" },
+            { "type": "Craft", "difficulty": 4, "outcomes": "Vision +1" }
+          ],
+          "fieldEffect": null
+        },
+        {
+          "id": "ZD1_MUDDY_GROUND",
+          "name": "Muddy Ground",
+          "type": "challenge",
+          "flavor": "The earth here is waterlogged and unreliable. Each step risks a twisted ankle or a boot pulled into the mire.",
+          "approaches": [
+            { "type": "Craft", "difficulty": 3, "outcomes": "Progress 2" },
+            { "type": "Traverse", "difficulty": 4, "outcomes": "Recovery 1" }
+          ],
+          "fieldEffect": "While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty."
+        },
+        {
+          "id": "ZD1_FOG_PATCH",
+          "name": "Fog Patch",
+          "type": "challenge",
+          "flavor": "A wall of grey mist drifts between the trees. Inside it, all sense of direction dissolves.",
+          "approaches": [
+            { "type": "Awareness", "difficulty": 4, "outcomes": "Recovery 2" },
+            { "type": "Traverse", "difficulty": 6, "outcomes": "Progress 1" }
+          ],
+          "fieldEffect": "While Revealed\nCovering 2 : The next challenge in Reveal Order has +2 Difficulty."
+        },
+        {
+          "id": "ZD1_STEEP_RAVINE",
+          "name": "Steep Ravine",
+          "type": "challenge",
+          "flavor": "A ravine cuts through the forest, deep enough to break bones. There is no way around it from here.",
+          "approaches": [
+            { "type": "Traverse", "difficulty": 8, "outcomes": "Progress 3" },
+            { "type": "Craft", "difficulty": 5, "outcomes": "Progress 2" },
+            { "type": "Awareness", "difficulty": 3, "outcomes": "Recovery 1" }
+          ],
+          "fieldEffect": null
+        },
+        {
+          "id": "ZD1_ANCIENT_TREE",
+          "name": "Ancient Tree",
+          "type": "challenge",
+          "flavor": "An immense tree stands alone in a clearing, wider than three outstretched arms. Its canopy blots out a full circle of sky.",
+          "approaches": [
+            { "type": "Traverse", "difficulty": 3, "outcomes": "Progress 2 | Ongoing 1 · Guidance 2 : Traverse Power +2." },
+            { "type": "Awareness", "difficulty": 4, "outcomes": "Recovery 4" }
+          ],
+          "fieldEffect": "Ongoing 1 · Guidance 2 : Traverse Power +2."
+        },
+        {
+          "id": "ZD1_BERRY_BUSHES",
+          "name": "Berry Bushes",
+          "type": "challenge",
+          "flavor": "Long-thorned branches weigh heavy with clusters of small dark berries. Whether they are safe to eat is the question.",
+          "approaches": [
+            { "type": "Awareness", "difficulty": 3, "outcomes": "Rations 2" },
+            { "type": "Craft", "difficulty": 2, "outcomes": "Rations 1" },
+            { "type": "Traverse", "difficulty": 4, "outcomes": "Rations 1" }
+          ],
+          "fieldEffect": null
+        },
+        {
+          "id": "ZD1_STRANGE_TRACKS",
+          "name": "Strange Tracks",
+          "type": "challenge",
+          "flavor": "Pressed into the damp earth — large prints with bone-like indentations. Human in shape, but wrong in every detail.",
+          "approaches": [
+            { "type": "Awareness", "difficulty": 3, "outcomes": "Vision +1" },
+            { "type": "Awareness", "difficulty": 5, "outcomes": "Progress 2" }
+          ],
+          "fieldEffect": "While Revealed\nDread 1 : Awareness Difficulty +1."
+        },
+        {
+          "id": "ZD1_STONE_MARKER",
+          "name": "Stone Marker",
+          "type": "challenge",
+          "flavor": "Beneath thick moss and crawling vines, carved symbols cover an ancient stone. Someone placed this here with great purpose.",
+          "approaches": [
+            { "type": "Awareness", "difficulty": 4, "outcomes": "Find F2" },
+            { "type": "Awareness", "difficulty": 5, "outcomes": "Rations 1" }
+          ],
+          "fieldEffect": null
+        },
+        {
+          "id": "ZD1_HIDDEN_HOLLOW",
+          "name": "Hidden Hollow",
+          "type": "challenge",
+          "flavor": "The roots of a great tree form a small sheltered hollow, hidden from above. Old leaves and bird feathers line the floor.",
+          "approaches": [
+            { "type": "Awareness", "difficulty": 2, "outcomes": "Recovery 3" },
+            { "type": "Traverse", "difficulty": 3, "outcomes": "Progress 2 | Ongoing 1 · Prepare 2 : +2 Power for the next Approach." }
+          ],
+          "fieldEffect": "Ongoing 1 · Prepare 2 : +2 Power for the next Approach."
+        },
+        {
+          "id": "ZD1_TALL_TREE",
+          "name": "Tall Tree",
+          "type": "challenge",
+          "flavor": "A lone veteran of the canopy towers above its neighbours — branches like stairs, bark like iron.",
+          "approaches": [
+            { "type": "Traverse", "difficulty": 4, "outcomes": "Vision +2 | Ongoing 1 · Guidance 1 : Traverse Power +1." },
+            { "type": "Awareness", "difficulty": 4, "outcomes": "Progress 2" }
+          ],
+          "fieldEffect": "Ongoing 1 · Guidance 1 : Traverse Power +1."
+        },
+        {
+          "id": "ZD1_OVERGROWN_PATH",
+          "name": "Overgrown Path",
+          "type": "challenge",
+          "flavor": "What was once a trail has been reclaimed by briars and knee-high grass. Something walked here recently.",
+          "approaches": [
+            { "type": "Craft", "difficulty": 4, "outcomes": "Progress 2" },
+            { "type": "Traverse", "difficulty": 3, "outcomes": "Rations 1" }
+          ],
+          "fieldEffect": "While Revealed\nObstacle 1 : All other revealed challenges have +1 Difficulty."
+        },
+        {
+          "id": "ZD1_CLEARINGS_EDGE",
+          "name": "Clearing's Edge",
+          "type": "challenge",
+          "flavor": "The trees thin; light spills onto wet grass. From here you can study the open ground without stepping into it.",
+          "approaches": [
+            { "type": "Awareness", "difficulty": 3, "outcomes": "Vision +1" },
+            { "type": "Awareness", "difficulty": 5, "outcomes": "Progress 2" }
+          ],
+          "fieldEffect": null
+        }
+      ]
+    },
+    {
+      "id": "intro-tools",
+      "name": "Tools · Starting kit & backpack",
+      "type": "tool",
+      "cards": [
+        {
+          "id": "TOOL_CAMP_KNIFE",
+          "name": "Camp Knife",
+          "type": "tool",
+          "uses": [{ "approach": "Fight", "power": 2 }]
+        },
+        {
+          "id": "TOOL_HAND_AXE",
+          "name": "Hand Axe",
+          "type": "tool",
+          "uses": [
+            { "approach": "Craft", "power": 4, "effects": ["On Use: Scout 1"] }
+          ]
+        },
+        {
+          "id": "TOOL_ROPE",
+          "name": "Trail Rope",
+          "type": "tool",
+          "uses": [
+            { "approach": "Traverse", "power": 4, "effects": ["Scout 1 on line"] },
+            { "approach": "Craft", "power": 3 }
+          ]
+        },
+        {
+          "id": "TOOL_CHARM",
+          "name": "Warded Charm",
+          "type": "tool",
+          "uses": [
+            { "approach": "Awareness", "power": 4 },
+            { "approach": "Awareness", "power": 2, "effects": ["Vision +1 on line"] }
+          ]
+        },
+        {
+          "id": "TOOL_HUNTING_SPEAR",
+          "name": "Hunting Spear",
+          "type": "tool",
+          "uses": [{ "approach": "Fight", "power": 6, "effects": ["Range 1-2"] }]
+        },
+        {
+          "id": "TOOL_SHORT_BOW",
+          "name": "Short Bow",
+          "type": "tool",
+          "uses": [{ "approach": "Fight", "power": 5, "effects": ["Fight Range", "Scout 1"] }]
+        },
+        {
+          "id": "TOOL_DRIVING_MAUL",
+          "name": "Driving Maul",
+          "type": "tool",
+          "uses": [{ "approach": "Craft", "power": 6 }]
+        },
+        {
+          "id": "TOOL_EMBER_LENS",
+          "name": "Emberglass Lens",
+          "type": "tool",
+          "uses": [{ "approach": "Awareness", "power": 4, "effects": ["Recovery 1 on line"] }]
+        }
+      ]
+    }
+  ]
+}

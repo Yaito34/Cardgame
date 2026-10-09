@@ -1,0 +1,1012 @@
+/**
+ * Travel Book layout, fonts, book styling, and print.
+ * Build only regenerates TravelBook-data.js from TravelBook.md.
+ * Background: CardPictures/Book.png (same asset as the old atlas).
+ */
+* {
+  box-sizing: border-box;
+}
+:root {
+  --ink: #000000;
+  --heart: #00ff7f;
+  --tb-head: "Macondo";
+  --tb-body: "Comic Sans MS", "Comic Sans", cursive;
+  --tb-chrome: #c4a88a;
+  --tb-chrome-muted: #8a7a66;
+  --tb-bg: #3f2c1b;
+  --tb-book-w: 888px;
+  --tb-book-h: 630px;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--tb-bg);
+  color: var(--ink);
+  font-family: var(--tb-body);
+}
+.tb-chrome {
+  text-align: center;
+  color: var(--tb-chrome);
+  font-family: var(--tb-head);
+  padding: 0.4rem 0.4rem 0.25rem;
+}
+.tb-chrome-title {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.tb-chrome-nav {
+  margin: 0.25rem 0 0;
+  font-size: 0.8rem;
+}
+.tb-chrome-nav a {
+  color: var(--tb-chrome);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+.tb-chrome-nav a:hover {
+  border-bottom-color: var(--tb-chrome);
+}
+.tb-chrome-nav a[aria-current="page"] {
+  color: #fff8e8;
+  border-bottom-color: #fff8e8;
+}
+.tb-chrome-nav--embed {
+  display: none;
+}
+.tb-embed-hint {
+  display: none;
+}
+body.tb-embed .tb-chrome-nav--standalone {
+  display: none;
+}
+body.tb-embed .tb-chrome-nav--embed {
+  display: block;
+}
+body.tb-embed .tb-embed-hint {
+  display: block;
+}
+#tb-return-table {
+  appearance: none;
+  border: 1px solid rgba(196, 168, 138, 0.45);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--tb-chrome);
+  font-family: var(--tb-head);
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+#tb-return-table:hover {
+  color: #fff8e8;
+  border-color: #fff8e8;
+}
+body.tb-embed {
+  height: 100vh;
+  overflow: auto;
+}
+/* Map: parchment fills the screen. Marks, legend, and the bar sit on top. */
+body.tb-map-page {
+  min-height: 100vh;
+  background-color: #2a1c12;
+  background-image: url("CardPictures/map-parchment.jpg");
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+body.tb-map-page .tb-chrome,
+body.tb-map-page .tb-chrome-nav a,
+body.tb-map-page .tb-chrome-hint,
+body.tb-map-page #tb-return-table {
+  color: #1a0d04;
+}
+body.tb-map-page .tb-chrome-nav a[aria-current="page"] {
+  color: #1a0d04;
+  border-bottom-color: #1a0d04;
+}
+body.tb-map-page #tb-return-table {
+  border-color: rgba(26, 13, 4, 0.45);
+  background: rgba(255, 248, 230, 0.35);
+}
+body.tb-map-page .tb-wrap {
+  width: 100%;
+  min-height: calc(100vh - 4.2rem);
+  padding: 0 1.25rem 1.25rem;
+}
+body.tb-map-page .book-spread--map {
+  width: 100%;
+  height: calc(100vh - 5.2rem);
+  min-height: 28rem;
+  margin: 0;
+  background: none;
+  filter: none;
+}
+.tb-explore-action {
+  appearance: none;
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+body.tb-embed .tb-explore-action {
+  text-decoration: underline;
+  text-underline-offset: 0.14em;
+}
+body.tb-embed .tb-explore-action:hover {
+  color: #3f1c08;
+}
+.tb-chrome-hint {
+  margin: 0.35rem 0 0;
+  font-family: var(--tb-body);
+  font-size: 0.65rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--tb-chrome-muted);
+}
+.tb-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.65rem;
+}
+.tb-nav-btn {
+  appearance: none;
+  border: 1px solid rgba(196, 168, 138, 0.45);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--tb-chrome);
+  font-family: var(--tb-head);
+  font-size: 1.35rem;
+  line-height: 1;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.tb-nav-btn:hover:not(:disabled) {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: var(--tb-chrome);
+}
+.tb-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.tb-nav-status {
+  min-width: 7rem;
+  font-family: var(--tb-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  color: var(--tb-chrome);
+}
+.tb-wrap {
+  width: var(--tb-book-w);
+  max-width: none;
+  margin: 0 auto;
+  padding: 0.5rem 1rem 2.5rem;
+}
+/* Open book: fixed CSS size (296:210). Ink is px/em on that size so browser
+   zoom scales parchment and text together — nothing reflows on zoom. */
+.book-spread {
+  position: relative;
+  width: var(--tb-book-w);
+  height: var(--tb-book-h);
+  margin: 0 auto 1.5rem;
+  max-width: none;
+  max-height: none;
+  aspect-ratio: auto;
+  font-size: 15px;
+  background-image: url("CardPictures/Book.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
+}
+.tb-wrap--flip {
+  position: relative;
+  perspective: 1600px;
+  perspective-origin: 50% 50%;
+}
+.tb-wrap--flip .book-spread {
+  display: none;
+  margin-bottom: 0;
+  transform-origin: center center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+.tb-wrap--flip .book-spread.is-active {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+.tb-wrap--flip .book-spread.is-leaving-next,
+.tb-wrap--flip .book-spread.is-leaving-prev,
+.tb-wrap--flip .book-spread.is-entering-next,
+.tb-wrap--flip .book-spread.is-entering-prev {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  margin: 0;
+  filter: none;
+}
+.tb-wrap--flip .book-spread.is-leaving-next,
+.tb-wrap--flip .book-spread.is-leaving-prev {
+  z-index: 2;
+}
+.tb-wrap--flip .book-spread.is-entering-next,
+.tb-wrap--flip .book-spread.is-entering-prev {
+  z-index: 1;
+  position: relative;
+}
+.tb-wrap--flip .book-spread.is-leaving-next {
+  animation: tb-flip-out-left 380ms ease forwards;
+}
+.tb-wrap--flip .book-spread.is-entering-next {
+  animation: tb-flip-in-from-right 380ms ease forwards;
+}
+.tb-wrap--flip .book-spread.is-leaving-prev {
+  animation: tb-flip-out-right 380ms ease forwards;
+}
+.tb-wrap--flip .book-spread.is-entering-prev {
+  animation: tb-flip-in-from-left 380ms ease forwards;
+}
+
+@keyframes tb-flip-out-left {
+  from {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: rotateY(-72deg);
+    opacity: 0;
+  }
+}
+@keyframes tb-flip-in-from-right {
+  from {
+    transform: rotateY(28deg);
+    opacity: 0.35;
+  }
+  to {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+@keyframes tb-flip-out-right {
+  from {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: rotateY(72deg);
+    opacity: 0;
+  }
+}
+@keyframes tb-flip-in-from-left {
+  from {
+    transform: rotateY(-28deg);
+    opacity: 0.35;
+  }
+  to {
+    transform: rotateY(0deg);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tb-wrap--flip .book-spread.is-leaving-next,
+  .tb-wrap--flip .book-spread.is-leaving-prev,
+  .tb-wrap--flip .book-spread.is-entering-next,
+  .tb-wrap--flip .book-spread.is-entering-prev {
+    animation: none;
+  }
+}
+.book-surface {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: 2.4%;
+  bottom: 10%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.book-page {
+  padding: 0 12% 0%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.book-page--right {
+  position: relative;
+}
+.tb-page-num {
+  font-family: var(--tb-head);
+  font-size: 0.95em;
+  font-weight: 700;
+  text-align: right;
+  margin: 1em 0 0.55em;
+  line-height: 1;
+}
+.tb-page-head {
+  margin: 0 0 0.45em;
+}
+.tb-area-zone {
+  font-family: var(--tb-head);
+  font-size: 1.3em;
+  font-weight: 400;
+  text-align: center;
+  margin: 0.8em 0 0.0em;
+  line-height: 1.1;
+  color:  rgb(110, 90, 72);
+  white-space: nowrap;
+}
+.tb-h1 {
+  font-family: var(--tb-head);
+  font-size: 1.12em;
+  font-weight: 400;
+  margin: 1em 0.0em 0.0em;
+  color: var(--ink);
+  line-height: 1.15;
+  text-align: left;
+}
+.tb-title-zone {
+  display: inline;
+  margin: 0;
+  white-space: nowrap;
+}
+.tb-zone-link {
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.tb-h2 {
+  font-family: var(--tb-head);
+  font-size: 1em;
+  font-weight: 400;
+  margin: 0 0 0.45em;
+  color: var(--ink);
+}
+.tb-section-title {
+  font-family: var(--tb-body);
+  font-size: 0.9em;
+  padding-top: 1.5em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 400;
+  margin: 0.45em 0 0.28em;
+}
+.tb-section-title:first-of-type {
+  margin-top: 0;
+}
+.tb-flavor {
+  font-style: italic;
+  font-size: 0.8em;
+  line-height: 1.4;
+  margin: 0 0 0.5em;
+}
+.tb-left-body {
+  flex: 1;
+  overflow: hidden;
+}
+.tb-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35em;
+  margin: 0.4em 0 0;
+  font-size: 0.87em;
+  line-height: 1.4;
+}
+.tb-row p {
+  margin: 0;
+}
+.tb-ico {
+  width: 1.05em;
+  height: 1.05em;
+  flex-shrink: 0;
+  margin-top: 0.15em;
+}
+.ico-eye {
+  color: var(--ink);
+}
+.ico-heart {
+  color: var(--heart);
+}
+.tb-danger-mark {
+  color: #c62828;
+  font-weight: 700;
+}
+.tb-recovery-val {
+  font-weight: 700;
+}
+.tb-list {
+  margin: 0;
+  
+  padding-left: 1.1em;
+  font-size: 0.82em;
+  line-height: 1.45;
+}
+.tb-list li {
+  margin: 0.1rem 0;
+}
+.tb-list--exits {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.7em;
+  margin-top: 0.25em;
+}
+.tb-exit-link {
+  appearance: none;
+  border: none;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100%;
+  font-family: var(--tb-body);
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.35;
+  color: var(--ink);
+  text-align: left;
+  text-shadow: none;
+  cursor: pointer;
+}
+.tb-exit-link:hover {
+  filter: none;
+  color: var(--ink);
+}
+.tb-exit-link:hover .tb-exit-dest-name {
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}
+.tb-exit-line--unexplored .tb-exit-link:hover .tb-exit-dest-name {
+  text-decoration: none;
+}
+.tb-exit-link:focus-visible {
+  outline: 2px solid rgba(63, 44, 27, 0.55);
+  outline-offset: 3px;
+}
+.tb-exit-cue {
+  display: block;
+  font-size: 0.84em;
+  letter-spacing: 0.04em;
+  color: #5c4030;
+  margin-bottom: 0.08em;
+}
+.tb-exit-ch,
+.tb-exit-d {
+  font-weight: 700;
+}
+.tb-exit-cue-sep {
+  display: inline-block;
+  margin: 0 0.38em;
+  font-weight: 400;
+  opacity: 0.7;
+}
+.tb-exit-gate {
+  display: block;
+  margin-top: 0.16em;
+  font-family: var(--tb-head);
+  font-size: inherit;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: #000;
+}
+.tb-exit-sentence {
+  display: block;
+  padding: 0 0 0.18em;
+  border-bottom: 1px solid rgba(63, 44, 27, 0.32);
+}
+.tb-exit-line:last-child .tb-exit-sentence {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.tb-exit-way {
+  font-weight: 400;
+}
+.tb-exit-ref {
+  font-weight: 600;
+  text-decoration: none;
+}
+.tb-exit-dest {
+  font-weight: 700;
+  display: inline;
+  padding: 0;
+  background: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+.tb-exit-mark {
+  font-weight: 700;
+  letter-spacing: 0;
+}
+.tb-exit-dest-name {
+  font-weight: 700;
+}
+.tb-page-link {
+  appearance: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  min-height: 1.9em;
+  margin: 0;
+  font-family: var(--tb-head);
+  font-size: 0.78em;
+  line-height: 1.15;
+  text-decoration: none;
+}
+.tb-page-link:hover {
+  filter: brightness(1.08);
+}
+.tb-page-link--inline {
+  display: inline;
+  min-height: 0;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-shadow: none;
+  background: none;
+  vertical-align: baseline;
+}
+.tb-page-link--inline:hover {
+  filter: none;
+  color: #5c3718;
+}
+.tb-page-link:focus-visible {
+  outline: 2px solid rgba(63, 44, 27, 0.55);
+  outline-offset: 3px;
+}
+
+/* Zone chapter map — title only + compact floor plan */
+.tb-h1--chapter {
+  margin: 0;
+  font-size: 1.25em;
+  text-align: center;
+}
+.book-surface--map {
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(0, 1fr);
+  padding: 1.2% 2% 1.6%;
+  place-items: center;
+  /* The book page inset ends above the parchment. Halos hang past the
+     last row, so this surface must not clip them. */
+  overflow: visible;
+}
+.tb-map-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4em;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  min-height: 0;
+  padding: 0.9em 1em 0.85em;
+  z-index: 1;
+}
+.tb-map-banner {
+  text-align: center;
+  margin: 0 auto;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+}
+.tb-map-layout {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+.tb-map-legend {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  font-family: var(--tb-head);
+  font-size: 0.62em;
+  line-height: 1.3;
+  color: var(--ink);
+  padding: 0.15em 0.1em;
+  pointer-events: none;
+}
+.tb-map-legend-title {
+  margin: 0 0 0.45em;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.92em;
+}
+.tb-map-legend-row + .tb-map-legend-title {
+  margin-top: 0.75em;
+}
+.tb-map-legend-row {
+  margin: 0 0 0.28em;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  white-space: nowrap;
+}
+.tb-map-legend-swatch {
+  width: 0.85em;
+  height: 0.85em;
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+.tb-map-legend-swatch--forest {
+  background: #c5e3ae;
+  box-shadow: inset 0 0 0 1px rgba(70, 110, 52, 0.45);
+}
+.tb-map-legend-swatch--castle {
+  background: #c4c2be;
+  box-shadow: inset 0 0 0 1px rgba(70, 68, 64, 0.4);
+}
+.tb-map-legend-stroke {
+  width: 1.35em;
+  height: 0;
+  border-top: 4px solid #000;
+  flex: 0 0 auto;
+}
+.tb-map-legend-stroke--hidden {
+  border-top-width: 1.5px;
+  border-top-style: solid;
+  border-top-color: #000;
+}
+.tb-map-legend-stroke--sees {
+  border-top-width: 2px;
+  border-top-style: dotted;
+  border-top-color: #000;
+  box-shadow: none;
+}
+.tb-map-mark-diff {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  z-index: 3;
+  transform: translate(-50%, -95%);
+  font-size: 0.56em;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  padding: 0 0.14em;
+  background: rgba(232, 214, 184, 0.92);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.tb-map-mark-label {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+}
+.tb-map-mark-label::before {
+  content: '';
+  position: absolute;
+  inset: -0.9em -1.7em;
+  z-index: -1;
+  pointer-events: none;
+  background: #fff;
+  opacity: 0.94;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 0%, #000 42%, transparent 78%);
+  mask-image: radial-gradient(ellipse at center, #000 0%, #000 42%, transparent 78%);
+}
+.tb-map-mark--forest .tb-map-mark-label::before {
+  background: #d4edc4;
+}
+.tb-map-mark--castle .tb-map-mark-label::before {
+  background: #d4d2ce;
+}
+.tb-map-mark-tag {
+  position: relative;
+  z-index: 1;
+  font-size: 0.58em;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1.05;
+  max-width: 100%;
+  white-space: nowrap;
+  color: #1a0d04;
+}
+.tb-zone-map-wrap {
+  position: relative;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0.8em 0.55em 0.5em;
+  overflow: visible;
+}
+.tb-zone-map-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: visible;
+  font-family: var(--tb-head);
+  font-size: 15px;
+}
+.tb-zone-map-lines line,
+.tb-zone-map-lines polyline {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tb-zone-map-lines .tb-map-edge--visible {
+  stroke: #000;
+  stroke-width: 4.6;
+}
+.tb-zone-map-lines .tb-map-edge--hidden {
+  stroke: #000;
+  stroke-width: 1.7;
+  stroke-dasharray: none;
+  stroke-linecap: round;
+}
+.tb-zone-map-lines .tb-map-edge--vision {
+  stroke: #000;
+  stroke-width: 2.1;
+  stroke-dasharray: 0.05 7.2;
+  stroke-linecap: round;
+}
+.tb-zone-map-lines .tb-map-gate {
+  font-family: var(--tb-head);
+  font-size: 0.68em;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0;
+  fill: rgb(40, 26, 14);
+  stroke: rgb(236, 220, 188);
+  stroke-width: 3.5;
+  paint-order: stroke fill;
+  pointer-events: none;
+}
+.tb-zone-map {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(var(--tb-map-cols, 1), var(--tb-mark-w, 6.5em));
+  grid-template-rows: repeat(var(--tb-map-rows, 1), var(--tb-mark-h, 2.18em));
+  column-gap: var(--tb-gap-x, 1.05em);
+  row-gap: var(--tb-gap-y, 1.1em);
+  width: max-content;
+  max-width: 100%;
+  margin: 0 auto;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+.tb-map-spacer {
+  width: auto;
+  height: auto;
+  pointer-events: none;
+}
+.tb-map-mark {
+  appearance: none;
+  border: none;
+  background: transparent;
+  margin: 0;
+  padding: 0.04em 0.1em 0.05em;
+  width: 6.5em;
+  height: 2.35em;
+  max-width: 6.5em;
+  box-sizing: border-box;
+  font-family: var(--tb-head);
+  font-weight: 400;
+  color: #000;
+  cursor: pointer;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  z-index: 1;
+  border-radius: 4px;
+  overflow: visible;
+}
+.tb-map-mark.tb-map-mark--forest,
+.tb-map-mark.tb-map-mark--castle {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.tb-map-mark-page {
+  font-size: 0.52em;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  max-width: 100%;
+}
+.tb-map-mark-name {
+  position: relative;
+  z-index: 1;
+  display: block;
+  font-size: 0.68em;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  max-width: 100%;
+  white-space: nowrap;
+  color: #000;
+}
+.tb-map-mark-name::before {
+  content: none;
+}
+.tb-map-mark-line {
+  display: inline;
+  white-space: nowrap;
+  text-align: center;
+}
+.tb-map-mark--landmark .tb-map-mark-page,
+.tb-map-mark--crossing .tb-map-mark-page {
+  font-weight: 700;
+}
+.tb-map-mark--landmark .tb-map-mark-name,
+.tb-map-mark--crossing .tb-map-mark-name {
+  font-style: normal;
+  font-weight: 700;
+}
+.tb-map-mark--path .tb-map-mark-page,
+.tb-map-mark--area .tb-map-mark-page {
+  font-weight: 700;
+  color: #000;
+}
+.tb-map-mark--path .tb-map-mark-name,
+.tb-map-mark--area .tb-map-mark-name {
+  font-style: normal;
+  font-weight: 700;
+  color: #000;
+}
+.tb-map-mark:hover .tb-map-mark-page,
+.tb-map-mark:hover .tb-map-mark-name {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.tb-map-mark:focus-visible {
+  outline: 2px solid rgba(63, 44, 27, 0.45);
+  outline-offset: 2px;
+}
+.tb-footer {
+  font-family: var(--tb-head);
+  margin: auto 0 0;
+  text-align: right;
+  font-size: 0.87em;
+  font-weight: 700;
+}
+.tb-empty {
+  opacity: 0.4;
+  margin: 0;
+  font-size: 0.87em;
+}
+.tb-error {
+  color: #e8c4a8;
+  font-family: var(--tb-body);
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    min-height: auto;
+    background: var(--tb-bg);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .tb-wrap,
+  .tb-wrap--flip {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .tb-wrap--flip .book-spread {
+    display: block !important;
+    position: relative !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    filter: none !important;
+    z-index: auto !important;
+  }
+
+  .tb-page-link {
+    text-decoration: none;
+    cursor: default;
+    filter: none;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 220, 170, 0.2),
+      inset 0 -1px 0 rgba(40, 18, 6, 0.3);
+  }
+
+  .tb-exit-link {
+    cursor: default;
+    box-shadow: none;
+    filter: none;
+  }
+
+  .book-spread {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    max-width: none;
+    width: 297mm;
+    height: 210mm;
+    max-height: 210mm;
+    margin: 0;
+    aspect-ratio: auto;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-size: 100% 100%;
+    background-position: center;
+    font-size: 4.15mm;
+    filter: none;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    break-after: page;
+    page-break-after: always;
+    margin-bottom: 0;
+  }
+
+  .book-spread:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+}

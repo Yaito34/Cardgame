@@ -118,7 +118,26 @@ function overlaySvg(card) {
       return `<text x="${x(32)}" y="${lineY}" font-size="${x(14)}" fill="#1a0d04">${xmlEsc(l)}</text>`;
     })
     .join("");
-  const bannerFill = card.type === "tool" ? "rgba(2,52,160,0.5)" : "rgba(157,1,1,0.5)";
+  const bannerFill =
+    card.type === "tool"
+      ? "rgba(2,52,160,0.5)"
+      : card.type === "ability"
+        ? "rgba(28,110,42,0.5)"
+        : card.type === "garb"
+          ? "rgba(28,52,104,0.5)"
+          : card.type === "ally"
+          ? "rgba(120,195,95,0.55)"
+          : card.type === "reference"
+            ? "rgba(214,170,18,0.6)"
+            : card.type === "zone"
+              ? "rgba(120,70,160,0.55)"
+              : card.type === "finding"
+                ? "rgba(165,105,35,0.55)"
+                : card.type === "search"
+                  ? "rgba(35,95,125,0.55)"
+                  : card.type === "discovery"
+                    ? "rgba(105,70,145,0.55)"
+                    : "rgba(157,1,1,0.5)";
   return `
 <svg width="${CARD_W}" height="${CARD_H}" xmlns="http://www.w3.org/2000/svg">
   <rect x="${x(8)}" y="${y(13)}" width="${x(424)}" height="${y(62)}" rx="${x(4)}" fill="${bannerFill}" />

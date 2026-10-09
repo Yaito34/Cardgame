@@ -1,0 +1,48 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   CARD BANNER COLOURS — single place to edit all card-type header tints.
+
+   Used by: cards.html, card-styles.css (→ simulator.html), card-renderer.js
+
+   Change the --banner-* values below (rgba colours). Each card type’s header
+   bar picks up its matching .banner-* class automatically.
+
+   Resource trackers:
+     --banner-vitality  → Stamina, Exhaustion
+     --banner-strength  → Strength, Wounds, Rations, Heal, Materials, Tools & Treasures
+     --banner-writable-tool → Handwritten tool blank (Writable Tools deck)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --banner-challenge: rgba(158, 2, 2, 0.495);      /* Challenges */
+  --banner-zone:      rgba(209, 70, 1, 0.495);      /* Zone */
+  --banner-finding:   rgba(158, 2, 2, 0.495);      /* Finding */
+  --banner-search:    rgba(35, 125, 113, 0.55);    /* Search */
+  --banner-discovery: rgba(203, 172, 18, 0.533);   /* Discovery */
+  --banner-tool:      rgba(92, 53, 35, 0.523);      /* Tool */
+  --banner-ability:   rgba(28, 52, 104, 0.55);     /* Ability */
+  --banner-garb:      rgba(28, 52, 104, 0.55);     /* Garb (same as ability) */
+  --banner-playaid:   rgba(138, 106, 64, 0.62);    /* Body doll / backpack sheets */
+  --banner-ally:      rgba(36, 97, 45, 0.52);      /* Ally */
+  --banner-character: rgba(92, 48, 98, 0.62);      /* Character / Body */
+  --banner-reference: rgba(88, 78, 108, 0.58);      /* Reference / rules cards */
+  --banner-vitality:  rgba(38, 101, 11, 0.56);      /* Stamina + Exhaustion */
+  --banner-strength:  rgba(164, 55, 0, 0.68);     /* Strength-track supplies */
+  --banner-writable-tool: rgba(252, 246, 232, 0.92); /* Handwritten tool template */
+}
+
+.banner-challenge { background: var(--banner-challenge); }
+.banner-zone      { background: var(--banner-zone); }
+.banner-finding   { background: var(--banner-finding); }
+.banner-search    { background: var(--banner-search); }
+.banner-discovery { background: var(--banner-discovery); }
+.banner-tool      { background: var(--banner-tool); }
+.banner-ability   { background: var(--banner-ability); }
+.banner-garb      { background: var(--banner-garb); }
+.banner-playaid   { background: var(--banner-playaid); }
+.banner-ally      { background: var(--banner-ally); }
+.banner-character { background: var(--banner-character); }
+.banner-reference { background: var(--banner-reference); }
+.banner-vitality  { background: var(--banner-vitality); }
+.banner-strength      { background: var(--banner-strength); }
+.banner-writable-tool { background: var(--banner-writable-tool); }
+.banner-blank     { background: transparent; }

@@ -1,0 +1,23 @@
+{
+  "name": "cardgame",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build:tts": "node scripts/build-tts.mjs",
+    "publish:tts": "node scripts/publish-tts-static.mjs",
+    "publish:tts-from-export": "node scripts/publish-tts-from-viewer-export.mjs",
+    "sync:tts-images": "node scripts/publish-tts-from-viewer-export.mjs --mirror-all",
+    "serve:cards": "node scripts/card-viewer-server.mjs",
+    "build:travel": "node scripts/build-travel-book.mjs",
+    "watch:travel": "node scripts/build-travel-book.mjs --watch",
+    "serve:travel": "node scripts/serve-travel.mjs",
+    "build:discovery": "node scripts/build-discovery-book.mjs",
+    "build:garb": "node scripts/build-garb.mjs",
+    "watch:garb": "node scripts/build-garb.mjs --watch",
+    "analyze:zd1": "node scripts/zone-deck-1-analysis.mjs"
+  },
+  "dependencies": {
+    "sharp": "^0.34.5"
+  }
+}

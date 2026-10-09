@@ -1,6 +1,6 @@
 {
   "Name": "DeckCustom",
-  "Nickname": "Starting Tools",
+  "Nickname": "Tools · Starting kit & backpack",
   "Description": "Generated from cards.json deck id: intro-tools",
   "Transform": {
     "posX": 0,
@@ -14,17 +14,30 @@
     "scaleZ": 1
   },
   "DeckIDs": [
+    101,
+    102,
+    103,
+    104,
+    105,
+    106,
     201,
-    202,
-    203,
-    204
+    202
   ],
   "CustomDeck": {
+    "1": {
+      "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-1.png",
+      "BackURL": "https://example.invalid/tts/images/common-back.png",
+      "NumWidth": 3,
+      "NumHeight": 2,
+      "BackIsHidden": true,
+      "UniqueBack": false,
+      "Type": 0
+    },
     "2": {
-      "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-      "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-      "NumWidth": 10,
-      "NumHeight": 1,
+      "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-2.png",
+      "BackURL": "https://example.invalid/tts/images/common-back.png",
+      "NumWidth": 3,
+      "NumHeight": 2,
       "BackIsHidden": true,
       "UniqueBack": false,
       "Type": 0
@@ -33,15 +46,15 @@
   "ContainedObjects": [
     {
       "Name": "Card",
-      "Nickname": "Belt Knife & War Blade",
-      "Description": "Fight 2 · Uses 2\nFight 7 · Area · Penetration",
-      "CardID": 201,
+      "Nickname": "Camp Knife",
+      "Description": "Fight 2",
+      "CardID": 101,
       "CustomDeck": {
-        "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 1,
+        "1": {
+          "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -51,14 +64,14 @@
     {
       "Name": "Card",
       "Nickname": "Hand Axe",
-      "Description": "Work 4 · Uses 2",
-      "CardID": 202,
+      "Description": "Work 4, On Use: Scout 1",
+      "CardID": 102,
       "CustomDeck": {
-        "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 1,
+        "1": {
+          "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -67,15 +80,15 @@
     },
     {
       "Name": "Card",
-      "Nickname": "Coil of Rope",
-      "Description": "Traverse 4 · Area · Uses 2\nWork 3 · Area · Uses 2",
-      "CardID": 203,
+      "Nickname": "Trail Rope",
+      "Description": "Traverse 4 · Scout 1 on line\nWork 3",
+      "CardID": 103,
       "CustomDeck": {
-        "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 1,
+        "1": {
+          "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0
@@ -85,14 +98,82 @@
     {
       "Name": "Card",
       "Nickname": "Warded Charm",
-      "Description": "Awareness 4 · Area · Uses 2",
-      "CardID": 204,
+      "Description": "Awareness 4\nAwareness 2 · Vision +1 on line",
+      "CardID": 104,
+      "CustomDeck": {
+        "1": {
+          "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
+          "BackIsHidden": true,
+          "UniqueBack": false,
+          "Type": 0
+        }
+      }
+    },
+    {
+      "Name": "Card",
+      "Nickname": "Hunting Spear",
+      "Description": "Fight 6 · Range 1-2",
+      "CardID": 105,
+      "CustomDeck": {
+        "1": {
+          "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
+          "BackIsHidden": true,
+          "UniqueBack": false,
+          "Type": 0
+        }
+      }
+    },
+    {
+      "Name": "Card",
+      "Nickname": "Short Bow",
+      "Description": "Fight 5 · Range 2-2, Scout 1",
+      "CardID": 106,
+      "CustomDeck": {
+        "1": {
+          "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-1.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
+          "BackIsHidden": true,
+          "UniqueBack": false,
+          "Type": 0
+        }
+      }
+    },
+    {
+      "Name": "Card",
+      "Nickname": "Driving Maul",
+      "Description": "Work 6",
+      "CardID": 201,
       "CustomDeck": {
         "2": {
-          "FaceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-          "BackURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-          "NumWidth": 10,
-          "NumHeight": 1,
+          "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-2.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
+          "BackIsHidden": true,
+          "UniqueBack": false,
+          "Type": 0
+        }
+      }
+    },
+    {
+      "Name": "Card",
+      "Nickname": "Emberglass Lens",
+      "Description": "Awareness 4 · Recovery 1 on line",
+      "CardID": 202,
+      "CustomDeck": {
+        "2": {
+          "FaceURL": "https://example.invalid/tts/images/intro-tools-fronts-2.png",
+          "BackURL": "https://example.invalid/tts/images/common-back.png",
+          "NumWidth": 3,
+          "NumHeight": 2,
           "BackIsHidden": true,
           "UniqueBack": false,
           "Type": 0

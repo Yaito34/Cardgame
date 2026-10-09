@@ -1,0 +1,19 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["cards.json"],
+      "url": "./card-schema.json"
+    }
+  ],
+  "remote.autoForwardPorts": false,
+  "remote.restoreForwardedPorts": false,
+  "remote.portsAttributes": {
+    "8765": {
+      "onAutoForward": "ignore",
+      "label": "card-viewer"
+    }
+  },
+  "workbench.editorAssociations": {
+    "*.html": "default"
+  }
+}

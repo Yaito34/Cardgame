@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Discovery Book</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Macondo&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="discovery-book.css" />
+</head>
+<body>
+  <!--
+    Layout: this file + discovery-book.css + discovery-book-ui.js (not overwritten by build).
+    Content: discovery-book.md → npm run build:discovery → discovery-book-data.js
+  -->
+  
+  <div class="db-wrap" id="db-wrap"></div>
+  <script src="discovery-book-data.js"></script>
+  <script src="discovery-book-ui.js" defer></script>
+</body>
+</html>

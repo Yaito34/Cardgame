@@ -1,10 +1,15 @@
 {
   "version": 1,
-  "generatedAt": "2026-04-08T18:02:20.784Z",
+  "generatedAt": "2026-04-19T09:03:05.881Z",
   "source": "cards.json",
+  "cardRenderPixels": {
+    "width": 880,
+    "height": 630
+  },
   "notes": [
     "Generated object JSON + local spritesheets.",
-    "Set TTS_ASSET_BASE_URL to hosted image base URL before final import."
+    "Set TTS_ASSET_BASE_URL to hosted image base URL before final import.",
+    "Each face PNG is a 3×2 grid (6 cells); large decks use multiple PNGs."
   ],
   "decks": [
     {
@@ -13,23 +18,47 @@
       "type": "challenge",
       "cardCount": 23,
       "objectFile": "objects/zone-deck-1.json",
-      "imageFile": "images/zone-deck-1-fronts.png",
-      "faceURL": "https://yaito34.github.io/Cardgame/tts//images/zone-deck-1-fronts.png",
-      "backURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-      "rows": 3,
-      "cols": 10
+      "imageFiles": [
+        "images/zone-deck-1-fronts-1.png",
+        "images/zone-deck-1-fronts-2.png",
+        "images/zone-deck-1-fronts-3.png",
+        "images/zone-deck-1-fronts-4.png"
+      ],
+      "faceURLs": [
+        "https://example.invalid/tts/images/zone-deck-1-fronts-1.png",
+        "https://example.invalid/tts/images/zone-deck-1-fronts-2.png",
+        "https://example.invalid/tts/images/zone-deck-1-fronts-3.png",
+        "https://example.invalid/tts/images/zone-deck-1-fronts-4.png"
+      ],
+      "backURL": "https://example.invalid/tts/images/common-back.png",
+      "sheetGrid": {
+        "cols": 3,
+        "rows": 2,
+        "cardsPerSheet": 6
+      },
+      "sheetCount": 4
     },
     {
       "id": "intro-tools",
-      "name": "Starting Tools",
+      "name": "Tools · Starting kit & backpack",
       "type": "tool",
-      "cardCount": 4,
+      "cardCount": 8,
       "objectFile": "objects/intro-tools.json",
-      "imageFile": "images/intro-tools-fronts.png",
-      "faceURL": "https://yaito34.github.io/Cardgame/tts//images/intro-tools-fronts.png",
-      "backURL": "https://yaito34.github.io/Cardgame/tts//images/common-back.png",
-      "rows": 1,
-      "cols": 10
+      "imageFiles": [
+        "images/intro-tools-fronts-1.png",
+        "images/intro-tools-fronts-2.png"
+      ],
+      "faceURLs": [
+        "https://example.invalid/tts/images/intro-tools-fronts-1.png",
+        "https://example.invalid/tts/images/intro-tools-fronts-2.png"
+      ],
+      "backURL": "https://example.invalid/tts/images/common-back.png",
+      "sheetGrid": {
+        "cols": 3,
+        "rows": 2,
+        "cardsPerSheet": 6
+      },
+      "sheetCount": 2
     }
   ]
 }

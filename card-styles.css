@@ -1,0 +1,2201 @@
+@import url('card-banner-colors.css');
+
+    /* ── PAGE ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    :root {
+      --print-gap: 3mm;
+      /* Letter-spacing inside `[FI]` / `[AW]` only (Germania tag). Try 0.02em for slightly looser cap pairs. */
+      --approach-stat-tag-letter-spacing: 0.08em;
+      /* Click-preview: leave a margin so the enlarged card always fits on the page. */
+      --card-preview-width-vw: 84;
+      --card-preview-height-vh: 78;
+    }
+
+    body {
+      font-family: 'Macondo', cursive;
+      background: #2e2218;
+      background-image:
+        repeating-linear-gradient(90deg, rgba(0,0,0,0.06) 0px, transparent 3px, transparent 22px),
+        repeating-linear-gradient(0deg,  rgba(0,0,0,0.04) 0px, transparent 3px, transparent 22px);
+      color: #2a1e14;
+      margin: 0;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 2rem;
+      color: #e8d5a0;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+      margin: 0 0 1rem;
+      letter-spacing: 0.14em;
+    }
+
+    /* ── FILTER BAR ─────────────────────────────────────── */
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 0.7rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      font-family: 'Macondo', cursive;
+      font-size: 1rem;
+      padding: 0.4rem 1.5rem;
+      border-radius: 4px;
+      border: 2px solid #8b6340;
+      background: #5a3d28;
+      color: #e8d5a0;
+      cursor: pointer;
+      transition: background 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .filter-btn:hover  { background: #7a5238; }
+    .filter-btn.active { background: #a07040; color: #fff8e8; border-color: #c49050; }
+
+    .tts-export-status {
+      align-self: center;
+      font-size: 0.9rem;
+      color: #c4a574;
+      min-width: 12rem;
+    }
+
+    /* ── CARD GRID ──────────────────────────────────────── */
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      justify-content: center;
+    }
+
+    /* ── SECTION LABEL ──────────────────────────────────── */
+    .section-label {
+      width: 100%;
+      text-align: center;
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 1.2rem;
+      color: #e8d5a0;
+      letter-spacing: 0.14em;
+      margin: 1.8rem 0 0.5rem;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    }
+
+    /* ── CARD SHELL  (landscape: 88 × 63 mm scaled × 5) ── */
+    /* 88mm × 5 = 440px wide  |  63mm × 5 = 315px tall      */
+    .card {
+      width: 440px;
+      height: 315px;
+      border-radius: 0;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      overflow: visible;
+      position: relative;
+      cursor: zoom-in;
+      transition: transform 0.15s, box-shadow 0.15s;
+      background: url('Cardtemplate.png') center / 100% 100% no-repeat;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.7);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 36px rgba(0,0,0,0.75);
+    }
+
+    /* Character standee: figure + transparent halo, no card chrome. */
+    .card.card-character {
+      width: 225px;
+      height: 225px;
+      background: transparent;
+      overflow: visible;
+      box-shadow: none;
+      cursor: grab;
+      touch-action: none;
+      z-index: 3;
+    }
+    .card.card-character:hover,
+    .card.card-character.card-character--dragging {
+      transform: none;
+      box-shadow: none;
+    }
+    .card.card-character.card-character--dragging {
+      cursor: grabbing;
+      z-index: 40;
+    }
+    .card.card-character .character-art {
+      position: absolute;
+      inset: 0;
+      background-color: transparent;
+      background-image: var(--card-art-url);
+      background-size: contain;
+      background-position: center center;
+      background-repeat: no-repeat;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .card.card-character::after {
+      display: none;
+    }
+    .card.card-challenge-stack .card-art-token {
+      position: absolute;
+      left: 50%;
+      bottom: 8%;
+      width: 50%;
+      height: 72%;
+      transform: translateX(-50%);
+      z-index: 3;
+      pointer-events: none;
+    }
+    .card.card-challenge-stack .card-art-token .card.card-character {
+      width: 100%;
+      height: 100%;
+      cursor: default;
+    }
+
+    /* ── CHALLENGE STACK (portrait: 63 × 88 mm, art 4/10 height) ── */
+    /* 63mm × 5 = 315px wide  |  88mm × 5 = 440px tall               */
+    .card.card-challenge-stack {
+      width: 315px;
+      height: 440px;
+      overflow: hidden;
+      background: #16120e;
+      border: none;
+      box-shadow: none;
+    }
+    .card.card-challenge-stack .card-art {
+      flex: 0 0 40%;
+      height: 40%;
+      position: relative;
+      overflow: hidden;
+      background: #24180e;
+    }
+    .card.card-challenge-stack.card-walk-scene .card-art {
+      overflow: visible;
+    }
+    .card.card-challenge-stack .card-art--full {
+      flex: 1 1 auto;
+      height: 100%;
+    }
+    .card.card-challenge-stack .card-art-pic {
+      position: absolute;
+      inset: 0;
+      background-image: var(--card-art-url);
+      background-size: 100% 100%;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 1;
+      z-index: 0;
+    }
+    .card.card-challenge-stack[data-face-art="forest"] .card-art-pic,
+    .card.card-challenge-stack[data-face-art="castle"] .card-art-pic {
+      background-size: 100% 100%;
+      background-repeat: repeat-x;
+      background-position: var(--card-art-shift, 0px) 0;
+    }
+    .card.card-challenge-stack .card-art-pic::after {
+      display: block;
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        linear-gradient(
+          to right,
+          rgba(10, 6, 3, 0.4) 0%,
+          rgba(10, 6, 3, 0.12) 8%,
+          transparent 18%,
+          transparent 82%,
+          rgba(10, 6, 3, 0.12) 92%,
+          rgba(10, 6, 3, 0.4) 100%
+        ),
+        linear-gradient(
+          to bottom,
+          rgba(10, 6, 3, 0.2) 0%,
+          transparent 16%,
+          transparent 78%,
+          rgba(10, 6, 3, 0.28) 100%
+        );
+    }
+    .card.card-challenge-stack .card-art-name {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      padding: 10px 14px;
+      text-align: center;
+      pointer-events: none;
+    }
+    .card.card-challenge-stack.card-walk-scene .card-art-name,
+    .card.card-challenge-stack.card-forest-back .card-art-name {
+      align-items: flex-start;
+      padding-top: 7px;
+    }
+    .card.card-challenge-stack .card-art-name .card-name {
+      font-size: 1.42rem;
+      line-height: 1.12;
+      text-align: center;
+    }
+    .card.card-challenge-stack .card-effect-box {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: #1a1612;
+      border: none;
+      padding: 3px;
+      margin: 7px;
+      position: relative;
+      z-index: 1;
+      box-shadow: inset 0 0 0 3px rgba(90, 58, 30, 0.7);
+    }
+    .card.card-challenge-stack .card-stack-body {
+      flex: 1;
+      min-height: 0;
+      margin: 0;
+      padding: 0 6px;
+      background: transparent;
+      overflow: hidden;
+      color: #f4efe6;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .card.card-challenge-stack .card-stack-body .card-text,
+    .card.card-challenge-stack .card-stack-body .approach-row,
+    .card.card-challenge-stack .card-stack-body .approach-outcome,
+    .card.card-challenge-stack .card-stack-body .text-comic {
+      color: #f4efe6;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+    }
+    .card.card-challenge-stack .card-stack-type {
+      flex-shrink: 0;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-family: 'Macondo', cursive;
+      font-size: 0.6rem;
+      color: #c4b090;
+      padding: 2px 6px 1px;
+    }
+    .card.card-challenge-stack .card-challenge-band--middle,
+    .card.card-challenge-stack .card-challenge-band--middle.card-challenge-band--fill {
+      flex: 1 1 auto;
+      min-height: 0;
+      justify-content: center;
+      gap: 0.42em;
+      margin-top: 0;
+      padding-top: 0;
+      padding-bottom: 0.15em;
+    }
+    .card.card-challenge-stack .card-challenge-band--top {
+      flex: 0 0 auto;
+      border: 1px solid rgba(210, 190, 150, 0.28);
+      border-radius: 2px;
+      background: rgba(8, 6, 4, 0.32);
+      margin: 1px 2px 2px;
+      padding: 3px 6px 4px;
+      min-height: 2.45em;
+      max-height: 2.7em;
+      overflow: hidden;
+      font-size: 0.82em;
+      line-height: 1.22;
+    }
+    .card.card-challenge-stack .card-challenge-band--bottom {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: baseline;
+      border: none;
+      border-radius: 0;
+      background: rgba(252, 237, 212, 0.16);
+      box-shadow: none;
+      margin: 0 2px 2px;
+      padding: 2px 4px 3px;
+      min-height: 0;
+      overflow: visible;
+      font-size: 0.82em;
+      line-height: 1.22;
+      text-align: center;
+      color: #1a0d04;
+    }
+    .card.card-challenge-stack .card-challenge-band--bottom .danger-mark,
+    .card.card-challenge-stack .card-challenge-band--bottom .danger-when {
+      font-size: 1.05em;
+    }
+    .card.card-challenge-stack .card-challenge-band--bottom .card-danger-mark {
+      min-height: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .danger-mark,
+    .danger-when {
+      font-family: 'Macondo', cursive;
+      font-weight: bold;
+      font-size: 1em;
+      letter-spacing: 0;
+      line-height: 1.15;
+      color: #1a0d04;
+      text-shadow: none;
+      white-space: nowrap;
+    }
+    .card.card-challenge-stack .card-danger-mark {
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      width: auto;
+      gap: 0;
+      -webkit-line-clamp: unset;
+      overflow: visible;
+    }
+    .card.card-challenge-stack .card-challenge-band--bottom .card-danger-mark + .card-danger-mark::before {
+      content: '\00a0\00a0';
+    }
+    .kw-hover {
+      cursor: help;
+    }
+    .kw-hover-pop {
+      position: fixed;
+      z-index: 100000;
+      max-width: 260px;
+      padding: 6px 8px;
+      background: rgba(252, 237, 212, 0.96);
+      color: #1a0d04;
+      font-family: 'Macondo', cursive;
+      font-size: 0.95rem;
+      font-weight: bold;
+      line-height: 1.25;
+      pointer-events: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+    .card.card-challenge-stack .card-stack-body .card-danger-mark,
+    .card.card-challenge-stack .card-stack-body .danger-mark,
+    .card.card-challenge-stack .card-stack-body .danger-when {
+      color: #1a0d04;
+      text-shadow: none;
+      font-family: 'Macondo', cursive;
+    }
+    .card.card-challenge-stack .card-challenge-band + .card-challenge-band::before {
+      display: none;
+    }
+    .card.card-challenge-stack .approach-row.approach-row--split {
+      padding: 0 1px 1px;
+      gap: 0.02em;
+    }
+    /* New challenge format: one horizontal line of all four approach chips
+       directly below the name. Any tool may attempt any approach — the chips
+       the author did not print are harder fallbacks (marked is-off-approach).
+       The whole line gets the soft highlight strip the old approach rows had. */
+    .card.card-challenge-stack .card-approach-chip-line {
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 0;
+      margin-top: 2px;
+      padding: 0.12em 4px 0.18em;
+      position: relative;
+      isolation: isolate;
+    }
+    .card.card-challenge-stack .card-approach-chip-line::before {
+      content: '';
+      position: absolute;
+      inset: 0 3px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.19);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card.card-challenge-stack .card-approach-chip-line::before {
+      background: rgba(12, 6, 2, 0.07);
+    }
+    .card.card-challenge-stack .card-approach-chip-line .approach-wrap {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      justify-content: center;
+    }
+    .card.card-challenge-stack .approach-row--chip .approach-icon-bar {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 0.1em;
+      min-height: 0;
+      margin: 0;
+      padding: 0 0.3em;
+      background: none;
+      border: none;
+      box-shadow: none;
+      overflow: visible;
+    }
+    .card.card-challenge-stack .approach-row--chip .approach-stat-chip__num {
+      font-family: 'Macondo', cursive;
+      font-size: 1.35em;
+      font-weight: 700;
+      line-height: 1;
+      flex: 0 0 auto;
+      min-width: 0;
+      margin: 0;
+    }
+    /* Off-approach fallback: visibly harder (dimmer chip + small "+" marker). */
+    .card.card-challenge-stack .approach-row--chip.is-off-approach .approach-stat-chip {
+      opacity: 0.62;
+    }
+    .card.card-challenge-stack .approach-row--chip.is-off-approach .approach-stat-chip__num::after {
+      content: '+';
+      font-size: 0.72em;
+      vertical-align: super;
+      margin-left: 1px;
+    }
+    .card.card-challenge-stack .approach-row--split .approach-flavor-label {
+      font-size: 1.28em;
+      line-height: 1.08;
+    }
+    .card.card-challenge-stack .approach-row--split .approach-icon-bar {
+      min-height: 1.62em;
+      padding: 0 0.28em 0 0.72em;
+      font-size: 0.92em;
+      gap: 0.12em 0.7em;
+      flex-wrap: nowrap;
+      overflow: hidden;
+    }
+    .card.card-challenge-stack .approach-wrap {
+      border-radius: 0.45em;
+      cursor: pointer;
+    }
+    .card.card-challenge-stack .approach-wrap:hover,
+    .card.card-challenge-stack .approach-wrap.is-armed {
+      box-shadow: none;
+      background: transparent;
+    }
+    .card.card-challenge-stack .approach-row--split .approach-stat-chip__num {
+      font-size: 1em;
+      font-weight: 700;
+      color: #1a0d04;
+      display: inline-flex;
+      align-items: center;
+      line-height: 1;
+      text-box: cap alphabetic;
+    }
+    .card.card-challenge-stack .approach-row--split .approach-row__lead {
+      align-items: baseline;
+      gap: 0.12em;
+    }
+    .card.card-challenge-stack .approach-row--split .approach-row__lead .approach-stat-chip__tag--icon {
+      align-self: center;
+    }
+    .card.card-challenge-stack .approach-row--split .approach-row__lead .approach-stat-chip__num {
+      font-family: 'Macondo', cursive;
+      font-size: 1.5em;
+      font-weight: bold;
+      line-height: 1;
+      color: #1a0d04;
+      text-shadow: none;
+      flex: 0 0 1.2em;
+      min-width: 1.2em;
+      margin-left: 0.3em;
+      margin-right: 0.22em;
+      justify-content: flex-start;
+      text-align: left;
+    }
+    .card.card-challenge-stack .approach-row--split.approach-kind-fight .approach-row__lead .approach-stat-chip__num {
+      color: #8b1e1a;
+    }
+    .card.card-challenge-stack .approach-row--split.approach-kind-craft .approach-row__lead .approach-stat-chip__num,
+    .card.card-challenge-stack .approach-row--split.approach-kind-work .approach-row__lead .approach-stat-chip__num {
+      color: #6a4320;
+    }
+    .card.card-challenge-stack .approach-row--split.approach-kind-traverse .approach-row__lead .approach-stat-chip__num {
+      color: #1a5c28;
+    }
+    .card.card-challenge-stack .approach-row--split.approach-kind-awareness .approach-row__lead .approach-stat-chip__num {
+      color: #1a4580;
+    }
+    .card.card-challenge-stack .approach-row--split.approach-kind-warm .approach-row__lead .approach-stat-chip__num {
+      color: #c45c12;
+    }
+    .card.card-challenge-stack .approach-row--split .approach-stat-chip__tag--icon {
+      width: 1.55em;
+      height: 1.55em;
+    }
+    .card.card-challenge-stack .approach-row--split .approach-type-icon {
+      width: 1.42em;
+      height: 1.42em;
+    }
+    .card.card-challenge-stack:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) {
+      background: #16120e;
+    }
+    .card.card-challenge-stack:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"])::before,
+    .card.card-challenge-stack:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"])::after {
+      display: none;
+    }
+    .card.card-challenge-stack.card--preview-active,
+    .card.card-challenge-stack.card--preview-active:hover {
+      transform: translate(-50%, -50%) scale(
+        min(
+          calc(var(--card-preview-width-vw) * 1vw / 315px),
+          calc(var(--card-preview-height-vh) * 1vh / 440px)
+        )
+      );
+    }
+
+    .card-preview-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background: rgba(12, 8, 5, 0.48);
+      pointer-events: auto;
+      cursor: zoom-out;
+    }
+    .card-preview-backdrop.is-visible {
+      display: block;
+    }
+
+    .card.card--preview-active {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      margin: 0;
+      cursor: zoom-out;
+      transform-origin: center center;
+      transform: translate(-50%, -50%) scale(
+        min(
+          calc(var(--card-preview-width-vw) * 1vw / 440px),
+          calc(var(--card-preview-height-vh) * 1vh / 315px)
+        )
+      );
+      z-index: 10000;
+      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.82);
+    }
+    .card.card--preview-active:hover {
+      transform: translate(-50%, -50%) scale(
+        min(
+          calc(var(--card-preview-width-vw) * 1vw / 440px),
+          calc(var(--card-preview-height-vh) * 1vh / 315px)
+        )
+      );
+      box-shadow: 0 22px 56px rgba(0, 0, 0, 0.82);
+    }
+
+    /* ── TOP WOOD AREA (holds banner) ───────────────────── */
+    .card-top {
+      height: 87px;
+      display: flex;
+      align-items: flex-start;   /* push banner toward the top of the area */
+      justify-content: center;
+      padding: 13px 8px 0;       /* less top padding moves banner up onto the scroll */
+       flex-shrink: 0;
+      position: relative;
+    }
+
+    /* top section has no extra overlay — image provides the texture */
+    .card-top::after { display: none; }
+
+    /* ── BANNER (semi-transparent tint over the image scroll) ── */
+    .card-banner {
+      /* ~80 % matches the flat scroll area between the two roll ends */
+      width: 98%;
+      height: 62px;
+      border-radius: 4px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+    }
+
+    /* Banner colours → see card-banner-colors.css (single source of truth) */
+
+    /* Challenge “finding” cards: paired `Tool>` … `Tool>` wraps tool block (blue box + inner `---` brown rule). */
+    .card-challenge-tool-strip {
+      margin-top: 0;
+      margin-bottom: 0;
+      padding: 6px 8px 7px;
+      border: 2px solid rgba(2, 52, 160, 0.72);
+      border-radius: 4px;
+      background: rgba(2, 52, 160, 0.075);
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex-shrink: 0;
+      position: relative;
+    }
+    /* Inner `---` inside the tool box: same brown weight as band dividers */
+    .card-challenge-tool-inner-divider {
+      flex-shrink: 0;
+      height: 0;
+      margin: 5px 0 4px;
+      border: none;
+      border-top: 2px solid rgba(110, 65, 15, 0.45);
+      width: 100%;
+      align-self: stretch;
+    }
+    /* ── REFERENCE CARD (table aid, print) ───────────────── */
+    .card-body-reference {
+      justify-content: flex-start !important;
+      padding: 6px 22px 12px !important;
+      overflow-y: auto;
+    }
+    .card-challenge-band--reference {
+      justify-content: flex-start;
+      overflow-y: auto;
+      padding-top: 4px;
+      padding-bottom: 6px;
+    }
+    .card-reference-scroll {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+    }
+    .ref-line {
+      font-size: 0.78rem;
+      line-height: 1.32;
+      color: #1a0d04;
+      padding: 4px 2px 4px 6px;
+      border-bottom: 1px solid rgba(110, 65, 15, 0.14);
+      text-align: left;
+    }
+    .ref-line strong {
+      color: #2d5018;
+      font-weight: bold;
+    }
+    .ref-sep {
+      border: none;
+      height: 1px;
+      background: rgba(110, 65, 15, 0.28);
+      margin: 6px 0 8px;
+      flex-shrink: 0;
+    }
+
+    /* ── TIME TRACK — 4-column grid layout ──────────────────── */
+    .card-reference[data-card-id="REF_TIME_TRACK"] .card-reference-scroll {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .card-reference[data-card-id="REF_TIME_TRACK"] .ref-line {
+      padding: 4px 4px 4px 6px;
+      border-bottom: 1px solid rgba(110, 65, 15, 0.22);
+      border-right: 1px solid rgba(110, 65, 15, 0.12);
+    }
+    /* Last column: no right border */
+    .card-reference[data-card-id="REF_TIME_TRACK"] .ref-line:nth-child(4n) {
+      border-right: none;
+    }
+
+    /* no CSS roll ends — image already has them */
+    .card-banner::before,
+    .card-banner::after { display: none; }
+
+    /* name strip transparent — tint colour from banner is enough */
+    .card-scroll-strip {
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-scroll-strip--with-subtitle {
+      flex-direction: column;
+      gap: 0.12rem;
+      justify-content: center;
+    }
+
+    .card-subtitle {
+      font-family: 'Macondo', cursive;
+      font-size: 1rem;
+      font-weight: normal;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255, 247, 228, 0.88);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0, 0, 0, 0.65);
+      margin: 0;
+      padding: 0 0.25rem;
+    }
+
+    .card-name {
+      font-family:  'Macondo Swash Caps','Germania One', cursive;
+       font-size: 1.6rem;
+       font-weight: bold;
+      color: #fff8e8;
+      text-shadow: 0 2px 8px rgba(0,0,0,1.9), 0 0 14px rgba(0,0,0,0.9);
+      letter-spacing: 0.1em;
+    }
+    .card-name--with-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.32em;
+    }
+    .card-banner-icon {
+      font-size: 1.12em;
+      line-height: 1;
+      flex-shrink: 0;
+      text-shadow: 0 0 10px rgba(72, 23, 23, 0.95), 0 0 12px rgba(95, 40, 21, 0.55);
+    }
+    .card-name-text {
+      line-height: 1.1;
+    } 
+
+    /* ── PARCHMENT BODY — transparent so image shows through ── */
+    .card-body {
+      flex: 1;
+      min-height: 0;
+      margin: -4px 2px 0px;
+      border-radius: 4px;
+      padding: 0px 30px 0px 30px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 0px;
+      background: transparent;
+      isolation: isolate;
+      /* Align · sub-lines under approaches with .card-effect-section text */
+      --effect-section-margin-x: 2px;
+      --card-text-pad-x: 5px;
+      --card-content-pad-x: 10px;
+      --effect-text-start: calc(var(--effect-section-margin-x) + var(--card-text-pad-x));
+      --card-art-opacity: 0.12;
+    }
+    /* Optional art from CardPictures/<card name>.png (etc.): centered crop, cover, very faint */
+    .card-body--has-art::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: var(--card-art-url);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: var(--card-art-opacity);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .card-body--has-art > * { 
+      position: relative;
+      z-index: 1;
+    }
+    /* Forest face tests: full landscape on a dark-brown mat, soft inner frame.
+       Name and effects overlay the picture. */
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) {
+      background: #1c1008;
+      overflow: hidden;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"])::before {
+      content: '';
+      position: absolute;
+      inset: 11px;
+      background-image: var(--card-art-url);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 1;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .card:is([data-face-art="dungeon"], [data-face-art="dark"], [data-face-art="forest"], [data-face-art="castle"])::before {
+      background-size: 100% 100%;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"])::after {
+      content: '';
+      position: absolute;
+      inset: 11px;
+      pointer-events: none;
+      z-index: 2;
+      box-shadow:
+        inset 0 0 0 1px rgba(210, 176, 112, 0.38),
+        inset 0 0 0 3px rgba(42, 24, 12, 0.4),
+        inset 0 0 26px rgba(12, 6, 2, 0.42);
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-top,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-body {
+      position: relative;
+      z-index: 3;
+      background: transparent;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-banner {
+      background: transparent;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-body--has-art::after {
+      display: none;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-text,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-flavor,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-outcome,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .path-step-num,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .kw-mid-dot,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .kw-outcome-sep {
+      color: #f4efe6;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.88);
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-text .text-comic,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-challenge-band .text-comic,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-effect-section .text-comic,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row .text-comic,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row .approach-outcome .text-comic,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row .approach-outcome-power .text-comic {
+      color: #f4efe6;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-challenge-band + .card-challenge-band::before,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-effect-section,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-flavor {
+      border-color: rgba(243, 238, 228, 0.28);
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .card-challenge-band + .card-challenge-band::before {
+      background: rgba(243, 238, 228, 0.28);
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row::before {
+      background: rgba(12, 6, 2, 0.07);
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-type,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-flavor-label,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row__colon,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .text-kw-approach,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .text-kw-outcome,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .outcome-kw,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .text-kw-effect {
+      color: #f4efe6;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+      background: none;
+      box-shadow: none;
+      padding: 0;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-type.approach-type--flavored {
+      white-space: normal;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-flavor-label {
+      white-space: nowrap;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-stat-chip {
+      display: inline-flex;
+      align-items: baseline;
+      padding: 0.06em 0.38em 0.1em;
+      margin-right: 0.22em;
+      border-radius: 4px;
+      color: #fff;
+      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+      line-height: 1.15;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-stat-chip__tag,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-stat-chip__num {
+      color: #fff;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-kind-fight .approach-stat-chip {
+      background: #c62828;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-kind-traverse .approach-stat-chip {
+      background: #2e7d32;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-kind-awareness .approach-stat-chip {
+      background: #1565c0;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-kind-work .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-kind-craft .approach-stat-chip {
+      background: #8d5a2b;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-kind-warm .approach-stat-chip {
+      background: #e07a1a;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-kind-special .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-kind-default .approach-stat-chip {
+      background: #2a241c;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .text-kw-outcome,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .text-kw-effect {
+      display: inline;
+      font-weight: 700;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .effect-outcome-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.08em;
+      padding: 0.06em 0.38em 0.08em;
+      margin-right: 0.12em;
+      border-radius: 5px;
+      background: #ead9b8;
+      color: #2a1a0c;
+      text-shadow: none;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .effect-outcome-chip .outcome-val,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .effect-outcome-chip .effect-outcome-glyph {
+      color: #2a1a0c;
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-kind-fight .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-kind-traverse .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-kind-awareness .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-kind-work .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-kind-craft .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-kind-warm .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-kind-special .approach-stat-chip,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-kind-default .approach-stat-chip {
+      background: transparent;
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+      color: #1a0d04;
+      align-items: center;
+      line-height: 1;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-stat-chip__tag,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-icon-bar,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-icon-bar__effects,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .effect-outcome-wrap,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .text-kw-outcome,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .outcome-val,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .effect-outcome-glyph,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .approach-outcome,
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .text-comic {
+      color: #1a0d04;
+      text-shadow: none;
+    }
+    .card:is([data-face-art="forest"], [data-face-art="dungeon"], [data-face-art="castle"]) .approach-row--split .effect-outcome-chip {
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+    }
+    .card.card-challenge-stack .card-stack-body .approach-row--split .approach-icon-bar,
+    .card.card-challenge-stack .card-stack-body .approach-row--split .approach-icon-bar__effects,
+    .card.card-challenge-stack .card-stack-body .approach-row--split .effect-outcome-wrap,
+    .card.card-challenge-stack .card-stack-body .approach-row--split .text-comic,
+    .card.card-challenge-stack .card-stack-body .approach-row--split .approach-outcome {
+      color: #1a0d04;
+      text-shadow: none;
+    }
+    /* Challenge bands: each `---` block in cards.md (may mix field text + approaches in order). */
+    /* Challenge bands: stretch to card text width (avoids centered-looking narrow columns). */
+    .card-challenge-band {
+      flex-shrink: 0;
+      margin: 0 var(--effect-section-margin-x);
+      padding: 1px var(--card-content-pad-x) 0px;
+      display: flex;
+      margin-top: 6px;
+      flex-direction: column;
+      align-items: stretch;
+      text-align: left;
+      gap: 1px;
+      position: relative;
+      z-index: 1;
+    }
+    /* Brown band divider: pseudo-element so line width can be narrower than the text area. */
+    .card-challenge-band + .card-challenge-band {
+      border-top: none;
+      margin-top: 0px;
+      padding-top: 0px;
+    }
+    .card-challenge-band + .card-challenge-band::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 8px;
+      right: 8px;
+      height: 2px;
+      background: rgba(110, 65, 15, 0.45);
+    }
+    .card-challenge-band--fill {
+      flex: 1;
+      min-height: 0;
+      justify-content: center;
+    }
+    .card.card-challenge-stack .card-challenge-band--middle.card-challenge-band--fill {
+      flex: 1 1 auto;
+      justify-content: center;
+    }
+    /* Last band on a 3-section card: natural height, pinned to bottom by the fill band above. */
+    .card-challenge-band--bottom {
+      padding-bottom: 10px;
+    }
+    .card.card-challenge-stack .card-challenge-band--bottom {
+      padding-bottom: 4px;
+    }
+    /* Override the blanket `+ .card-challenge-band` reset so padding-top is tunable here alone. */
+    .card-challenge-band + .card-challenge-band--bottom {
+      padding-top: 6px;
+    }
+    /* Finding + tool strip: keep the blue block compact so the card stays within the 315px face. */
+    .card-challenge-band--fill:has(> .card-challenge-tool-strip:only-child) {
+      justify-content: flex-start;
+    }
+
+    /* Tool / ability cards: stats pinned top, approaches centered in fill band, effects pinned bottom. */
+    .card[data-type="tool"] .card-tool-band--top,
+    .card[data-type="ability"] .card-tool-band--top,
+    .card-writable-tool .card-tool-band--top {
+      flex-shrink: 0;
+      margin-top: 6px;
+      padding-bottom: 5px;
+    }
+    .card[data-type="tool"] .card-tool-band--middle,
+    .card[data-type="ability"] .card-tool-band--middle,
+    .card-writable-tool .card-tool-band--middle {
+      flex: 1;
+      min-height: 0;
+      justify-content: center;
+    }
+    .card[data-type="tool"] .card-challenge-band--bottom,
+    .card[data-type="ability"] .card-challenge-band--bottom,
+    .card-writable-tool .card-challenge-band--bottom {
+      flex-shrink: 0;
+    }
+    .card.card-tool-face,
+    .card.card-writable-tool {
+      background: transparent;
+      box-shadow: none;
+    }
+    .card.card-tool-face .card-body,
+    .card.card-writable-tool .card-body {
+      margin: 0;
+      padding: 4px 8px 0;
+    }
+    .card.card-tool-face .card-tool-band--middle,
+    .card.card-writable-tool .card-tool-band--middle {
+      justify-content: center;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .card.card-tool-face .card-tool-effect,
+    .card.card-writable-tool .card-tool-effect {
+      position: relative;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      margin: 2px 6px 18px;
+      padding: 18px 14px 22px;
+      background: transparent;
+      box-shadow: none;
+      gap: 0;
+    }
+    .card.card-tool-face .card-tool-effect::before,
+    .card.card-writable-tool .card-tool-effect::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 140' preserveAspectRatio='none'><path d='M1 6 C 36 4.4, 70 7.2, 108 5.3 S 162 7.4, 199 5.5 C 199.6 28, 198.2 62, 199.5 96 S 198.6 124, 199 134 C 158 135.4, 104 133.2, 52 135.5 S 16 133.4, 1 134 C 0.4 108, 1.6 70, 0.5 36 S 0.6 14, 1 6 Z' fill='none' stroke='%233a2614' stroke-width='2.2' stroke-linejoin='round' vector-effect='non-scaling-stroke'/></svg>") center / 100% 100% no-repeat;
+    }
+    .card.card-tool-face .card-tool-effect .card-challenge-band + .card-challenge-band::before,
+    .card.card-writable-tool .card-tool-effect .card-challenge-band + .card-challenge-band::before {
+      display: none;
+    }
+    .card.card-tool-face .card-tool-band--top,
+    .card.card-writable-tool .card-tool-band--top {
+      flex-shrink: 0;
+      border: none;
+      background: transparent;
+      margin: 0 4px 2px;
+      padding: 0 4px;
+      text-align: center;
+    }
+    .card.card-tool-face .card-tool-effect .card-challenge-band--bottom,
+    .card.card-writable-tool .card-tool-effect .card-challenge-band--bottom {
+      position: relative;
+      flex-shrink: 0;
+      border: none;
+      background: transparent;
+      margin: 6px 2px 0;
+      padding: 6px 8px 4px;
+      overflow: visible;
+      text-align: center;
+    }
+    .card.card-tool-face .card-challenge-band--bottom::after,
+    .card.card-writable-tool .card-challenge-band--bottom::after {
+      content: '';
+      position: absolute;
+      inset: -2px -1px;
+      pointer-events: none;
+      z-index: 2;
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 44' preserveAspectRatio='none'><path d='M2 5 C 24 3.4, 52 6.2, 78 4.2 S 104 6.4, 118 4.4 C 119.2 14, 117.2 28, 118.4 39 C 92 40.6, 54 38.2, 24 40 S 8 38.4, 2 39.4 C 0.8 28, 3.2 16, 2 5 Z' fill='none' stroke='%233a2614' stroke-width='2.2' stroke-linejoin='round' vector-effect='non-scaling-stroke'/></svg>") center / 100% 100% no-repeat;
+    }
+    .card.card-tool-face .card-tool-effect .card-text,
+    .card.card-tool-face .card-tool-effect .tool-stats-line,
+    .card.card-tool-face .card-tool-effect .tool-stats-rest,
+    .card.card-tool-face .card-tool-effect .text-comic,
+    .card.card-tool-face .card-tool-effect .text-kw-outcome,
+    .card.card-tool-face .approach-flavor-label,
+    .card.card-tool-face .card-stack-type,
+    .card.card-writable-tool .card-tool-effect .card-text,
+    .card.card-writable-tool .card-tool-effect .tool-stats-line,
+    .card.card-writable-tool .approach-flavor-label,
+    .card.card-writable-tool .card-stack-type {
+      color: #2a1c12;
+      text-shadow: none;
+    }
+    .card.card-tool-face .card-tool-name,
+    .card.card-writable-tool .card-tool-name {
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+      text-align: center;
+      padding: 2px 8px 0;
+    }
+    .card.card-tool-face .card-tool-name .card-name,
+    .card.card-writable-tool .card-tool-name .card-name {
+      font-size: 2rem;
+      line-height: 1.05;
+      color: #2a1c12;
+      text-shadow: none;
+      letter-spacing: 0.04em;
+    }
+    .card.card-tool-face .card-stack-type,
+    .card.card-writable-tool .card-stack-type {
+      position: relative;
+      z-index: 1;
+      flex-shrink: 0;
+      margin: 2px 0 0;
+      padding: 0 6px;
+      font-size: 1.15rem;
+      letter-spacing: 0.12em;
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 1.15;
+    }
+    .card.card-tool-face .tool-approach-list,
+    .card.card-writable-tool .tool-approach-list {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: nowrap;
+      gap: 0.55em;
+      width: 100%;
+      flex: 0 0 auto;
+      min-height: 0;
+      padding: 0 6px;
+    }
+    .card.card-tool-face .tool-approach-list .approach-wrap,
+    .card.card-writable-tool .tool-approach-list .approach-wrap {
+      width: auto;
+      margin: 0;
+      flex: 0 0 auto;
+    }
+    .card.card-tool-face .tool-approach-list .approach-wrap + .approach-wrap::before,
+    .card.card-writable-tool .tool-approach-list .approach-wrap + .approach-wrap::before {
+      display: none;
+    }
+    .card.card-tool-face .tool-approach-list .approach-row,
+    .card.card-writable-tool .tool-approach-list .approach-row {
+      flex-direction: row;
+      width: auto;
+      padding: 0;
+      gap: 0;
+      background: transparent;
+    }
+    .card.card-tool-face .tool-approach-list .approach-row::before,
+    .card.card-writable-tool .tool-approach-list .approach-row::before {
+      display: none;
+    }
+    .card.card-tool-face .tool-approach-list .approach-row__lead,
+    .card.card-writable-tool .tool-approach-list .approach-row__lead {
+      display: none;
+    }
+    .card.card-tool-face .card-tool-effect .card-text,
+    .card.card-writable-tool .card-tool-effect .card-text,
+    .card.card-tool-face .card-tool-band--top,
+    .card.card-writable-tool .card-tool-band--top {
+      font-size: 1.15em;
+      line-height: 1.22;
+    }
+    .card.card-tool-face .tool-approach-list .approach-icon-bar,
+    .card.card-writable-tool .tool-approach-list .approach-icon-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      min-height: 1.62em;
+      padding: 0 0.15em;
+      font-size: 1.29em;
+      gap: 0.12em 0.7em;
+      background: none;
+      border: none;
+      border-radius: 0;
+      box-shadow: none;
+      box-sizing: border-box;
+    }
+    .card.card-tool-face .tool-approach-list .approach-stat-chip__tag--icon,
+    .card.card-writable-tool .tool-approach-list .approach-stat-chip__tag--icon {
+      width: 1.34em;
+      height: 1.34em;
+    }
+    .card.card-tool-face .tool-approach-list .approach-type-icon,
+    .card.card-writable-tool .tool-approach-list .approach-type-icon {
+      width: 1.28em;
+      height: 1.28em;
+    }
+    .card.card-tool-face .tool-approach-list .approach-stat-chip__num,
+    .card.card-writable-tool .tool-approach-list .approach-stat-chip__num {
+      font-size: 1em;
+      font-weight: 700;
+    }
+    .card.card-tool-face .approach-stat-chip__tag--glyph,
+    .card.card-writable-tool .approach-stat-chip__tag--glyph {
+      font-size: 1.25em;
+      line-height: 1;
+    }
+    .card.card-tool-face .approach-stat-chip__tag--glyph::before,
+    .card.card-writable-tool .approach-stat-chip__tag--glyph::before {
+      display: none;
+    }
+    .card.card-tool-face .tool-approach-list .approach-stat-chip,
+    .card.card-writable-tool .tool-approach-list .approach-stat-chip {
+      white-space: nowrap;
+    }
+    .card.card-tool-face .tool-range-mark,
+    .card.card-writable-tool .tool-range-mark {
+      margin-left: 0.2em;
+      font-size: 1.05em;
+      line-height: 1;
+    }
+    .tool-stats-line {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 2.4mm 3.2mm;
+      padding: 0 2.4mm 0 3mm;
+      font-family: Macondo, cursive;
+      font-size: 0.98em;
+      font-weight: 700;
+      color: #2a1c12;
+    }
+    .tool-use-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 1.3mm;
+    }
+    .tool-use-box {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 6.4mm;
+      height: 6.4mm;
+      flex: 0 0 6.4mm;
+      box-sizing: border-box;
+      border: 0.5mm solid #1a120c;
+      border-radius: 0.45mm;
+      background: #f6ead0;
+      box-shadow: inset 0 0 0 0.22mm rgba(255, 255, 255, 0.35);
+      font-family: 'Germania One', fantasy;
+      font-size: 4.2mm;
+      font-weight: 400;
+      line-height: 1;
+      color: #1a120c;
+    }
+    .tool-use-box.is-filled {
+      color: transparent;
+    }
+    .tool-use-box.is-filled::after {
+      content: '';
+      position: absolute;
+      left: 12%;
+      top: 12%;
+      width: 76%;
+      height: 76%;
+      z-index: 1;
+      background: #141414;
+      border-radius: 0.3mm;
+      box-shadow:
+        inset 0 0.4mm 0 rgba(255, 255, 255, 0.16),
+        0 0.25mm 0.4mm rgba(0, 0, 0, 0.4);
+      pointer-events: none;
+    }
+    .tool-stats-rest {
+      letter-spacing: 0.01em;
+    }
+
+    /* Challenge cards: approaches centered; universal effects pinned bottom. */
+    .card[data-type="challenge"] .card-challenge-band--top,
+    .card[data-type="finding"] .card-challenge-band--top,
+    .card[data-type="search"] .card-challenge-band--top,
+    .card[data-type="discovery"] .card-challenge-band--top,
+    .card[data-type="ally"] .card-challenge-band--top {
+      flex-shrink: 0;
+      margin-top: 6px;
+      padding-bottom: 5px;
+    }
+    .card[data-type="challenge"] .card-challenge-band--middle,
+    .card[data-type="finding"] .card-challenge-band--middle,
+    .card[data-type="search"] .card-challenge-band--middle,
+    .card[data-type="discovery"] .card-challenge-band--middle,
+    .card[data-type="ally"] .card-challenge-band--middle {
+      flex: 1;
+      min-height: 0;
+      justify-content: center;
+    }
+
+    /* no pseudo-element overlay needed */
+    .card-body::before { display: none; }
+
+    /* ── FLAVOR TEXT ────────────────────────────────────── */
+    .card-flavor {
+      font-style: italic;
+      font-size: 0.73rem;
+      color: #130b03;
+      text-align: center;
+      line-height: 1.35;
+      padding: 2px 10px 14px;
+      margin: 0px 14px;
+      flex-shrink: 0;
+      background: rgba(205, 171, 90, 0.052);
+      border-radius: 0px;
+      /* decorative ruled line below */
+      border-bottom: 2px solid rgba(110, 65, 15, 0.45);
+      position: relative;
+    }
+    /* second thin line for a double-rule effect */
+    .card-flavor::after {
+      content: '';
+      display: block;
+      height: 1px;
+      background: rgba(180, 130, 50, 0);
+      margin-top: 3px;
+    }
+
+    /* ── CARD CONTENT (approach rows + outcomes) — fills space between top field and ongoing strip;
+        vertically centered in the band (challenge + tool). ── */
+    .card-content {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0px;
+      margin: 0 var(--effect-section-margin-x);
+    }
+
+
+    /* Block IFC: label + outcomes are inline siblings (not a single inline-flex “atom”) so the engine can
+       wrap between chip parts and effects; glyph outcomes no longer use nowrap. NBSP before outcomes glues
+       “: ” to the first effect so we don’t get a break there unless the line is full. */
+    .approach-row {
+      font-size: 1.0rem;
+      color: #1a0d04;
+      line-height: 1.35;
+      background: transparent;
+      padding: 0px 6px;
+      display: block;
+      align-self: stretch;
+      width: 100%;
+      text-align: left;
+      position: relative;
+      z-index: 0;
+    }
+
+    /* Full-width soft strip for the first line only (coloured approach + start of outcomes); not under wrapped outcome lines. */
+    .approach-row::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 1.35em;
+      height: 1lh;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.19);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .approach-row__lead {
+      display: inline;
+      vertical-align: baseline;
+    }
+
+    /* Old Path numbering before [T]/[W] chips */
+    .approach-row__lead > .path-step-num {
+      display: inline;
+      vertical-align: baseline;
+      margin-right: 0.35em;
+    }
+
+    .approach-row__colon {
+      display: inline;
+      font-weight: bold;
+      vertical-align: baseline;
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+
+    /* No box of its own: outcome chunks (comma-separated, each often nowrap) can wrap one-by-one after the
+       label instead of moving the entire outcomes subtree to the next line as one inline. */
+    .approach-row__outcomes {
+      display: contents;
+      text-align: left;
+    }
+
+    /* Numbered path steps (e.g. Old Path) — black bold index before coloured [T] chip */
+    .path-step-num {
+      font-family: 'Macondo', cursive;
+      font-weight: 700;
+      color: #1a0d04;
+      min-width: 1.25em;
+      display: inline;
+      vertical-align: baseline;
+    }
+
+    /* ── APPROACH KIND COLOURS (Fight red, Craft brown, Traverse green, Awareness blue, Warm orange, Special black) ── */
+    .approach-type {
+      font-family: 'Macondo', cursive;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .approach-type.approach-kind-fight,
+    .text-kw-approach.approach-kind-fight {
+      color: #9a2824;
+    }
+    .approach-type.approach-kind-work,
+    .text-kw-approach.approach-kind-work,
+    .approach-type.approach-kind-craft,
+    .text-kw-approach.approach-kind-craft {
+      color: #6b4420;
+    }
+    .approach-type.approach-kind-warm,
+    .text-kw-approach.approach-kind-warm {
+      color: #b85c14;
+    }
+    .approach-type.approach-kind-traverse,
+    .text-kw-approach.approach-kind-traverse {
+      color: #1a632f;
+    }
+    .approach-type.approach-kind-awareness,
+    .text-kw-approach.approach-kind-awareness {
+      color: #1f5594;
+    }
+    .approach-type.approach-kind-special,
+    .text-kw-approach.approach-kind-special {
+      color: #000000;
+    }
+    .approach-type.approach-kind-default,
+    .text-kw-approach.approach-kind-default {
+      color: #4d4740;
+    }
+
+    .approach-outcome,
+    .approach-outcome-power {
+      color: #1a0d04;
+      font-weight: normal;
+    }
+
+    /* <Token> outcomes on the same row live outside .card-text — match outcome styling */
+    .approach-outcome .text-kw-outcome {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0rem;
+      font-weight: bold;
+      color: #1a0d04;
+    }
+
+    /* Tools: activation + · + type — colour follows .approach-kind-* on the same element */
+    .approach-type.approach-type-tool {
+      font-family: 'Macondo', cursive;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    /* Flavored row: keep “[T] 2 Go Around” as one nowrap unit — break was between chip and flavor when only the name had nowrap. */
+    .approach-type.approach-type--flavored {
+      display: inline;
+      font-family: 'Macondo', cursive;
+      font-size: 1.1rem;
+      font-weight: bold;
+      white-space: nowrap;
+    }
+    /* [AW] then TN: flex gap between tag and numeral */
+    .approach-stat-chip {
+      display: inline-flex;
+      align-items: baseline;
+      white-space: nowrap;
+      column-gap: 0.2em;
+    }
+    .approach-stat-chip:has(.approach-type-icon) {
+      align-items: center;
+    }
+    .approach-stat-chip__tag {
+      font-family: 'Germania One', fantasy;
+      font-size: 1em;
+      font-weight: 400;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+      letter-spacing: var(--approach-stat-tag-letter-spacing, normal);
+    }
+    .approach-stat-chip__tag--icon {
+      width: 1.45em;
+      height: 1.45em;
+      letter-spacing: 0;
+      text-shadow: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+    }
+    .approach-type-icon {
+      display: block;
+      width: 1.45em;
+      height: 1.45em;
+      object-fit: contain;
+      pointer-events: none;
+    }
+    .approach-stat-chip__num {
+      font-family: 'Macondo','Comic Sans MS', 'Comic Sans', 'Comic Neue', 'Chalkboard SE', cursive, sans-serif;
+      font-size: 1em;
+      font-weight: 700;
+      letter-spacing: 0.0em;
+      line-height: 1;
+    }
+    .approach-flavor-label {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0em;
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    /* Flavor on its own line; one long cream box holds action icon+number plus resource/effect glyphs. */
+    .approach-row.approach-row--split {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0.1em;
+      padding: 2px 4px 4px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .approach-row.approach-row--split::before {
+      display: none;
+    }
+    .approach-row--split .approach-row__lead {
+      display: flex;
+      align-items: center;
+      gap: 0.28em;
+      flex: 0 0 auto;
+      width: 100%;
+      min-width: 0;
+    }
+    .approach-row--split .approach-flavor-label {
+      color: #fff8ec;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
+      white-space: nowrap;
+      font-size: 1.05em;
+      line-height: 1.15;
+    }
+    .approach-row--split .approach-icon-bar {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.18em 0.55em;
+      width: 100%;
+      min-height: 2.2em;
+      padding: 0.1em 0.38em 0.1em 0.42em;
+      background: #fcedd4;
+      border: 2px solid rgba(90, 58, 30, 0.55);
+      border-radius: 0.5em;
+      box-sizing: border-box;
+    }
+    .approach-row--split .approach-stat-chip {
+      color: #1a0d04;
+      text-shadow: none;
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      margin: 0 0.06em 0 0;
+      column-gap: 0.18em;
+      align-items: center;
+      line-height: 1;
+    }
+    .approach-row--split .approach-stat-chip__tag {
+      color: #1a0d04;
+      text-shadow: none;
+    }
+    .approach-row--split .approach-stat-chip__num {
+      font-family: inherit;
+      font-size: 1em;
+      font-weight: 700;
+      line-height: 1;
+      text-shadow: none;
+      min-width: 0;
+      text-align: center;
+      color: #1a0d04;
+      display: inline-flex;
+      align-items: center;
+      text-box: cap alphabetic;
+    }
+    .approach-row--split.approach-kind-fight .approach-stat-chip__num,
+    .approach-row--split.approach-kind-craft .approach-stat-chip__num,
+    .approach-row--split.approach-kind-work .approach-stat-chip__num,
+    .approach-row--split.approach-kind-traverse .approach-stat-chip__num,
+    .approach-row--split.approach-kind-awareness .approach-stat-chip__num,
+    .approach-row--split.approach-kind-warm .approach-stat-chip__num {
+      color: #1a0d04;
+    }
+    .approach-row--split .approach-stat-chip__tag--icon {
+      position: relative;
+      z-index: 0;
+      width: 1.32em;
+      height: 1.32em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .approach-row--split .approach-stat-chip__tag--icon::before {
+      content: '';
+      position: absolute;
+      inset: -0.32em;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .approach-row--split.approach-kind-fight .approach-stat-chip__tag--icon::before {
+      background: radial-gradient(circle, rgba(200, 32, 28, 0.86) 0%, rgba(200, 32, 28, 0.5) 46%, rgba(200, 32, 28, 0) 78%);
+    }
+    .approach-row--split.approach-kind-craft .approach-stat-chip__tag--icon::before,
+    .approach-row--split.approach-kind-work .approach-stat-chip__tag--icon::before {
+      background: radial-gradient(circle, rgba(139, 84, 32, 0.86) 0%, rgba(139, 84, 32, 0.5) 46%, rgba(139, 84, 32, 0) 78%);
+    }
+    .approach-row--split.approach-kind-traverse .approach-stat-chip__tag--icon::before {
+      background: radial-gradient(circle, rgba(48, 140, 28, 0.86) 0%, rgba(48, 140, 28, 0.5) 46%, rgba(48, 140, 28, 0) 78%);
+    }
+    .approach-row--split.approach-kind-awareness .approach-stat-chip__tag--icon::before {
+      background: radial-gradient(circle, rgba(32, 92, 210, 0.86) 0%, rgba(32, 92, 210, 0.5) 46%, rgba(32, 92, 210, 0) 78%);
+    }
+    .approach-row--split.approach-kind-warm .approach-stat-chip__tag--icon::before {
+      background: radial-gradient(circle, rgba(224, 122, 26, 0.86) 0%, rgba(224, 122, 26, 0.5) 46%, rgba(224, 122, 26, 0) 78%);
+    }
+    .approach-row--split .approach-type-icon {
+      position: relative;
+      z-index: 1;
+      width: 1.26em;
+      height: 1.26em;
+    }
+    .approach-row--split .approach-icon-bar__effects {
+      display: inline-flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.12em 0.95em;
+      min-width: 0;
+      margin-left: 0.45em;
+      color: #1a0d04;
+      text-shadow: none;
+    }
+    .approach-row--split .effect-outcome-chip + .outcome-kw,
+    .approach-row--split .outcome-kw,
+    .approach-row--split .kw-outcome-sep,
+    .approach-row--split .kw-outcome-comma-tail,
+    .approach-row--split .approach-row__colon,
+    .approach-row--split .text-comic,
+    .approach-row--split .approach-condition {
+      display: none;
+    }
+    .approach-row--split .text-kw-outcome {
+      display: inline-flex;
+      align-items: center;
+      color: #1a0d04;
+      text-shadow: none;
+    }
+    .approach-row--split .text-kw-outcome:not(:has(.effect-outcome-chip)):not(:has(.outcome-val)) {
+      display: none;
+    }
+    .approach-row--split .outcome-val,
+    .approach-row--split .effect-outcome-glyph,
+    .approach-row--split .approach-outcome {
+      color: #1a0d04;
+      text-shadow: none;
+    }
+    .approach-row--split .effect-outcome-wrap {
+      display: inline-flex;
+      align-items: center;
+      background: none;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      min-height: 0;
+    }
+    .approach-row--split .effect-outcome-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.08em;
+      background: none;
+      box-shadow: none;
+      padding: 0;
+      margin: 0;
+    }
+    .approach-row--split .text-kw-outcome .effect-outcome-glyph {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    .approach-row--split .approach-condition {
+      display: inline;
+      clear: none;
+      width: auto;
+      margin: 0;
+      font-size: 0.78em;
+      color: rgba(40, 30, 20, 0.78);
+      text-shadow: none;
+    }
+    .card[data-type="tool"] .approach-row--split .approach-flavor-label,
+    .card[data-type="garb"] .approach-row--split .approach-flavor-label,
+    .card[data-type="ability"] .approach-row--split .approach-flavor-label,
+    .card[data-type="discovery"] .approach-row--split .approach-flavor-label {
+      color: #1a0d04;
+      text-shadow: none;
+    }
+
+    /* Dot between activation and name — same blue label, no grey .kw-mid-dot */
+    .kw-mid-dot--tool-approach {
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: bold;
+      color: inherit;
+      opacity: 0.72;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Middle dot between effect keyword ↔ text (footer / · lines) */
+    .kw-mid-dot {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0rem;
+      color: rgba(26, 20, 14, 0.85);
+      font-weight: normal;
+      margin: 0 0.2em;
+    }
+
+    /* Pipe between separate outcomes on one approach (wider than ·) */
+    .kw-outcome-sep {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0rem;
+      color: rgba(0, 0, 0, 0.85);
+      font-weight: normal;
+      margin: 0 0.15em;
+    }
+
+    /* Glue each outcome with its trailing ", " so wraps never put the comma alone at line start. */
+    .kw-outcome-comma-tail {
+      white-space: nowrap;
+    }
+
+    .approach-condition {
+      font-size: 0.9rem;
+      color: rgba(45, 38, 32, 0.82);
+      font-style: italic;
+      display: block;
+      clear: left;
+      width: 100%;
+      margin-top: 2px;
+    }
+
+    /* Base text line */
+    .card-text {
+      font-size: 1.0rem;
+      color: #1a0d04;
+      line-height: 1.38;
+      padding: 0 6px;
+    }
+    /* Whole-line authoring in cards.md: >Attach to Terrain…< */
+    .card-text-centered {
+      display: block;
+      text-align: center;
+    }
+
+    /* Field / trigger lines: directly under banner, above approaches (challenges + tools). */
+    .card-effect-section {
+      flex-shrink: 0;
+      border-bottom: 2px solid rgba(110, 65, 15, 0.45);
+      margin: 0 var(--effect-section-margin-x) 4px;
+      padding-bottom: 4px;
+    }
+
+    /* Tool: text after the last `_` use line (rare); same rule band styling, no flip. */
+    .card-effect-section.card-effect-section--tool-trailing {
+      border-top: 2px solid rgba(110, 65, 15, 0.45);
+      border-bottom: none;
+      margin-top: 4px;
+      margin-bottom: 0;
+      padding-top: 4px;
+      padding-bottom: 0;
+    }
+
+    /* Finding sandwich: approached rows between two --- (same parchment rules & per-type hues as elsewhere) */
+    .card-middle-band {
+      flex-shrink: 0;
+      margin: 0px var(--effect-section-margin-x) 0;
+      padding: 0px var(--card-content-pad-x) 2px;
+      border-top: 2px solid rgba(110, 65, 15, 0.45);
+      border-bottom: 2px solid rgba(110, 65, 15, 0.45);
+    }
+    .card-middle-band.card-middle-band--after-field {
+      border-top: none;
+      margin-top: 0;
+      padding-top: 0px;
+    }
+
+    /* Finding sandwich middle: divider moves to TOP of tails strip (.finding-tail) so the rule hugs the [Search] row, not floats under [W]/[T]. */
+    .card-middle-band:has(+ .card-ongoing-section--finding-tail) {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    /* Consume vertical slack under top field—approaches sit centered like .card-content, rule stays above .finding-tail. */
+    .card-middle-band.card-middle-band--finding-grow {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0;
+    }
+
+    /* Dedicated bottom strip for ongoing / Lasts / heads-up approaches on challenge cards (upright in viewer). */
+    .card-ongoing-section {
+      flex-shrink: 0;
+      border-top: 2px solid rgba(110, 65, 15, 0.45);
+      margin-left: var(--effect-section-margin-x);
+      margin-right: var(--effect-section-margin-x);
+      margin-top: 0;
+      margin-bottom: 4px;
+      padding-top: 4px;
+      padding-bottom: 8px;
+      min-height: 12px;
+    }
+    /* Finding tails: tighter strip; divider is siblings' border-top (see .finding-middle override). */
+    .card-ongoing-section.card-ongoing-section--finding-tail {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      min-height: 0;
+    }
+
+    /* Approach label in free-text lines — Swash Caps; hue from .approach-kind-* */
+    .card-text .text-kw-approach {
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    /* Outcome tokens (e.g. Progress +1) — near-black */
+    .card-text .text-kw-outcome {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0rem;
+      font-weight: bold;
+      color: #1a0d04;
+    }
+
+    /* Wrap at normal word boundaries inside a glyphed outcome (narrow cards); whole-token nowrap felt too “blocky”. */
+    .effect-outcome-wrap {
+      display: inline;
+      vertical-align: baseline;
+      white-space: normal;
+    }
+    .text-kw-outcome .effect-outcome-glyph {
+      font-size: 1.08em;
+      margin-right: -0.3em;
+      margin-left: -0.4em;
+      padding-right: 0.0em;
+      vertical-align: -0.06em;
+      line-height: 1;
+    }
+    .effect-outcome-chip {
+      display: contents;
+    }
+    .text-kw-outcome .outcome-val {
+      font-weight: bold;
+    }
+
+    /* Effect keywords (not approach names): unified black bold */
+    .card-text .text-kw-effect {
+      font-family: 'Macondo', cursive;
+      font-size: 1.0rem;
+      font-weight: bold;
+      color: #1a0d04;
+    }
+
+    .card-effect-section .text-kw-effect,
+    .card-ongoing-section .text-kw-effect {
+      color: #1a0d04;
+      font-weight: bold;
+    }
+
+    /* Explanation — greyish italic (challenge bands aren’t wrapped in card-effect-section, so match there too.) */
+    .card-text .text-comic,
+    .card-challenge-band .text-comic,
+    .card-effect-section .text-comic,
+    .approach-outcome .text-comic,
+    .approach-outcome-power .text-comic {
+      font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+      font-size: 0.9rem;
+      font-style: italic;
+      font-weight: normal;
+      color: rgba(40, 30, 20, 0.788);
+    }
+
+    /* · sub-lines (default when not under an approach) */
+    .card-text-sub { padding-left: 16px; }
+
+    .approach-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      margin-bottom: 4px;
+      align-self: stretch;
+      width: 100%;
+      text-align: left;
+    }
+
+    .approach-wrap > .approach-row { margin-bottom: 0; }
+
+    /* Continuation lines: match horizontal inset of `.approach-row` (same 6px as base `.card-text`) so `[2] Wound…`
+       lines align with newline continuations merged into outcomes (comma / same-line flow has row padding). */
+    .approach-sub {
+      margin-left: 0;
+      align-self: stretch;
+      width: 100%;
+      text-align: left;
+    }
+
+    .approach-sub .card-text,
+    .approach-sub .card-text-sub {
+      padding-left: 6px;
+      padding-right: 6px;
+    }
+
+    /* ── SIGIL WATERMARK — hidden, image already has one ── */
+    .card-sigil { display: none; }
+
+    /* ── HIDDEN ─────────────────────────────────────────── */
+    .card.hidden { display: none; }
+
+    .card-blank .card-name {
+      visibility: hidden;
+      font-size: 0.1px;
+      letter-spacing: 0;
+    }
+    .card-blank .card-body-blank {
+      margin-top: 0;
+    }
+
+    /* ── WRITABLE TOOL (player handwritten tools) ───────────
+       Tweak writing-pad colours in --writable-* on .card-writable-tool.
+       Uses normal card body / blank banner (no tint, no header text). */
+    .card-writable-tool {
+      --writable-pad-bg: rgba(255, 248, 235, 0.96);
+      --writable-pad-border: rgba(110, 65, 15, 0.22);
+      --writable-rule-color: rgba(110, 65, 15, 0.14);
+      --writable-rule-spacing: 26px;
+      --writable-pad-radius: 3px;
+      --writable-guide-color: rgba(42, 30, 20, 0.38);
+      --writable-zone-gap: 6px;
+    }
+    .card-writable-tool .writable-banner-empty {
+      visibility: hidden;
+      font-size: 0.1px;
+      letter-spacing: 0;
+    }
+    .card-writable-tool .card-body {
+      gap: var(--writable-zone-gap);
+    }
+    .writable-zone {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin: 0 var(--effect-section-margin-x);
+      padding: 0 var(--card-content-pad-x);
+      flex-shrink: 0;
+    }
+    .writable-zone--approaches {
+      flex: 1 1 auto;
+      min-height: 0;
+      border-top: 2px solid rgba(110, 65, 15, 0.35);
+      padding-top: 5px;
+      justify-content: center;
+    }
+    .writable-zone--approaches-fill {
+      flex: 1 1 auto;
+    }
+    .writable-pad {
+      background: var(--writable-pad-bg);
+      border: 1px solid var(--writable-pad-border);
+      border-radius: var(--writable-pad-radius);
+      padding: 6px 10px;
+    }
+    .writable-pad--line {
+      font-family: 'Macondo', cursive;
+      font-size: 1.05rem;
+      color: var(--writable-guide-color);
+      min-height: 28px;
+      line-height: 1.35;
+    }
+    .writable-pad--ruled {
+      min-height: calc(var(--writable-rule-spacing) * 3);
+      padding: 6px 10px 8px;
+      background-color: var(--writable-pad-bg);
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent calc(var(--writable-rule-spacing) - 1px),
+        var(--writable-rule-color) calc(var(--writable-rule-spacing) - 1px),
+        var(--writable-rule-color) var(--writable-rule-spacing)
+      );
+      background-position: 0 10px;
+    }
+    .writable-approach-row {
+      background: var(--writable-pad-bg);
+      border: 1px solid var(--writable-pad-border);
+      border-radius: var(--writable-pad-radius);
+      padding: 5px 8px 6px;
+      min-height: 32px;
+    }
+
+    /* ── PRINT BUTTON ───────────────────────────────────── */
+    .print-btn {
+      font-family: 'Macondo', cursive;
+      font-size: 1rem;
+      padding: 0.4rem 1.5rem;
+      border-radius: 4px;
+      border: 2px solid #4a7840;
+      background: #2e5228;
+      color: #d0ead0;
+      cursor: pointer;
+      transition: background 0.15s;
+      letter-spacing: 0.05em;
+    }
+    .print-btn:hover { background: #3a6634; }
+
+    /* ── GAP CONTROL ────────────────────────────────────── */
+    .gap-control {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #3a2818;
+      border: 2px solid #8b6340;
+      border-radius: 4px;
+      padding: 0.3rem 0.8rem;
+      color: #e8d5a0;
+      font-family: 'Macondo', cursive;
+      font-size: 0.95rem;
+    }
+    .gap-control input[type=range] {
+      -webkit-appearance: none;
+      width: 90px;
+      height: 4px;
+      border-radius: 2px;
+      background: #8b6340;
+      outline: none;
+      cursor: pointer;
+    }
+    .gap-control input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #c49050;
+      border: 2px solid #2a1e14;
+      cursor: pointer;
+    }
+    .gap-control input[type=range]::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #c49050;
+      border: 2px solid #2a1e14;
+      cursor: pointer;
+    }
+    .gap-value {
+      min-width: 2.8rem;
+      text-align: right;
+      color: #fdf4dc;
+      font-size: 0.88rem;
+    }
+
+    /* ── PRINT ──────────────────────────────────────────── */
+    @media print {
+      /* A4 landscape: 297×210 mm → 281×194 mm usable at 8 mm margins.
+         Cards are 88×63 mm → 3 across × 3 down = 9 per page.          */
+      @page {
+        size: A4 landscape;
+        margin: 8mm;
+      }
+
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      body {
+        background: #fff !important;
+        padding: 0 !important;
+        min-height: unset;
+        /* Constrain body to exact grid width and centre it on every page.
+           Centring the body (rather than the grid) is what survives page breaks. */
+        width: calc(3 * 88mm + 2 * var(--print-gap));
+        margin: 0 auto !important;
+      }
+
+      h1, .filter-bar { display: none !important; }
+
+      .card-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 88mm);
+        gap: var(--print-gap);
+        width: 100%;          /* fills the already-centred body */
+        align-content: start;
+      }
+
+      .section-label {
+        grid-column: 1 / -1;  /* span all three columns */
+        font-size: 6pt;
+        color: #4a2e10 !important;
+        text-shadow: none !important;
+        margin: 1mm 0 0.5mm;
+        break-after: avoid;
+        page-break-after: avoid;
+      }
+      .section-label[data-type="blank"] { display: none !important; }
+
+      /* Scale card from 440×315 px → 88×63 mm.
+         440 px @ 96 dpi = 116.4 mm → zoom = 88 / 116.4 ≈ 0.756 */
+      .card {
+        zoom: 0.756;
+        break-inside: avoid;
+        page-break-inside: avoid;
+        transition: none !important;
+      }
+      .card:hover {
+        transform: none !important;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+      }
+
+      .card.card--preview-active {
+        position: relative !important;
+        left: auto !important;
+        top: auto !important;
+        margin: 0 !important;
+        transform: none !important;
+        z-index: auto !important;
+        cursor: default !important;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+      }
+
+      .card-preview-backdrop {
+        display: none !important;
+      }
+
+      .card.hidden { display: none !important; }
+    }
+  

@@ -1,0 +1,200 @@
+/**
+ * Discovery Book — A5 spread (two A5 pages side by side ≈ A4 landscape).
+ * Build only updates discovery-book-data.js; edit this file for layout and print.
+ * Optional: book.png / Book.png in the same folder as the HTML (same as atlas).
+ */
+* {
+  box-sizing: border-box;
+}
+:root {
+  --ink: #1a1510;
+  --parchment: #e8dcc800;
+  --parchment-dark: #d4c4a8;
+  --atlas-head: "Macondo", cursive;
+  --atlas-body: "Comic Sans MS", "Comic Sans", cursive;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #664931;
+  color: var(--ink);
+  font-family: var(--atlas-body);
+}
+.db-header {
+  text-align: center;
+  color: #c4a88a;
+  font-family: var(--atlas-head);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  padding: 1rem 1rem 0.5rem;
+}
+.db-header code {
+  font-family: var(--atlas-body);
+  font-size: 0.6rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: #8a7a66;
+}
+.db-wrap {
+  max-width: min(900px, 96vw);
+  margin: 0 auto;
+  padding: 0.5rem 1rem 2rem;
+}
+/* One open book = one spread; two A5 pages side by side = 148mm + 148mm wide × 210mm tall (A4-landscape footprint) */
+.db-spread {
+  container-type: inline-size;
+  container-name: discovery;
+  position: relative;
+  width: 100%;
+  margin: 0 auto 1.5rem;
+  aspect-ratio: 296 / 210;
+  max-height: 92vh;
+  background-color: var(--parchment);
+  background-image: url("CardPictures/Book.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  /* Same as print: stretch so on-screen % layout matches print/PDF */
+  background-size: 100% 100%;
+  filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.45));
+}
+.db-surface {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  top: 7%;
+  bottom: 7%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  z-index: 1;
+}
+.db-page {
+  padding: 4% 10% 0%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+}
+.db-page--left {
+  /* subtle ruled lines like notebook */
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 1.1em,
+    rgba(100, 130, 180, 0.12) 1.1em,
+    rgba(100, 130, 180, 0.12) 1.15em
+  );
+  background-origin: content-box;
+}
+.db-left-note {
+  font-size: clamp(0.7rem, 1.1cqw, 0.9rem);
+  line-height: 1.5;
+  color: var(--ink);
+  opacity: 0.9;
+  margin: 0;
+  white-space: pre-wrap;
+}
+.db-right-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+.db-from-zone {
+  font-family: var(--atlas-head);
+  font-size: clamp(0.75rem, 1.2cqw, 0.95rem);
+  margin: 0 0 0.2rem;
+  opacity: 0.85;
+}
+.db-from-area {
+  font-family: var(--atlas-head);
+  font-size: clamp(1.05rem, 2cqw, 1.45rem);
+  font-weight: 400;
+  margin: 0 0 0.55rem;
+  line-height: 1.15;
+}
+.db-discover-diff {
+  font-family: var(--atlas-head);
+  font-size: clamp(0.8rem, 1.4cqw, 1.05rem);
+  margin: 0 0 0.8rem;
+}
+.db-path-kicker {
+  font-family: var(--atlas-head);
+  font-size: clamp(0.9rem, 1.5cqw, 1.15rem);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  margin: 0.7rem 0 0.25rem;
+}
+.db-path-kicker:first-child {
+  margin-top: 0;
+}
+.db-path-body {
+  font-family: var(--atlas-head);
+  font-size: clamp(0.75rem, 1.35cqw, 1rem);
+  line-height: 1.45;
+  margin: 0;
+  white-space: pre-wrap;
+}
+.db-discovery-num {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  font-family: var(--atlas-body);
+  font-size: clamp(0.8rem, 1.4cqw, 1.05rem);
+  font-weight: 700;
+  margin: 0;
+}
+.db-unknown {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    min-height: auto;
+    background: #664931;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .db-header {
+    display: none;
+  }
+  .db-wrap {
+    max-width: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  .db-spread {
+    width: 297mm;
+    height: 210mm;
+    max-width: none;
+    max-height: 210mm;
+    aspect-ratio: auto;
+    margin: 0;
+    overflow: hidden;
+    filter: none;
+    background-size: 100% 100%;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    break-after: page;
+    page-break-after: always;
+  }
+  .db-spread:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+}

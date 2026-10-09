@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rules — Ruined Wold</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Macondo&family=Macondo+Swash+Caps&display=swap" rel="stylesheet" />
+  <style>
+    /* ── RESET ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── OUTER SHELL ───────────────────────────────────────── */
+    html, body {
+      height: 100%;
+      font-family: 'Macondo', cursive;
+    }
+
+    body {
+      background: #0e0a05;
+      background-image:
+        radial-gradient(ellipse at center, #2a1a08 0%, #0e0a05 70%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    /* ── NAV ROW (arrows + book together) ─────────────────── */
+    #book-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    /* ── BOOK ──────────────────────────────────────────────── */
+    #book {
+      position: relative;
+      /* keep aspect ratio of Book.png ≈ 1020 × 780 */
+      width: min(90vw, 118vh);
+      aspect-ratio: 1020 / 780;
+      background: url('Book.png') center / 100% 100% no-repeat;
+      flex-shrink: 0;
+      /* font-size drives all em units inside */
+      font-size: clamp(7px, 1.05vw, 14px);
+    }
+
+    /* ── PAGE AREAS ────────────────────────────────────────── */
+    /* Calibrated to sit inside the parchment areas of Book.png */
+    .page {
+      position: absolute;
+      top: 5%;
+      bottom: 9%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0.6em 1.2em 0.8em;
+      /* hide scrollbar visually but keep scroll */
+      scrollbar-width: thin;
+      scrollbar-color: rgba(110,65,15,0.25) transparent;
+    }
+    .page::-webkit-scrollbar { width: 4px; }
+    .page::-webkit-scrollbar-track { background: transparent; }
+    .page::-webkit-scrollbar-thumb { background: rgba(110,65,15,0.25); border-radius: 2px; }
+
+    #page-l {
+      left:  7.8%;
+      right: 52.5%;
+    }
+    #page-r {
+      left:  52.5%;
+      right: 7.2%;
+    }
+
+    /* ── PAGE NUMBERS ──────────────────────────────────────── */
+    .page-num {
+      position: absolute;
+      bottom: 4.2%;
+      font-family: 'Macondo', cursive;
+      font-size: 0.85em;
+      color: rgba(80,45,10,0.55);
+      letter-spacing: 0.12em;
+    }
+    #pnum-l { left: 10%; }
+    #pnum-r { right: 10%; }
+
+    /* ── NAV ARROWS ────────────────────────────────────────── */
+    .nav-btn {
+      background: none;
+      border: none;
+      color: #c49050;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      cursor: pointer;
+      padding: 0.4em 0.5em;
+      border-radius: 50%;
+      transition: color 0.15s, background 0.15s, transform 0.1s;
+      flex-shrink: 0;
+      line-height: 1;
+      user-select: none;
+    }
+    .nav-btn:hover:not(:disabled) {
+      color: #f0d880;
+      background: rgba(196,144,80,0.12);
+      transform: scale(1.1);
+    }
+    .nav-btn:disabled { color: rgba(196,144,80,0.2); cursor: default; }
+
+    /* ── SPREAD INDICATOR ──────────────────────────────────── */
+    #spread-info {
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 0.8rem;
+      color: rgba(196,144,80,0.45);
+      letter-spacing: 0.18em;
+      text-align: center;
+      user-select: none;
+    }
+
+    /* ── KEYBOARD HINT ─────────────────────────────────────── */
+    #hint {
+      font-size: 0.7rem;
+      color: rgba(196,144,80,0.25);
+      letter-spacing: 0.1em;
+    }
+
+    /* ══════════════════════════════════════════════════════════
+       TYPOGRAPHY INSIDE PAGES
+       (all sizes in em so they scale with #book font-size)
+    ══════════════════════════════════════════════════════════ */
+
+    .page h1 {
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 2em;
+      color: #7a1a1a;
+      text-align: center;
+      letter-spacing: 0.12em;
+      margin-bottom: 0.15em;
+      line-height: 1.2;
+    }
+
+    /* author line (em under h1) */
+    .page h1 + em,
+    .page h1 + p > em {
+      display: block;
+      text-align: center;
+      font-size: 0.88em;
+      color: rgba(42,30,20,0.55);
+      margin-bottom: 1em;
+    }
+
+    .page h2 {
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 1.55em;
+      color: #7a1a1a;
+      letter-spacing: 0.08em;
+      margin: 0.2em 0 0.5em;
+      padding-bottom: 0.25em;
+      border-bottom: 1.5px solid rgba(110,65,15,0.30);
+      line-height: 1.2;
+    }
+
+    .page h3 {
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 1.2em;
+      color: #5a2d0c;
+      letter-spacing: 0.06em;
+      margin: 1em 0 0.35em;
+    }
+
+    .page p {
+      font-size: 1em;
+      line-height: 1.6;
+      color: #2a1e14;
+      margin-bottom: 0.6em;
+    }
+
+    .page strong { color: #3a1c08; font-weight: bold; }
+
+    .page em { color: rgba(42,30,20,0.72); font-style: italic; }
+
+    /* Important rules (framed; not flavour quotes) */
+    .page .rule-box {
+      border: 2px solid rgba(100, 55, 15, 0.5);
+      border-radius: 3px;
+      background: rgba(140, 90, 35, 0.09);
+      margin: 0.55em 0 0.65em;
+      padding: 0.5em 0.75em;
+      font-style: normal;
+      font-size: 0.95em;
+      line-height: 1.45;
+      color: #2a1e14;
+    }
+    .page .rule-box p { margin: 0; font-size: 1em; }
+    .page .rule-box strong { color: #3a1c08; }
+
+    /* Story / flavour quotes */
+    .page blockquote {
+      border-left: 3px solid rgba(130,80,20,0.35);
+      background: rgba(160,110,40,0.07);
+      border-radius: 0 3px 3px 0;
+      margin: 0.6em 0 0.7em 0.2em;
+      padding: 0.45em 0.8em;
+      font-style: italic;
+      font-size: 0.93em;
+      color: rgba(42,30,20,0.75);
+      line-height: 1.55;
+    }
+    .page blockquote p { margin: 0; font-size: 1em; color: inherit; }
+
+    .page hr {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(110,65,15,0.35), transparent);
+      margin: 0.7em 0;
+    }
+
+    /* Lists */
+    .page ul, .page ol {
+      padding-left: 1.4em;
+      margin-bottom: 0.6em;
+    }
+    .page li {
+      font-size: 1em;
+      line-height: 1.55;
+      color: #2a1e14;
+      margin-bottom: 0.15em;
+    }
+
+    /* Tables */
+    .page table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88em;
+      margin: 0.5em 0 0.8em;
+    }
+    .page thead tr {
+      border-bottom: 1.5px solid rgba(110,65,15,0.30);
+    }
+    .page th {
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 1.05em;
+      color: #5a2d0c;
+      padding: 0.3em 0.5em;
+      text-align: left;
+      letter-spacing: 0.05em;
+    }
+    .page td {
+      padding: 0.3em 0.5em;
+      border-bottom: 1px solid rgba(110,65,15,0.12);
+      color: #2a1e14;
+      vertical-align: top;
+      line-height: 1.45;
+    }
+    .page tbody tr:hover td { background: rgba(160,110,40,0.06); }
+
+    /* Card effects (§14): keep each keyword on one line; type sits on the line below */
+    .page .effect-keyword {
+      white-space: nowrap;
+    }
+
+    /* ── TITLE-PAGE ORNAMENT ───────────────────────────────── */
+    .title-ornament {
+      text-align: center;
+      color: rgba(100,55,10,0.30);
+      font-size: 1.2em;
+      margin: 0.5em 0;
+      letter-spacing: 0.3em;
+    }
+
+    /* ── COVER LEFT — decorative ───────────────────────────── */
+    #cover-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      text-align: center;
+      pointer-events: none;
+    }
+    #cover-left svg {
+      width: 55%;
+      opacity: 0.22;
+    }
+    #cover-left .cover-sub {
+      font-family: 'Macondo Swash Caps', cursive;
+      font-size: 1em;
+      color: rgba(80,40,10,0.45);
+      letter-spacing: 0.25em;
+      margin-top: 0.8em;
+    }
+
+    /* ── LOADING ───────────────────────────────────────────── */
+    #loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Macondo', cursive;
+      font-size: 1.1em;
+      color: rgba(80,45,10,0.5);
+      font-style: italic;
+    }
+
+    /* ── OVERFLOW FADE at bottom of page ──────────────────── */
+    .page-fade {
+      position: absolute;
+      height: 3%;
+      pointer-events: none;
+    }
+    #fade-l { left: 7.8%; right: 52.5%; bottom: 9%; }
+    #fade-r { left: 52.5%; right: 7.2%; bottom: 9%; }
+    .page-fade::after {
+      content: '';
+      display: block;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(237,215,165,0.7));
+      border-radius: 0 0 2px 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="book-row">
+  <button class="nav-btn" id="prev-btn" disabled title="Previous spread (←)">&#9664;</button>
+
+  <div id="book">
+    <div id="loading">Loading…</div>
+
+    <!-- left page -->
+    <div class="page" id="page-l"></div>
+    <!-- right page -->
+    <div class="page" id="page-r"></div>
+
+    <!-- fade-out gradient at page bottoms (only when overflowing) -->
+    <div class="page-fade" id="fade-l"></div>
+    <div class="page-fade" id="fade-r"></div>
+
+    <!-- page numbers -->
+    <div class="page-num" id="pnum-l"></div>
+    <div class="page-num" id="pnum-r"></div>
+  </div>
+
+  <button class="nav-btn" id="next-btn" title="Next spread (→)">&#9654;</button>
+</div>
+
+<div id="spread-info"></div>
+<div id="hint">← → keys to turn pages</div>
+
+<!-- marked.js — converts Markdown to HTML -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+marked.use({ gfm: true, breaks: false, mangle: false, headerIds: true });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+var spreads  = [];   // array of { left: html, right: html }
+var current  = 0;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOAD
+// ─────────────────────────────────────────────────────────────────────────────
+fetch('rules.md')
+  .then(function(r) { if (!r.ok) throw r.status; return r.text(); })
+  .then(function(md) {
+    document.getElementById('loading').style.display = 'none';
+    spreads = buildSpreads(md);
+    showSpread(0);
+  })
+  .catch(function() {
+    document.getElementById('loading').innerHTML =
+      '⚠ Cannot load rules.md — open via a local server.';
+  });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PARSE — split MD into sections at each ## heading
+// ─────────────────────────────────────────────────────────────────────────────
+function parseSections(md) {
+  var lines    = md.split('\n');
+  var sections = [];
+  var buf      = [];
+
+  lines.forEach(function(line) {
+    if (/^## /.test(line) && buf.length) {
+      sections.push(buf.join('\n'));
+      buf = [line];
+    } else {
+      buf.push(line);
+    }
+  });
+  if (buf.length) sections.push(buf.join('\n'));
+  return sections;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BUILD SPREADS
+// Spread 0: decorative left + title/intro right
+// Remaining spreads: 2 sections each (left + right)
+// ─────────────────────────────────────────────────────────────────────────────
+function buildSpreads(md) {
+  var sections = parseSections(md);
+  var result   = [];
+
+  // Spread 0 — cover spread
+  // Left page: decorative sigil + title
+  var coverLeft = buildCoverLeft();
+  // Right page: the first section (title block)
+  var coverRight = marked.parse(sections[0]);
+  result.push({ left: coverLeft, right: coverRight, pages: [null, 1] });
+
+  // Remaining sections → paired spreads
+  var pageNum = 2;
+  for (var i = 1; i < sections.length; i += 2) {
+    var leftHtml  = marked.parse(sections[i]);
+    var rightHtml = (i + 1 < sections.length) ? marked.parse(sections[i + 1]) : '';
+    result.push({
+      left:  leftHtml,
+      right: rightHtml,
+      pages: [pageNum, rightHtml ? pageNum + 1 : null]
+    });
+    pageNum += 2;
+  }
+
+  return result;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DECORATIVE COVER LEFT
+// ─────────────────────────────────────────────────────────────────────────────
+function buildCoverLeft() {
+  return '<div id="cover-left">' +
+    '<svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#5a2d0c" stroke-width="1">' +
+      // outer ring
+      '<circle cx="60" cy="60" r="54"/>' +
+      '<circle cx="60" cy="60" r="42"/>' +
+      '<circle cx="60" cy="60" r="8"/>' +
+      // triangle
+      '<polygon points="60,8 106,92 14,92"/>' +
+      // cross lines
+      '<line x1="60" y1="6" x2="60" y2="114"/>' +
+      '<line x1="6" y1="60" x2="114" y2="60"/>' +
+      // star points
+      '<line x1="60" y1="18" x2="44" y2="92"/>' +
+      '<line x1="60" y1="18" x2="76" y2="92"/>' +
+      // rune marks
+      '<line x1="38" y1="36" x2="82" y2="36"/>' +
+      '<line x1="30" y1="75" x2="90" y2="75"/>' +
+      '<circle cx="60" cy="60" r="3" stroke-width="1.5"/>' +
+    '</svg>' +
+    '<div class="cover-sub">Ruined Wold</div>' +
+  '</div>';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SHOW SPREAD
+// ─────────────────────────────────────────────────────────────────────────────
+function showSpread(idx) {
+  current = idx;
+  var sp = spreads[idx];
+
+  var pl = document.getElementById('page-l');
+  var pr = document.getElementById('page-r');
+
+  pl.innerHTML = sp.left;
+  pr.innerHTML = sp.right;
+
+  // page numbers
+  document.getElementById('pnum-l').textContent = sp.pages[0] ? sp.pages[0] : '';
+  document.getElementById('pnum-r').textContent = sp.pages[1] ? sp.pages[1] : '';
+
+  // scroll pages to top
+  pl.scrollTop = 0;
+  pr.scrollTop = 0;
+
+  // nav button state
+  document.getElementById('prev-btn').disabled = (current === 0);
+  document.getElementById('next-btn').disabled = (current === spreads.length - 1);
+
+  // spread indicator
+  document.getElementById('spread-info').textContent =
+    (current + 1) + ' / ' + spreads.length;
+
+  // show/hide fade overlays based on overflow
+  updateFades();
+}
+
+// Show bottom fade only if page overflows
+function updateFades() {
+  ['l', 'r'].forEach(function(side) {
+    var page = document.getElementById('page-' + side);
+    var fade = document.getElementById('fade-' + side);
+    var overflows = page.scrollHeight > page.clientHeight + 4;
+    fade.style.display = overflows ? '' : 'none';
+    // update fade on scroll too
+    page.onscroll = function() {
+      var atBottom = page.scrollTop + page.clientHeight >= page.scrollHeight - 4;
+      fade.style.display = (!atBottom) ? '' : 'none';
+    };
+  });
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NAVIGATION
+// ─────────────────────────────────────────────────────────────────────────────
+document.getElementById('prev-btn').addEventListener('click', function() {
+  if (current > 0) showSpread(current - 1);
+});
+document.getElementById('next-btn').addEventListener('click', function() {
+  if (current < spreads.length - 1) showSpread(current + 1);
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowLeft'  && current > 0)                    showSpread(current - 1);
+  if (e.key === 'ArrowRight' && current < spreads.length - 1)   showSpread(current + 1);
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SWIPE (touch)
+// ─────────────────────────────────────────────────────────────────────────────
+var touchStartX = 0;
+document.getElementById('book').addEventListener('touchstart', function(e) {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+document.getElementById('book').addEventListener('touchend', function(e) {
+  var dx = e.changedTouches[0].clientX - touchStartX;
+  if (dx < -50 && current < spreads.length - 1) showSpread(current + 1);
+  if (dx >  50 && current > 0)                  showSpread(current - 1);
+}, { passive: true });
+</script>
+</body>
+</html>

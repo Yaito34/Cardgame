@@ -1,0 +1,45 @@
+# ============================================
+# .cursorindexingignore
+# Diese Dateien werden NICHT automatisch indiziert/gesucht,
+# sind aber weiterhin lesbar und per @-Mention einbindbar.
+# (Zum Bewussten Einbinden: @Dateiname im Chat erwähnen)
+# ============================================
+
+# --- Generierte Daten (regenerierbar aus .md-Quellen) ---
+TravelBook-data.js
+discovery-book-data.js
+
+# --- Build-Output ---
+dist/
+
+# --- Archiv / historische Versionen ---
+archive/
+docs/tts/
+
+# --- Einmalige Analyse- & Simulations-Skripte ---
+scripts/zone-deck-1-analysis.mjs
+scripts/sim-explore-15.mjs
+scripts/sim-journey-15-15.mjs
+scripts/simulate-zd1.mjs
+docs/zone-deck-1-balance-rubric.json
+docs/zone-deck-1-card-analysis.md
+
+# --- Beispiel-/Probe-Dateien ---
+example-papyrus-card.html
+
+# --- Rules, Goals & Design-Dokumente ---
+# (bewusst per @ einbinden, wenn gebraucht –
+#  z. B. @design-goals.md oder @CurrentRulesDesign.md)
+Rules.pdf
+CurrentRulesDesign.md
+prototype-rules-reference.md
+PlannedChanges.md
+EffectIdeas.md
+ChallengeEffects.md
+discoveries.md
+docs/design-goals.md
+docs/challenge-design-guide.md
+docs/class-progression.md
+docs/travel-book-design.md
+docs/garb-doll.md
+docs/garb-slot-jobs.md

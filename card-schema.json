@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Ruined Wold Card Data",
+  "type": "object",
+  "required": ["decks"],
+  "properties": {
+    "decks": {
+      "type": "array",
+      "description": "List of card decks. Each deck appears as a labelled section in the viewer.",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "type", "cards"],
+        "properties": {
+          "id":   { "type": "string", "description": "Unique deck identifier, e.g. 'zone-deck-2'" },
+          "name": { "type": "string", "description": "Label shown above the deck in the viewer, e.g. 'Zone Deck 2 · Swamp'" },
+          "type": { "type": "string", "enum": ["challenge", "zone", "finding", "search", "discovery", "tool", "garb", "ability", "ally", "reference"], "description": "Determines the banner colour in the viewer" },
+          "cards": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                { "$ref": "#/definitions/challengeCard" },
+                { "$ref": "#/definitions/toolCard" },
+                { "$ref": "#/definitions/abilityCard" },
+                { "$ref": "#/definitions/garbCard" }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "challengeCard": {
+      "type": "object",
+      "required": ["id", "name", "type", "approaches"],
+      "properties": {
+        "id":     { "type": "string", "description": "Unique card ID, e.g. 'ZD2_GOBLIN_1'" },
+        "name":   { "type": "string", "description": "Card title shown on the banner" },
+        "type":   { "type": "string", "enum": ["challenge"] },
+        "flavor": { "type": "string", "description": "Flavour text (optional, not printed)" },
+        "approaches": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "description": "List of ways the player can overcome this challenge. In playtest and cards.html, rows are shown in fixed order: Fight, Work, Traverse, Awareness (array order in JSON may differ).",
+          "items": {
+            "type": "object",
+            "required": ["type", "difficulty", "outcomes"],
+            "properties": {
+              "type":       { "type": "string", "description": "Approach name, e.g. Fight, Work, Traverse, Awareness" },
+              "difficulty": { "type": "integer", "minimum": 1, "maximum": 10 },
+              "outcomes":   { "type": "string", "description": "What happens on success, e.g. 'Progress 2', 'Progress 1 | Find F3', or 'Progress 2 | Lasts 1 · Guidance 2 : Traverse Power +2.'" },
+              "condition":  { "type": "string", "description": "Optional restriction shown in italics, e.g. 'only when alone'" },
+              "subEffect":  { "type": "string", "description": "Optional line under the Approach, e.g. '[1+] Exhaust 3', 'Use Rations 2 : …' (see rules §12–§13)" }
+            }
+          }
+        },
+        "fieldEffect": {
+          "type": ["string", "null"],
+          "description": "Ongoing or triggered effect text. Use null if there is no effect."
+        }
+      }
+    },
+    "abilityCard": {
+      "type": "object",
+      "required": ["id", "name", "type", "uses"],
+      "properties": {
+        "id":     { "type": "string" },
+        "name":   { "type": "string" },
+        "type":   { "type": "string", "enum": ["ability"] },
+        "uses": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "description": "Same layout as tool cards (approach rows with Power / effects)",
+          "items": { "$ref": "#/definitions/toolCard/properties/uses/items" }
+        }
+      }
+    },
+    "toolCard": {
+      "type": "object",
+      "required": ["id", "name", "type", "uses"],
+      "properties": {
+        "id":     { "type": "string" },
+        "name":   { "type": "string" },
+        "type":   { "type": "string", "enum": ["tool"] },
+        "uses": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 6,
+          "description": "Each row is an Approach with Power; optional effects are keywords defined in rules §13 (printed under the Approach)",
+          "items": {
+            "type": "object",
+            "required": ["approach", "power"],
+            "properties": {
+              "approach": { "type": "string" },
+              "power":    { "type": "integer", "minimum": 1, "maximum": 10 },
+              "effects":  {
+                "type": "array",
+                "items": { "type": "string" },
+                "description": "Effect phrases on this tool line, e.g. Range 1-2, Area · Penetration (see rules)"
+              },
+              "activation": {
+                "type": "string",
+                "description": "Optional activation scope (e.g. Range 2-3). In cards.md: _ Activation · Approach N : Outcome"
+              }
+            }
+          }
+        }
+      }
+    },
+    "garbCard": {
+      "type": "object",
+      "required": ["id", "name", "type", "protectionUses"],
+      "properties": {
+        "id":   { "type": "string" },
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["garb"] },
+        "protectionRule": {
+          "type": "string",
+          "description": "How protection spends Uses, e.g. 'Protection 1: spend 1 Use to reduce Wounds by 1 on matching Approach'"
+        },
+        "protectionUses": {
+          "type": "object",
+          "required": ["Fight", "Work", "Traverse", "Awareness"],
+          "properties": {
+            "Fight":      { "type": "integer", "minimum": 0, "maximum": 10 },
+            "Work":       { "type": "integer", "minimum": 0, "maximum": 10 },
+            "Traverse":   { "type": "integer", "minimum": 0, "maximum": 10 },
+            "Awareness":  { "type": "integer", "minimum": 0, "maximum": 10 }
+          },
+          "description": "Uses per Approach that absorb Wounds (cards.md: `- [F] Fight : Uses N`; omit Uses when 0)"
+        }
+      }
+    }
+  }
+}

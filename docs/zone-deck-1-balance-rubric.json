@@ -1,0 +1,46 @@
+{
+  "$description": "Point values for a rough prototype balance pass on Zone Deck 1 challenges. Edit numbers here and run: npm run analyze:zd1",
+  "difficulty": {
+    "per_point_cost_to_player": 1.0,
+    "comment": "Each point of listed Difficulty on a row is treated as 1.0 'hardship' in the line economy. Tune relative to outcome_points."
+  },
+  "outcome_payouts": {
+    "Progress": 3.0,
+    "FindF_base": 7.0,
+    "FindF_per_tier": 0.0,
+    "Vision": 2.0,
+    "Recovery": 2.5,
+    "Rations": 2.0,
+    "Scout": 3.0,
+    "RevealPlus": 2.0,
+    "Ongoing": 2.0,
+    "Guidance": 1.5,
+    "Prepare": 1.5,
+    "Power_on_next": 2.0,
+    "Traverse_power": 1.0
+  },
+  "outcome_costs": {
+    "Exhaust": -2.0,
+    "UseRations": -1.5,
+    "Dread_token": -1.5
+  },
+  "modifiers": {
+    "row_has_condition": -0.5,
+    "subeffect_line_present": 0.5,
+    "field_effect_hazard_per_rank": 1.5,
+    "field_player_assist_ongoing": 0.0
+  },
+  "field_keywords": {
+    "Dread": { "per_rank_toward_player_hazard": 1.0 },
+    "Obstacle": { "per_rank_global_penalty": 1.0 },
+    "Covering": { "per_rank_toward_next": 0.75 },
+    "Blocking": { "per_rank": 1.0 },
+    "Grouping": { "per_rank": 0.5 },
+    "Charging": { "per_stack": 0.25 },
+    "Difficulty_to_self": { "per_plus": 0.5 }
+  },
+  "interpretation": {
+    "tight": "Total card economy below deck mean - 0.6 std",
+    "generous": "Total card economy above deck mean + 0.6 std"
+  }
+}

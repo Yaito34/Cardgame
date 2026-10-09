@@ -1,0 +1,641 @@
+/* Shared Body Doll + Backpack play-aid styles (GarbSystem.html + simulator.html). */
+
+:root {
+  --garb-ink: #2a1c12;
+  --garb-paper: #f3e6c8;
+  --garb-fight: #bb2c2c;
+  --garb-work: #644f3f;
+  --garb-traverse: #285631;
+  --garb-spirit: #5e6380;
+  --garb-stamina: #f9e5ae;
+  --garb-stamina-ink: #163014;
+  --garb-water: #cc9c83;
+  --garb-water-ink: #0a3d38;
+  --garb-cold: #ffa34d;
+  --garb-cold-ink: #17324a;
+}
+
+/* Size tokens live on the play-aid root only. Do not reset them on
+   .doll-sheet / .pack-card — that broke the simulator (88mm inside a 440px card). */
+.garb-playaid {
+  --ink: var(--garb-ink);
+  --paper: var(--garb-paper);
+  --fight: var(--garb-fight);
+  --work: var(--garb-work);
+  --traverse: var(--garb-traverse);
+  --spirit: var(--garb-spirit);
+  --stamina: var(--garb-stamina);
+  --stamina-ink: var(--garb-stamina-ink);
+  --water: var(--garb-water);
+  --water-ink: var(--garb-water-ink);
+  --cold: var(--garb-cold);
+  --cold-ink: var(--garb-cold-ink);
+  --card-w: 88mm;
+  --card-h: 63mm;
+  --hole-w: var(--card-h);
+  --doll-w: calc(2 * var(--card-w) + 1mm);
+  --doll-h: calc(2 * var(--card-h));
+  --doll-pad: 1.5mm;
+  --doll-gap: 1.5mm;
+  --doll-col-gap: 0.8mm;
+  --hole-h: calc((var(--doll-h) - 2 * var(--doll-pad) - 4px - 5 * var(--doll-col-gap)) / 6);
+  --hole-border: 0.7mm;
+  --res-gap: 0.45mm;
+  --tok: calc((var(--hole-w) - 2 * var(--hole-border) - 2.6mm - 6 * var(--res-gap)) / 7);
+}
+
+.card.garb-playaid,
+.garb-playaid {
+  box-sizing: border-box;
+  display: block;
+  background: none;
+  background-image: none;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  cursor: default;
+  overflow: hidden;
+  border: none;
+  border-radius: 0;
+}
+.garb-playaid,
+.garb-playaid * {
+  box-sizing: border-box;
+}
+.card.garb-playaid--doll,
+.garb-playaid--doll {
+  width: var(--doll-w);
+  height: var(--doll-h);
+}
+.card.garb-playaid--pack,
+.garb-playaid--pack {
+  width: var(--card-w);
+  height: calc(2 * var(--card-h));
+}
+.card.garb-playaid--piece,
+.garb-playaid--piece {
+  width: var(--hole-w);
+  height: var(--hole-h);
+}
+.card.garb-playaid--field,
+.garb-playaid--field {
+  width: var(--card-w);
+  height: var(--card-h);
+  background: #e4d2a8;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+.garb-playaid--field .field-slot-face {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 248, 230, 0.35), transparent 28%),
+    repeating-linear-gradient(90deg, rgba(90, 55, 20, 0.04) 0, transparent 2px, transparent 18px);
+}
+.garb-playaid--field .field-slot-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  border: 2px dashed rgba(90, 55, 20, 0.35);
+  background: rgba(255, 248, 230, 0.28);
+}
+.garb-playaid--field[data-field-role="track"] {
+  width: 100%;
+}
+.field-slot-face--track .field-slot-track {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 20px;
+}
+.field-slot-cell {
+  flex: 0 0 var(--card-w);
+  width: var(--card-w);
+  min-width: var(--card-w);
+  border: 2px dashed rgba(90, 55, 20, 0.35);
+  background: rgba(255, 248, 230, 0.28);
+}
+.field-slot-cell--close {
+  margin-right: 30px;
+  position: relative;
+  background: rgba(255, 236, 200, 0.42);
+  border-color: rgba(140, 90, 30, 0.5);
+}
+.field-slot-cell--close::after {
+  content: '';
+  position: absolute;
+  top: 7%;
+  bottom: 7%;
+  right: -28px;
+  width: 6px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #c4a574, #8a6a40);
+  box-shadow: 0 0 0 1px rgba(26, 15, 8, 0.35), 0 0 10px rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+.field-slot-cell--vision {
+  background: rgba(232, 244, 230, 0.22);
+}
+.garb-playaid .doll-sheet {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.garb-playaid .board {
+  width: 100%;
+  height: 100%;
+}
+.garb-playaid .pack-card {
+  width: 100%;
+  height: 100%;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: var(--hole-w) minmax(0, 1fr) var(--hole-w);
+  width: var(--doll-w);
+  height: var(--doll-h);
+  margin-inline: auto;
+  gap: var(--doll-gap);
+  align-items: stretch;
+  background: var(--paper, #f3e6c8);
+  border: 2px solid #8b6340;
+  border-radius: 8px;
+  padding: var(--doll-pad);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+.doll-sheet {
+  width: var(--doll-w);
+  margin-inline: auto;
+}
+.under-doll {
+  width: var(--card-w);
+  margin: 1mm auto 0;
+}
+.pack-card {
+  position: relative;
+  width: var(--card-w);
+  height: calc(2 * var(--card-h));
+  background: var(--paper, #f3e6c8);
+  border: 1.5px solid #8b6340;
+  border-radius: 4px;
+  padding: 0;
+  overflow: hidden;
+}
+.pack-draw {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  display: block;
+  object-fit: fill;
+  pointer-events: none;
+  z-index: 0;
+  mix-blend-mode: multiply;
+}
+.weight-caption {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 17% 16% 11%;
+  text-align: center;
+  pointer-events: none;
+  z-index: 1;
+  font-family: Macondo, cursive;
+  font-size: 1.08rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: #2a1c12;
+}
+.pack-tool-frame {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 50%;
+  border: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  pointer-events: none;
+}
+.pack-tool-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  z-index: 0;
+}
+.pack-tool-frame .hole-slot {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  font-family: Macondo, cursive;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #f8eed8;
+  text-align: center;
+  text-shadow:
+    0 0 0.35mm #1a120c,
+    0 1px 2px #1a120c,
+    0 0 4px #1a120c;
+}
+.board-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--doll-col-gap);
+  width: var(--hole-w);
+  height: 100%;
+}
+.figure-wrap {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1mm;
+}
+.figure-wrap img {
+  width: auto;
+  flex: 1 1 auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100% - 16mm);
+  object-fit: contain;
+  object-position: center center;
+  display: block;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+}
+.body-core {
+  flex: 0 0 auto;
+  width: 100%;
+  z-index: 2;
+  background: var(--paper, #f3e6c8);
+  border: var(--hole-border, 0.7mm) solid #8b6340;
+  border-radius: 0.9mm;
+  padding: 0.55mm 1mm 0.7mm;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+.body-core.is-empty {
+  border-style: dashed;
+  background: #d4be90;
+}
+.body-core-label {
+  display: block;
+  font-family: Macondo, cursive;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #2a1c12;
+  margin-bottom: 0.3mm;
+}
+.body-core-empty {
+  font-size: 0.68rem;
+  color: #6b5340;
+  font-style: italic;
+}
+.body-core .res {
+  margin-top: 0;
+}
+
+.garb-playaid .hole,
+.garb-playaid .garb-face {
+  position: relative;
+  width: var(--hole-w);
+  height: var(--hole-h);
+  min-width: var(--hole-w);
+  max-width: var(--hole-w);
+  min-height: var(--hole-h);
+  max-height: var(--hole-h);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--paper, #f3e6c8);
+  border: var(--hole-border) solid #8b6340;
+  border-radius: 0.9mm;
+  padding: 0.7mm 1mm 0.75mm;
+}
+.garb-playaid .hole.is-damaged::after,
+.garb-playaid .garb-face.is-damaged::after {
+  content: '';
+  position: absolute;
+  inset: 6%;
+  pointer-events: none;
+  z-index: 6;
+  background:
+    linear-gradient(45deg, transparent calc(50% - 1.15mm), #c01414 calc(50% - 1.15mm), #c01414 calc(50% + 1.15mm), transparent calc(50% + 1.15mm)),
+    linear-gradient(-45deg, transparent calc(50% - 1.15mm), #c01414 calc(50% - 1.15mm), #c01414 calc(50% + 1.15mm), transparent calc(50% + 1.15mm));
+}
+.garb-playaid .board-col .hole { flex: 0 0 var(--hole-h); }
+.garb-playaid .hole.is-empty {
+  border-style: dashed;
+  background: #d4be90;
+}
+.garb-playaid .hole-top {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1mm;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-bottom: 0.4mm;
+}
+.garb-playaid .slot-mark {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.garb-playaid .slot-icon {
+  width: 7.2mm;
+  height: 7.2mm;
+  display: block;
+  flex: 0 0 7.2mm;
+}
+.garb-playaid .slot-icon.is-layered {
+  width: 9.4mm;
+  flex: 0 0 9.4mm;
+}
+.garb-playaid .hole-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  flex: 1;
+}
+.garb-playaid .hole-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  min-width: 0;
+}
+.garb-playaid .hole-name {
+  font-family: Macondo, cursive;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1.12;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
+  color: #1a120c;
+}
+.garb-playaid .hole .hole-slot,
+.garb-playaid .garb-face .hole-slot {
+  margin: 0;
+  font-family: "Comic Neue", "Comic Sans MS", cursive;
+  font-size: 0.66rem;
+  font-weight: 700;
+  color: #3a2418;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+}
+.garb-playaid .pack-tool-frame .hole-slot {
+  color: #f8eed8;
+  font-family: Macondo, cursive;
+  font-size: 1.2rem;
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+.garb-playaid .res {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: var(--res-gap);
+  align-items: center;
+  width: 100%;
+  min-width: 0;
+  flex: 0 0 var(--tok);
+}
+.garb-playaid .res-row {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: var(--res-gap);
+  max-width: 100%;
+}
+.garb-playaid .tok {
+  width: var(--tok);
+  height: var(--tok);
+  padding: 0;
+  border: 0.55mm solid #1a120c;
+  border-radius: 0.5mm;
+  flex: 0 0 var(--tok);
+  font-family: Macondo, cursive;
+  font-size: calc(var(--tok) * 0.38);
+  font-weight: 700;
+  line-height: calc(var(--tok) - 1.2mm);
+  text-align: center;
+  color: #fff;
+  box-shadow: inset 0 0 0 0.25mm rgba(255, 255, 255, 0.22);
+  pointer-events: none;
+}
+.garb-playaid .tok.st { background: var(--stamina); color: var(--stamina-ink); }
+.garb-playaid .tok.dur { background: #8f1d1d; color: #fff; }
+.garb-playaid .tok.wr { background: var(--water); color: var(--water-ink); }
+.garb-playaid .acc-note { font-size: 0.7rem; color: #6b5340; font-style: italic; }
+/* Empty-slot stamina chip: ghost style — it is the hole's base grant,
+   not a worn piece's stat. */
+.garb-playaid .tok.is-empty-s {
+  background: transparent;
+  color: #6b5340;
+  border-style: dashed;
+  box-shadow: none;
+  opacity: 0.85;
+}
+
+/* Simulator table uses 5 px per mm, then scales the inner face to 0.6.
+   Override the play-aid root so holes, board, and pack all inherit px sizes. */
+.table-card-inner.play-aid-2x2,
+.table-card-inner.play-aid-1x2,
+.table-card-inner.play-aid-1x1,
+.table-card-inner.play-aid-3x1,
+.table-card-inner.play-aid-4x1,
+.table-card-inner.garb-piece,
+.table-card-wrapper.garb-piece,
+.table-card-inner .garb-playaid,
+#preview-scaler.preview-garb-piece .garb-playaid {
+  --card-w: 440px;
+  --card-h: 315px;
+  --hole-w: var(--card-h);
+  --doll-w: calc(2 * 440px + 5px);
+  --doll-h: 630px;
+  --doll-pad: 7.5px;
+  --doll-gap: 7.5px;
+  --doll-col-gap: 4px;
+  --hole-h: calc((var(--doll-h) - 2 * var(--doll-pad) - 4px - 5 * var(--doll-col-gap)) / 6);
+  --hole-border: 3.5px;
+  --res-gap: 2.25px;
+  --tok: calc((var(--hole-w) - 2 * var(--hole-border) - 13px - 6 * var(--res-gap)) / 7);
+}
+.table-card-inner .garb-playaid {
+  width: 100%;
+  height: 100%;
+  box-shadow: none;
+}
+.table-card-wrapper.play-aid-2x2 {
+  width: 531px;
+  height: 378px;
+}
+.table-card-inner.play-aid-2x2 {
+  width: 885px;
+  height: 630px;
+  transform: scale(0.6);
+  transform-origin: top left;
+}
+.table-card-wrapper.play-aid-1x2 {
+  width: 264px;
+  height: 378px;
+}
+.table-card-inner.play-aid-1x2 {
+  width: 440px;
+  height: 630px;
+  transform: scale(0.6);
+  transform-origin: top left;
+}
+.table-card-wrapper.play-aid-3x1 {
+  width: 834px;
+  height: 189px;
+}
+.table-card-inner.play-aid-3x1 {
+  width: 1390px;
+  height: 315px;
+  transform: scale(0.6);
+  transform-origin: top left;
+}
+.table-card-wrapper.play-aid-4x1 {
+  width: 1110px;
+  height: 189px;
+}
+.table-card-inner.play-aid-4x1 {
+  width: 1850px;
+  height: 315px;
+  transform: scale(0.6);
+  transform-origin: top left;
+}
+.table-card-wrapper.garb-piece {
+  width: 189px;
+  height: calc(var(--hole-h) * 0.6);
+}
+.table-card-inner.garb-piece {
+  width: 315px;
+  height: var(--hole-h);
+  transform: scale(0.6);
+  transform-origin: top left;
+}
+.table-card-inner .garb-playaid .slot-icon {
+  width: 36px;
+  height: 36px;
+  flex-basis: 36px;
+}
+.table-card-inner .garb-playaid .slot-icon.is-layered {
+  width: 47px;
+  flex-basis: 47px;
+}
+.table-card-inner .garb-playaid .hole,
+.table-card-inner .garb-playaid .garb-face {
+  padding: 3.5px 5px 3.75px;
+  border-radius: 4.5px;
+}
+.table-card-inner .garb-playaid .weight-caption {
+  font-size: 1.35rem;
+}
+.table-card-inner .garb-playaid .pack-tool-frame .hole-slot {
+  font-size: 1.45rem;
+}
+
+.card-grid .garb-playaid--doll {
+  grid-column: span 2;
+}
+.card-grid .garb-playaid--piece {
+  align-self: start;
+}
+.card-grid .garb-playaid {
+  cursor: zoom-in;
+}
+.card.garb-playaid:hover {
+  transform: none;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+}
+.card.garb-playaid--piece.card--preview-active,
+.card.garb-playaid--piece.card--preview-active:hover {
+  transform: translate(-50%, -50%) scale(2.6);
+}
+.table-card-inner .card.garb-playaid {
+  box-shadow: none;
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
