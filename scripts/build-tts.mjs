@@ -44,10 +44,22 @@ function cardDescription(card) {
   const lines = [];
   if (card.fieldEffect) lines.push(`Effect: ${card.fieldEffect}`);
   if (Array.isArray(card.approaches)) {
+    // New challenge format: unlisted Actions are harder fallbacks —
+    // max listed Power + 2 (matches the card-face chip line).
+    const powers = card.approaches
+      .map((a) => parseInt(String(a.difficulty ?? "").match(/-?\d+/)?.[0] ?? "", 10))
+      .filter((n) => Number.isFinite(n));
+    const maxListed = powers.length ? Math.max(...powers) : 0;
+    const have = new Set(card.approaches.map((a) => String(a.type)));
+    let printedNote = false;
     for (const a of card.approaches) {
       const cond = a.condition ? ` (${a.condition})` : "";
       lines.push(`${a.type} ${a.difficulty}${cond}: ${a.outcomes || ""}`);
       if (a.subEffect) lines.push(`  ${a.subEffect}`);
+      if (!printedNote && have.size < 4 && maxListed > 0) {
+        lines.push(`Unlisted Action = ${maxListed + 2}+ (harder fallback: any tool can attempt it)`);
+        printedNote = true;
+      }
     }
   }
   if (Array.isArray(card.uses)) {
@@ -93,10 +105,22 @@ function cardTextLines(card) {
   if (card.fieldEffect) lines.push(card.fieldEffect);
   lines.push("");
   if (Array.isArray(card.approaches)) {
+    // New challenge format: unlisted Actions are harder fallbacks —
+    // max listed Power + 2 (matches the card-face chip line).
+    const powers = card.approaches
+      .map((a) => parseInt(String(a.difficulty ?? "").match(/-?\d+/)?.[0] ?? "", 10))
+      .filter((n) => Number.isFinite(n));
+    const maxListed = powers.length ? Math.max(...powers) : 0;
+    const have = new Set(card.approaches.map((a) => String(a.type)));
+    let printedNote = false;
     for (const a of card.approaches) {
       const cond = a.condition ? ` (${a.condition})` : "";
       lines.push(`${a.type} ${a.difficulty}${cond}: ${a.outcomes || ""}`);
       if (a.subEffect) lines.push(`· ${a.subEffect}`);
+      if (!printedNote && have.size < 4 && maxListed > 0) {
+        lines.push(`Unlisted Action = ${maxListed + 2}+`);
+        printedNote = true;
+      }
     }
   } else if (Array.isArray(card.uses)) {
     for (const u of card.uses) {

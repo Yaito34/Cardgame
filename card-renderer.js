@@ -1870,9 +1870,10 @@ function renderChallengeCard(card) {
     }
 
     /* New format: flavorless `- [F] 5 :` rows render as ONE horizontal line
-       of all four approach chips under the name. Approaches the author did
-       not list become harder fallbacks: max(listed) + 2 — any tool can
-       attempt any challenge, off-approach just costs more. */
+       of all four approach chips under the name. Missing approaches were
+       already baked into the data by bakeChallengeApproachFallbacks
+       (maxListed + 2, offApproach: true) so simulator + TTS see the same
+       numbers — this branch only fills in if it somehow missed (idempotent). */
     var flavorlessRows = approachEntries.filter(function(e) { return e.item && e.item.flavorless; });
     if (flavorlessRows.length && flavorlessRows.length === approachEntries.length) {
       var listed = {};
@@ -1904,6 +1905,15 @@ function renderChallengeCard(card) {
         '<div class="card-challenge-band card-challenge-band--fill card-challenge-band--middle card-approach-chip-line">' +
         chipBand +
         '</div>';
+      /* Field effects and special text (Danger !, Charge !, Detour, Recover…)
+         still print — below the chip line. */
+      var chipBottomHtml = extraEntries.length ? renderChallengeBandInner(extraEntries) : '';
+      if (chipBottomHtml) {
+        bodyInner +=
+          '<div class="card-challenge-band card-challenge-band--bottom">' +
+          chipBottomHtml +
+          '</div>';
+      }
     } else {
     var middleHtml = renderChallengeBandInner(approachEntries);
     if (middleHtml) {
@@ -3428,6 +3438,66 @@ function linkSearchDiscoveryPairs(decks) {
 }
 
 // ── LOAD ─────────────────────────────────────────────────────────────────────
+/** New challenge format: every challenge shows all four Action chips in one
+ *  line under the name. Approaches the author did not list are harder
+ *  fallbacks — max listed Power + 2 (same rule the chip-line renderer uses in
+ *  renderChallengeCard). Baked into the parsed data here so the simulator,
+ *  the viewer, and TTS text exports all agree with the printed card face.
+ *  Fiction becomes part of the approach mix: a Fight tool used to climb, a
+ *  Craft tool used to fight — unlisted Actions just cost more Exhaustion.
+ *  Tool / ability / garb cards keep their own missing-line inference. */
+function bakeChallengeApproachFallbacks(decks) {
+  (decks || []).forEach(function(deck) {
+    (deck.cards || []).forEach(function(card) {
+      var t = String(card && card.type || '').toLowerCase();
+      if (t !== 'challenge' && t !== 'finding' && t !== 'search' && t !== 'discovery' && t !== 'ally') return;
+      var content = card && card.content;
+      if (!content || !content.length) return;
+      var approaches = content.filter(function(it) { return it && it.kind === 'approach'; });
+      if (!approaches.length) return;
+      /* Only cards authored fully in the flavorless chip format (`- [F] 5 :`)
+         get the four-chip treatment — mixed/named cards render the old way. */
+      var allFlavorless = approaches.every(function(it) { return it.flavorless; });
+      if (!allFlavorless) return;
+      var maxListed = 0;
+      approaches.forEach(function(it) {
+        var m = String(it.difficulty == null ? '' : it.difficulty).match(/-?\d+/);
+        var d = m ? parseInt(m[0], 10) : NaN;
+        if (isFinite(d) && d > maxListed) maxListed = d;
+      });
+      if (!isFinite(maxListed) || maxListed <= 0) return;
+      var have = {};
+      approaches.forEach(function(it) {
+        var key = toolStatTypeKey(it.type);
+        if (key && !have[key]) have[key] = it;
+      });
+      TOOL_STAT_TYPES.forEach(function(type) {
+        if (have[type]) return;
+        var fb = {
+          kind: 'approach',
+          type: type,
+          difficulty: maxListed + 2,
+          outcomes: '',
+          flavorless: true,
+          offApproach: true
+        };
+        /* Keep family order readable: insert before the first printed
+           approach of a later kind (Fight → Craft → Traverse → Awareness). */
+        var insertAt = content.length;
+        var fbIdx = APPROACH_ORDER.indexOf(type);
+        for (var i = 0; i < content.length; i++) {
+          var it = content[i];
+          if (it && it.kind === 'approach') {
+            var idx = APPROACH_ORDER.indexOf(normalizeApproachTypeName(it.type));
+            if (idx !== -1 && fbIdx !== -1 && idx > fbIdx) { insertAt = i; break; }
+          }
+        }
+        content.splice(insertAt, 0, fb);
+      });
+    });
+  });
+}
+
 Promise.all([
   fetch('cards.md').then(function(r) {
     if (!r.ok) throw new Error(r.status);
@@ -3452,7 +3522,9 @@ Promise.all([
     outcomeKeywordPatternCache.re = null;
     var merged = sym.body + '\n\n' + dungeon.body;
     merged = prepareMarkdownForCards(merged);
-    buildGrid(parseMarkdownCards(merged, defs));
+    var parsedDecks = parseMarkdownCards(merged, defs);
+    bakeChallengeApproachFallbacks(parsedDecks.decks);
+    buildGrid(parsedDecks);
     currentEffectSymbolMap = null;
     outcomeGlyphPatternCache.mapJson = '';
     outcomeGlyphPatternCache.re = null;
