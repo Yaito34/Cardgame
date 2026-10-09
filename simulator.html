@@ -1112,15 +1112,16 @@
     #hud-path-track .approach-wrap {
       margin-bottom: 0.6em;
     }
-    /* Chip-line challenges: tight horizontal row directly under the name frame,
-       with the same soft highlight strip the old approach lines had. */
+    /* Chip-line challenges: horizontal row of approach chips below the card
+       type tag, with a little space under the type. Background is the same
+       soft white orb halo the path-option names use. */
     #hud-path-track .card.card-challenge-stack .card-approach-chip-line {
       flex-direction: row;
       flex-wrap: nowrap;
       justify-content: center;
       align-items: flex-end;
       gap: 0;
-      margin: 2px 0 0;
+      margin: 8px 0 0;
       padding: 0.12em 4px 0.18em;
       position: relative;
       isolation: isolate;
@@ -1128,11 +1129,13 @@
     #hud-path-track .card.card-challenge-stack .card-approach-chip-line::before {
       content: '';
       position: absolute;
-      inset: 0 3px;
-      border-radius: 4px;
-      background: rgba(255, 255, 255, 0.19);
+      inset: -0.5em 0.2em;
       pointer-events: none;
       z-index: -1;
+      background: var(--name-orb-color);
+      opacity: var(--name-orb-opacity);
+      -webkit-mask-image: radial-gradient(ellipse at center, #000 0%, #000 34%, transparent 72%);
+      mask-image: radial-gradient(ellipse at center, #000 0%, #000 34%, transparent 72%);
     }
     #hud-path-track .card.card-challenge-stack .card-approach-chip-line .approach-wrap {
       flex: 1 1 0;
